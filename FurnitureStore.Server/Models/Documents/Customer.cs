@@ -1,4 +1,6 @@
-﻿namespace FurnitureStore.Shared
+﻿using Newtonsoft.Json;
+
+namespace FurnitureStore.Server.Models.Documents
 {
     public class PurchaseHistory
     {
