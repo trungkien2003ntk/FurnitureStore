@@ -3,33 +3,42 @@
     public class PurchaseHistory
     {
         [JsonProperty("orderID")]
-        public string? OrderID { get; set; }
+        public string OrderID { get; set; }
 
-        [JsonProperty("date")]
-        public DateTime CreateAt { get; set; }
+        [JsonProperty("createAt")]
+        public string CreateAt { get; set; }
 
         [JsonProperty("totalAmount")]
-        public int? TotalAmount { get; set; }
+        public string TotalAmount { get; set; }
     }
 
-    public class Customer
+    internal class Customer
     {
         [JsonProperty("id")]
-        public string? Id { get; set; }
+        public string Id { get; set; }
 
         [JsonProperty("customerID")]
-        public string? CustomerID { get; set; }
+        public string CustomerID { get; set; }
 
         [JsonProperty("name")]
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
         [JsonProperty("phone")]
-        public string? Phone { get; set; }
+        public string Phone { get; set; } 
 
         [JsonProperty("totalPay")]
         public int TotalPay { get; set; }
 
         [JsonProperty("purchaseHistory")]
-        public List<PurchaseHistory>? PurchaseHistory { get; set; }
+        public List<PurchaseHistory> PurchaseHistory { get; set; }
+
+        [JsonProperty("username")]
+        public string Username { get; set; }
+
+        [JsonProperty("passwordTemp")]
+        public string PasswordTemp { get; set; }
+
+        [JsonProperty("hashedAndSaltedPassword")]
+        public string HashedAndSaltedPassword { get; set; }
     }
 }
