@@ -1,6 +1,6 @@
 ﻿namespace FurnitureStore.Shared
 {
-    internal class Staff
+    public class StaffDocument
     {
         [JsonProperty("id")]
         public string Id { get; set; }

@@ -1,0 +1,809 @@
+[
+	{
+		"id": "ord00001-00001",
+		"orderId": "ord00001-00001",
+		"orderDate": "2023-12-09T23:58:12.999316",
+		"customerType": "Retail",
+		"customerId": "cust00001",
+		"items": [
+			{
+				"productId": "prod00035",
+				"sku": "dini00035",
+				"name": "Dorsey Dining Chair",
+				"quantity": 2,
+				"sellingPrice": 23920,
+				"totalPrice": 23920
+			},
+			{
+				"productId": "prod00008",
+				"sku": "beds00008",
+				"name": "Natalia Bed",
+				"quantity": 1,
+				"sellingPrice": 119920,
+				"totalPrice": 119920
+			},
+			{
+				"productId": "prod00060",
+				"sku": "coff00060",
+				"name": "Basil Outdoor Round Coffee Table",
+				"quantity": 1,
+				"sellingPrice": 119920,
+				"totalPrice": 119920
+			},
+			{
+				"productId": "prod00019",
+				"sku": "dres00019",
+				"name": "Leo 6 Drawer Dresser",
+				"quantity": 2,
+				"sellingPrice": 207920,
+				"totalPrice": 415840
+			},
+			{
+				"productId": "prod00005",
+				"sku": "beds00005",
+				"name": "Greta Bed",
+				"quantity": 2,
+				"sellingPrice": 135920,
+				"totalPrice": 271840
+			}
+		],
+		"shippingInfo": {
+			"address": "Random Address",
+			"shippingPrice": 0,
+			"shippingDate": "2023-12-10T23:58:12.999316"
+		},
+		"totalItems": 5,
+		"subtotal": 951440,
+		"discounts": 0,
+		"tax": 0,
+		"totalAmount": 951440,
+		"paymentMethod": "credit_card",
+		"status": "Paid",
+		"note": "",
+		"createdAt": "2023-12-04T23:58:12.999338"
+	},
+	{
+		"id": "ord00001-00002",
+		"orderId": "ord00001-00002",
+		"orderDate": "2023-12-12T23:58:12.999351",
+		"customerType": "Retail",
+		"customerId": "cust00001",
+		"items": [
+			{
+				"productId": "prod00029",
+				"sku": "cabi00029",
+				"name": "Carmel Sideboard",
+				"quantity": 1,
+				"sellingPrice": 151920,
+				"totalPrice": 303840
+			}
+		],
+		"shippingInfo": {
+			"address": "Random Address",
+			"shippingPrice": 0,
+			"shippingDate": "2023-12-14T23:58:12.999351"
+		},
+		"totalItems": 1,
+		"subtotal": 303840,
+		"discounts": 0,
+		"tax": 0,
+		"totalAmount": 303840,
+		"paymentMethod": "credit_card",
+		"status": "Paid",
+		"note": "",
+		"createdAt": "2023-12-04T23:58:12.999359"
+	},
+	{
+		"id": "ord00002-00001",
+		"orderId": "ord00002-00001",
+		"orderDate": "2023-12-05T23:58:12.999378",
+		"customerType": "Retail",
+		"customerId": "cust00002",
+		"items": [
+			{
+				"productId": "prod00029",
+				"sku": "cabi00029",
+				"name": "Carmel Sideboard",
+				"quantity": 1,
+				"sellingPrice": 151920,
+				"totalPrice": 303840
+			},
+			{
+				"productId": "prod00043",
+				"sku": "sofa00043",
+				"name": "Watson Sofa",
+				"quantity": 2,
+				"sellingPrice": 151920,
+				"totalPrice": 151920
+			},
+			{
+				"productId": "prod00028",
+				"sku": "cabi00028",
+				"name": "Bingham Sideboard",
+				"quantity": 1,
+				"sellingPrice": 319920,
+				"totalPrice": 639840
+			}
+		],
+		"shippingInfo": {
+			"address": "Random Address",
+			"shippingPrice": 0,
+			"shippingDate": "2023-12-10T23:58:12.999378"
+		},
+		"totalItems": 3,
+		"subtotal": 1095600,
+		"discounts": 0,
+		"tax": 0,
+		"totalAmount": 1095600,
+		"paymentMethod": "credit_card",
+		"status": "Paid",
+		"note": "",
+		"createdAt": "2023-12-04T23:58:12.999387"
+	},
+	{
+		"id": "ord00002-00002",
+		"orderId": "ord00002-00002",
+		"orderDate": "2023-12-11T23:58:12.999397",
+		"customerType": "Retail",
+		"customerId": "cust00002",
+		"items": [
+			{
+				"productId": "prod00019",
+				"sku": "dres00019",
+				"name": "Leo 6 Drawer Dresser",
+				"quantity": 1,
+				"sellingPrice": 207920,
+				"totalPrice": 415840
+			}
+		],
+		"shippingInfo": {
+			"address": "Random Address",
+			"shippingPrice": 0,
+			"shippingDate": "2023-12-13T23:58:12.999397"
+		},
+		"totalItems": 1,
+		"subtotal": 415840,
+		"discounts": 0,
+		"tax": 0,
+		"totalAmount": 415840,
+		"paymentMethod": "credit_card",
+		"status": "Paid",
+		"note": "",
+		"createdAt": "2023-12-04T23:58:12.999405"
+	},
+	{
+		"id": "ord00002-00003",
+		"orderId": "ord00002-00003",
+		"orderDate": "2023-12-08T23:58:12.999418",
+		"customerType": "Retail",
+		"customerId": "cust00002",
+		"items": [
+			{
+				"productId": "prod00022",
+				"sku": "benc00022",
+				"name": "Harris Accent Bench",
+				"quantity": 1,
+				"sellingPrice": 79920,
+				"totalPrice": 79920
+			},
+			{
+				"productId": "prod00085",
+				"sku": "pend00085",
+				"name": "Calix Pendant",
+				"quantity": 2,
+				"sellingPrice": 42320,
+				"totalPrice": 84640
+			}
+		],
+		"shippingInfo": {
+			"address": "Random Address",
+			"shippingPrice": 0,
+			"shippingDate": "2023-12-12T23:58:12.999418"
+		},
+		"totalItems": 2,
+		"subtotal": 164560,
+		"discounts": 0,
+		"tax": 0,
+		"totalAmount": 164560,
+		"paymentMethod": "credit_card",
+		"status": "Paid",
+		"note": "",
+		"createdAt": "2023-12-04T23:58:12.999426"
+	},
+	{
+		"id": "ord00003-00001",
+		"orderId": "ord00003-00001",
+		"orderDate": "2023-12-10T23:58:12.999451",
+		"customerType": "Retail",
+		"customerId": "cust00003",
+		"items": [
+			{
+				"productId": "prod00085",
+				"sku": "pend00085",
+				"name": "Calix Pendant",
+				"quantity": 2,
+				"sellingPrice": 42320,
+				"totalPrice": 84640
+			},
+			{
+				"productId": "prod00046",
+				"sku": "sect00046",
+				"name": "Colt 2-Piece Sectional",
+				"quantity": 1,
+				"sellingPrice": 303920,
+				"totalPrice": 607840
+			},
+			{
+				"productId": "prod00056",
+				"sku": "chai00056",
+				"name": "CABELL EXPOSED WOOD SWIVEL CHAIR",
+				"quantity": 1,
+				"sellingPrice": 95920,
+				"totalPrice": 95920
+			},
+			{
+				"productId": "prod00071",
+				"sku": "tabl00071",
+				"name": "Cement Accent Lamp",
+				"quantity": 1,
+				"sellingPrice": 7996,
+				"totalPrice": 15992
+			},
+			{
+				"productId": "prod00055",
+				"sku": "chai00055",
+				"name": "Augustine Swivel Chair - Leather",
+				"quantity": 1,
+				"sellingPrice": 175920,
+				"totalPrice": 351840
+			}
+		],
+		"shippingInfo": {
+			"address": "Random Address",
+			"shippingPrice": 0,
+			"shippingDate": "2023-12-13T23:58:12.999451"
+		},
+		"totalItems": 5,
+		"subtotal": 1156232,
+		"discounts": 0,
+		"tax": 0,
+		"totalAmount": 1156232,
+		"paymentMethod": "credit_card",
+		"status": "Paid",
+		"note": "",
+		"createdAt": "2023-12-04T23:58:12.999459"
+	},
+	{
+		"id": "ord00003-00002",
+		"orderId": "ord00003-00002",
+		"orderDate": "2023-12-08T23:58:12.999472",
+		"customerType": "Retail",
+		"customerId": "cust00003",
+		"items": [
+			{
+				"productId": "prod00077",
+				"sku": "floo00077",
+				"name": "Link Floor Lamp",
+				"quantity": 2,
+				"sellingPrice": 55920,
+				"totalPrice": 55920
+			},
+			{
+				"productId": "prod00054",
+				"sku": "chai00054",
+				"name": "Aniston Chair - Andes Natural",
+				"quantity": 2,
+				"sellingPrice": 87920,
+				"totalPrice": 87920
+			}
+		],
+		"shippingInfo": {
+			"address": "Random Address",
+			"shippingPrice": 0,
+			"shippingDate": "2023-12-09T23:58:12.999472"
+		},
+		"totalItems": 2,
+		"subtotal": 143840,
+		"discounts": 0,
+		"tax": 0,
+		"totalAmount": 143840,
+		"paymentMethod": "credit_card",
+		"status": "Paid",
+		"note": "",
+		"createdAt": "2023-12-04T23:58:12.999480"
+	},
+	{
+		"id": "ord00003-00003",
+		"orderId": "ord00003-00003",
+		"orderDate": "2023-12-14T23:58:12.999499",
+		"customerType": "Retail",
+		"customerId": "cust00003",
+		"items": [
+			{
+				"productId": "prod00021",
+				"sku": "benc00021",
+				"name": "Portia Outdoor Dining Bench",
+				"quantity": 1,
+				"sellingPrice": 119920,
+				"totalPrice": 119920
+			},
+			{
+				"productId": "prod00086",
+				"sku": "pend00086",
+				"name": "Eames Pendant",
+				"quantity": 2,
+				"sellingPrice": 19120,
+				"totalPrice": 19120
+			},
+			{
+				"productId": "prod00070",
+				"sku": "tabl00070",
+				"name": "Aurora Table Lamp",
+				"quantity": 1,
+				"sellingPrice": 31920,
+				"totalPrice": 31920
+			},
+			{
+				"productId": "prod00025",
+				"sku": "book00025",
+				"name": "Ivy Bookcase",
+				"quantity": 2,
+				"sellingPrice": 239920,
+				"totalPrice": 239920
+			}
+		],
+		"shippingInfo": {
+			"address": "Random Address",
+			"shippingPrice": 0,
+			"shippingDate": "2023-12-16T23:58:12.999499"
+		},
+		"totalItems": 4,
+		"subtotal": 410880,
+		"discounts": 0,
+		"tax": 0,
+		"totalAmount": 410880,
+		"paymentMethod": "credit_card",
+		"status": "Paid",
+		"note": "",
+		"createdAt": "2023-12-04T23:58:12.999507"
+	},
+	{
+		"id": "ord00004-00001",
+		"orderId": "ord00004-00001",
+		"orderDate": "2023-12-08T23:58:12.999529",
+		"customerType": "Retail",
+		"customerId": "cust00004",
+		"items": [
+			{
+				"productId": "prod00058",
+				"sku": "chai00058",
+				"name": "Augustine Swivel Chair",
+				"quantity": 1,
+				"sellingPrice": 87920,
+				"totalPrice": 175840
+			},
+			{
+				"productId": "prod00017",
+				"sku": "dres00017",
+				"name": "Fletcher 5 Drawer Dresser",
+				"quantity": 2,
+				"sellingPrice": 175920,
+				"totalPrice": 351840
+			},
+			{
+				"productId": "prod00029",
+				"sku": "cabi00029",
+				"name": "Carmel Sideboard",
+				"quantity": 1,
+				"sellingPrice": 151920,
+				"totalPrice": 303840
+			},
+			{
+				"productId": "prod00046",
+				"sku": "sect00046",
+				"name": "Colt 2-Piece Sectional",
+				"quantity": 2,
+				"sellingPrice": 303920,
+				"totalPrice": 303920
+			}
+		],
+		"shippingInfo": {
+			"address": "Random Address",
+			"shippingPrice": 0,
+			"shippingDate": "2023-12-13T23:58:12.999529"
+		},
+		"totalItems": 4,
+		"subtotal": 1135440,
+		"discounts": 0,
+		"tax": 0,
+		"totalAmount": 1135440,
+		"paymentMethod": "credit_card",
+		"status": "Paid",
+		"note": "",
+		"createdAt": "2023-12-04T23:58:12.999538"
+	},
+	{
+		"id": "ord00004-00002",
+		"orderId": "ord00004-00002",
+		"orderDate": "2023-12-05T23:58:12.999551",
+		"customerType": "Retail",
+		"customerId": "cust00004",
+		"items": [
+			{
+				"productId": "prod00045",
+				"sku": "sect00045",
+				"name": "Stevie 5-Piece Sectional - Gibson Wheat",
+				"quantity": 1,
+				"sellingPrice": 495920,
+				"totalPrice": 495920
+			},
+			{
+				"productId": "prod00067",
+				"sku": "game00067",
+				"name": "Black Wood Tic Tac Toe - Game Set",
+				"quantity": 1,
+				"sellingPrice": 3600,
+				"totalPrice": 7200
+			}
+		],
+		"shippingInfo": {
+			"address": "Random Address",
+			"shippingPrice": 0,
+			"shippingDate": "2023-12-08T23:58:12.999551"
+		},
+		"totalItems": 2,
+		"subtotal": 503120,
+		"discounts": 0,
+		"tax": 0,
+		"totalAmount": 503120,
+		"paymentMethod": "credit_card",
+		"status": "Paid",
+		"note": "",
+		"createdAt": "2023-12-04T23:58:12.999559"
+	},
+	{
+		"id": "ord00004-00003",
+		"orderId": "ord00004-00003",
+		"orderDate": "2023-12-13T23:58:12.999578",
+		"customerType": "Retail",
+		"customerId": "cust00004",
+		"items": [
+			{
+				"productId": "prod00086",
+				"sku": "pend00086",
+				"name": "Eames Pendant",
+				"quantity": 1,
+				"sellingPrice": 19120,
+				"totalPrice": 19120
+			},
+			{
+				"productId": "prod00005",
+				"sku": "beds00005",
+				"name": "Greta Bed",
+				"quantity": 2,
+				"sellingPrice": 135920,
+				"totalPrice": 271840
+			},
+			{
+				"productId": "prod00019",
+				"sku": "dres00019",
+				"name": "Leo 6 Drawer Dresser",
+				"quantity": 2,
+				"sellingPrice": 207920,
+				"totalPrice": 415840
+			},
+			{
+				"productId": "prod00053",
+				"sku": "chai00053",
+				"name": "Augustine Chaise Lounge",
+				"quantity": 1,
+				"sellingPrice": 143920,
+				"totalPrice": 287840
+			}
+		],
+		"shippingInfo": {
+			"address": "Random Address",
+			"shippingPrice": 0,
+			"shippingDate": "2023-12-15T23:58:12.999578"
+		},
+		"totalItems": 4,
+		"subtotal": 994640,
+		"discounts": 0,
+		"tax": 0,
+		"totalAmount": 994640,
+		"paymentMethod": "credit_card",
+		"status": "Paid",
+		"note": "",
+		"createdAt": "2023-12-04T23:58:12.999586"
+	},
+	{
+		"id": "ord00005-00001",
+		"orderId": "ord00005-00001",
+		"orderDate": "2023-12-06T23:58:12.999605",
+		"customerType": "Retail",
+		"customerId": "cust00005",
+		"items": [
+			{
+				"productId": "prod00067",
+				"sku": "game00067",
+				"name": "Black Wood Tic Tac Toe - Game Set",
+				"quantity": 1,
+				"sellingPrice": 3600,
+				"totalPrice": 3600
+			},
+			{
+				"productId": "prod00051",
+				"sku": "side00051",
+				"name": "Fausto End Table",
+				"quantity": 1,
+				"sellingPrice": 119920,
+				"totalPrice": 119920
+			},
+			{
+				"productId": "prod00075",
+				"sku": "floo00075",
+				"name": "Captiva Floor Lamp",
+				"quantity": 2,
+				"sellingPrice": 34320,
+				"totalPrice": 68640
+			}
+		],
+		"shippingInfo": {
+			"address": "Random Address",
+			"shippingPrice": 0,
+			"shippingDate": "2023-12-09T23:58:12.999605"
+		},
+		"totalItems": 3,
+		"subtotal": 192160,
+		"discounts": 0,
+		"tax": 0,
+		"totalAmount": 192160,
+		"paymentMethod": "credit_card",
+		"status": "Paid",
+		"note": "",
+		"createdAt": "2023-12-04T23:58:12.999612"
+	},
+	{
+		"id": "ord00005-00002",
+		"orderId": "ord00005-00002",
+		"orderDate": "2023-12-09T23:58:12.999623",
+		"customerType": "Retail",
+		"customerId": "cust00005",
+		"items": [
+			{
+				"productId": "prod00029",
+				"sku": "cabi00029",
+				"name": "Carmel Sideboard",
+				"quantity": 2,
+				"sellingPrice": 151920,
+				"totalPrice": 303840
+			}
+		],
+		"shippingInfo": {
+			"address": "Random Address",
+			"shippingPrice": 0,
+			"shippingDate": "2023-12-11T23:58:12.999623"
+		},
+		"totalItems": 1,
+		"subtotal": 303840,
+		"discounts": 0,
+		"tax": 0,
+		"totalAmount": 303840,
+		"paymentMethod": "credit_card",
+		"status": "Paid",
+		"note": "",
+		"createdAt": "2023-12-04T23:58:12.999631"
+	},
+	{
+		"id": "ord00005-00003",
+		"orderId": "ord00005-00003",
+		"orderDate": "2023-12-11T23:58:12.999651",
+		"customerType": "Retail",
+		"customerId": "cust00005",
+		"items": [
+			{
+				"productId": "prod00007",
+				"sku": "beds00007",
+				"name": "Lia Bed",
+				"quantity": 1,
+				"sellingPrice": 407920,
+				"totalPrice": 407920
+			},
+			{
+				"productId": "prod00033",
+				"sku": "dini00033",
+				"name": "Aria Dining Chair",
+				"quantity": 1,
+				"sellingPrice": 23920,
+				"totalPrice": 23920
+			},
+			{
+				"productId": "prod00023",
+				"sku": "benc00023",
+				"name": "Jonna Bench",
+				"quantity": 1,
+				"sellingPrice": 135920,
+				"totalPrice": 271840
+			},
+			{
+				"productId": "prod00046",
+				"sku": "sect00046",
+				"name": "Colt 2-Piece Sectional",
+				"quantity": 2,
+				"sellingPrice": 303920,
+				"totalPrice": 303920
+			},
+			{
+				"productId": "prod00075",
+				"sku": "floo00075",
+				"name": "Captiva Floor Lamp",
+				"quantity": 1,
+				"sellingPrice": 34320,
+				"totalPrice": 68640
+			}
+		],
+		"shippingInfo": {
+			"address": "Random Address",
+			"shippingPrice": 0,
+			"shippingDate": "2023-12-15T23:58:12.999651"
+		},
+		"totalItems": 5,
+		"subtotal": 1076240,
+		"discounts": 0,
+		"tax": 0,
+		"totalAmount": 1076240,
+		"paymentMethod": "credit_card",
+		"status": "Paid",
+		"note": "",
+		"createdAt": "2023-12-04T23:58:12.999659"
+	},
+	{
+		"id": "ord00006-00001",
+		"orderId": "ord00006-00001",
+		"orderDate": "2023-12-13T23:58:12.999676",
+		"customerType": "Retail",
+		"customerId": "cust00006",
+		"items": [
+			{
+				"productId": "prod00038",
+				"sku": "sofa00038",
+				"name": "Abbot Sofa - Heritage Graphite",
+				"quantity": 1,
+				"sellingPrice": 367920,
+				"totalPrice": 367920
+			},
+			{
+				"productId": "prod00054",
+				"sku": "chai00054",
+				"name": "Aniston Chair - Andes Natural",
+				"quantity": 1,
+				"sellingPrice": 87920,
+				"totalPrice": 175840
+			},
+			{
+				"productId": "prod00057",
+				"sku": "chai00057",
+				"name": "Bauer Chair - Leather",
+				"quantity": 2,
+				"sellingPrice": 159920,
+				"totalPrice": 319840
+			}
+		],
+		"shippingInfo": {
+			"address": "Random Address",
+			"shippingPrice": 0,
+			"shippingDate": "2023-12-17T23:58:12.999676"
+		},
+		"totalItems": 3,
+		"subtotal": 863600,
+		"discounts": 0,
+		"tax": 0,
+		"totalAmount": 863600,
+		"paymentMethod": "credit_card",
+		"status": "Paid",
+		"note": "",
+		"createdAt": "2023-12-04T23:58:12.999684"
+	},
+	{
+		"id": "ord00006-00002",
+		"orderId": "ord00006-00002",
+		"orderDate": "2023-12-13T23:58:12.999697",
+		"customerType": "Retail",
+		"customerId": "cust00006",
+		"items": [
+			{
+				"productId": "prod00058",
+				"sku": "chai00058",
+				"name": "Augustine Swivel Chair",
+				"quantity": 2,
+				"sellingPrice": 87920,
+				"totalPrice": 175840
+			},
+			{
+				"productId": "prod00080",
+				"sku": "chan00080",
+				"name": "Goccia Pendant - Large",
+				"quantity": 1,
+				"sellingPrice": 95920,
+				"totalPrice": 191840
+			}
+		],
+		"shippingInfo": {
+			"address": "Random Address",
+			"shippingPrice": 0,
+			"shippingDate": "2023-12-17T23:58:12.999697"
+		},
+		"totalItems": 2,
+		"subtotal": 367680,
+		"discounts": 0,
+		"tax": 0,
+		"totalAmount": 367680,
+		"paymentMethod": "credit_card",
+		"status": "Paid",
+		"note": "",
+		"createdAt": "2023-12-04T23:58:12.999705"
+	},
+	{
+		"id": "ord00007-00001",
+		"orderId": "ord00007-00001",
+		"orderDate": "2023-12-06T23:58:12.999727",
+		"customerType": "Retail",
+		"customerId": "cust00007",
+		"items": [
+			{
+				"productId": "prod00065",
+				"sku": "side00065",
+				"name": "Risa Sideboard",
+				"quantity": 1,
+				"sellingPrice": 83920,
+				"totalPrice": 83920
+			},
+			{
+				"productId": "prod00009",
+				"sku": "nigh00009",
+				"name": "Carly 2 Drawer Nightstand - Grey Wash Vene",
+				"quantity": 2,
+				"sellingPrice": 39920,
+				"totalPrice": 39920
+			},
+			{
+				"productId": "prod00046",
+				"sku": "sect00046",
+				"name": "Colt 2-Piece Sectional",
+				"quantity": 2,
+				"sellingPrice": 303920,
+				"totalPrice": 607840
+			},
+			{
+				"productId": "prod00051",
+				"sku": "side00051",
+				"name": "Fausto End Table",
+				"quantity": 2,
+				"sellingPrice": 119920,
+				"totalPrice": 239840
+			},
+			{
+				"productId": "prod00027",
+				"sku": "cabi00027",
+				"name": "Archie Sideboard",
+				"quantity": 1,
+				"sellingPrice": 191920,
+				"totalPrice": 191920
+			}
+		],
+		"shippingInfo": {
+			"address": "Random Address",
+			"shippingPrice": 0,
+			"shippingDate": "2023-12-08T23:58:12.999727"
+		},
+		"totalItems": 5,
+		"subtotal": 1163440,
+		"discounts": 0,
+		"tax": 0,
+		"totalAmount": 1163440,
+		"paymentMethod": "credit_card",
+		"status": "Paid",
+		"note": "",
+		"createdAt": "2023-12-04T23:58:12.999735"
+	}
+]

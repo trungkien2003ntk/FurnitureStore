@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace FurnitureStore.Server.Models.Documents
+﻿namespace FurnitureStore.Shared
 {
     public class OrderItem
     {
@@ -36,7 +34,7 @@ namespace FurnitureStore.Server.Models.Documents
     }
 
 
-    internal class Order
+    public class OrderDocument
     {
         [JsonProperty("id")]
         public string Id { get; set; }

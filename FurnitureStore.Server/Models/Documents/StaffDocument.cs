@@ -2,7 +2,7 @@
 
 namespace FurnitureStore.Server.Models.Documents
 {
-    internal class Staff
+    public class StaffDocument
     {
         [JsonProperty("id")]
         public string Id { get; set; }
