@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace FurnitureStore.Server.Models.Documents
+﻿namespace FurnitureStore.Shared
 {
     public class CartItem
     {
@@ -22,8 +20,8 @@ namespace FurnitureStore.Server.Models.Documents
         [JsonProperty("categoryId")]
         public string CategoryId { get; set; }
 
-        [JsonProperty("category")]
-        public string Category { get; set; }
+        [JsonProperty("categoryPath")]
+        public string CategoryPath { get; set; }
 
         [JsonProperty("quantity")]
         public int Quantity { get; set; }
@@ -47,13 +45,13 @@ namespace FurnitureStore.Server.Models.Documents
         public List<object> Options { get; set; }
     }
 
-    internal class Cart
+    public class CartDocument
     {
         [JsonProperty("id")]
         public string Id { get; set; }
 
-        [JsonProperty("customerID")]
-        public string CustomerID { get; set; }
+        [JsonProperty("customerId")]
+        public string CustomerId { get; set; }
 
         [JsonProperty("currency")]
         public string Currency { get; set; }

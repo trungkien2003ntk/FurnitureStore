@@ -2,10 +2,13 @@
 
 namespace FurnitureStore.Server.Models.Documents
 {
-    internal class Category
+    public class CategoryDocument
     {
         [JsonProperty("id")]
         public string Id { get; set; }
+
+        [JsonProperty("categoryId")]
+        public string CategoryId { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }

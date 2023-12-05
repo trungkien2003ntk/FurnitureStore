@@ -1,4 +1,6 @@
-﻿namespace FurnitureStore.Shared
+﻿using Newtonsoft.Json;
+
+namespace FurnitureStore.Server.Models.Documents
 {
     public class Option
     {
@@ -9,7 +11,7 @@
         public string Value { get; set; }
     }
 
-    internal class Product
+    public class ProductDocument
     {
         [JsonProperty("id")]
         public string Id { get; set; }
@@ -29,8 +31,8 @@
         [JsonProperty("categoryId")]
         public string CategoryId { get; set; }
 
-        [JsonProperty("category")]
-        public string Category { get; set; }
+        [JsonProperty("categoryPath")]
+        public string CategoryPath { get; set; }
 
         [JsonProperty("stock")]
         public int Stock { get; set; }

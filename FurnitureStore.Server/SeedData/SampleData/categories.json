@@ -1,0 +1,436 @@
+[
+	{
+		"id": "cate00001",
+		"categoryId": "cate00001",
+		"name": "furniture",
+		"text": "Furniture",
+		"level": 1,
+		"children": [
+			"bedroom-furniture",
+			"benches",
+			"bookcases",
+			"cabinets",
+			"consoles",
+			"dining-room",
+			"home-office-furniture",
+			"living-room",
+			"sideboards",
+			"games-game-tables"
+		],
+		"parent": "",
+		"categoryPath": "/furniture"
+	},
+	{
+		"id": "cate00002",
+		"categoryId": "cate00002",
+		"name": "bedroom-furniture",
+		"text": "Bedroom Furniture",
+		"level": 2,
+		"children": ["beds", "nightstands", "dressers", "trunks"],
+		"parent": "/furniture",
+		"categoryPath": "/furniture/bedroom-furniture"
+	},
+	{
+		"id": "cate00003",
+		"categoryId": "cate00003",
+		"name": "beds",
+		"text": "Beds",
+		"level": 3,
+		"children": [],
+		"parent": "/furniture/bedroom-furniture",
+		"categoryPath": "/furniture/bedroom-furniture/beds"
+	},
+	{
+		"id": "cate00004",
+		"categoryId": "cate00004",
+		"name": "nightstands",
+		"text": "Nightstands",
+		"level": 3,
+		"children": [],
+		"parent": "/furniture/bedroom-furniture",
+		"categoryPath": "/furniture/bedroom-furniture/nightstands"
+	},
+	{
+		"id": "cate00005",
+		"categoryId": "cate00005",
+		"name": "dressers",
+		"text": "Dressers",
+		"level": 3,
+		"children": [],
+		"parent": "/furniture/bedroom-furniture",
+		"categoryPath": "/furniture/bedroom-furniture/dressers"
+	},
+	{
+		"id": "cate00006",
+		"categoryId": "cate00006",
+		"name": "trunks",
+		"text": "Trunks",
+		"level": 3,
+		"children": [],
+		"parent": "/furniture/bedroom-furniture",
+		"categoryPath": "/furniture/bedroom-furniture/trunks"
+	},
+	{
+		"id": "cate00007",
+		"categoryId": "cate00007",
+		"name": "benches",
+		"text": "Benches",
+		"level": 2,
+		"children": [],
+		"parent": "/furniture",
+		"categoryPath": "/furniture/benches"
+	},
+	{
+		"id": "cate00008",
+		"categoryId": "cate00008",
+		"name": "bookcases",
+		"text": "Bookcases",
+		"level": 2,
+		"children": [],
+		"parent": "/furniture",
+		"categoryPath": "/furniture/bookcases"
+	},
+	{
+		"id": "cate00009",
+		"categoryId": "cate00009",
+		"name": "cabinets",
+		"text": "Cabinets",
+		"level": 2,
+		"children": [],
+		"parent": "/furniture",
+		"categoryPath": "/furniture/cabinets"
+	},
+	{
+		"id": "cate00010",
+		"categoryId": "cate00010",
+		"name": "consoles",
+		"text": "Consoles",
+		"level": 2,
+		"children": [],
+		"parent": "/furniture",
+		"categoryPath": "/furniture/consoles"
+	},
+	{
+		"id": "cate00011",
+		"categoryId": "cate00011",
+		"name": "dining-room",
+		"text": "Dining Room",
+		"level": 2,
+		"children": ["dining-chairs", "dining-tables"],
+		"parent": "/furniture",
+		"categoryPath": "/furniture/dining-room"
+	},
+	{
+		"id": "cate00012",
+		"categoryId": "cate00012",
+		"name": "dining-chairs",
+		"text": "Dining Chairs",
+		"level": 3,
+		"children": [],
+		"parent": "/furniture/dining-room",
+		"categoryPath": "/furniture/dining-room/dining-chairs"
+	},
+	{
+		"id": "cate00013",
+		"categoryId": "cate00013",
+		"name": "dining-tables",
+		"text": "Dining Tables",
+		"level": 3,
+		"children": [],
+		"parent": "/furniture/dining-room",
+		"categoryPath": "/furniture/dining-room/dining-tables"
+	},
+	{
+		"id": "cate00014",
+		"categoryId": "cate00014",
+		"name": "home-office-furniture",
+		"text": "Home Office Furniture",
+		"level": 2,
+		"children": ["desks", "desk-chairs"],
+		"parent": "/furniture",
+		"categoryPath": "/furniture/home-office-furniture"
+	},
+	{
+		"id": "cate00015",
+		"categoryId": "cate00015",
+		"name": "desks",
+		"text": "Desks",
+		"level": 3,
+		"children": [],
+		"parent": "/furniture/home-office-furniture",
+		"categoryPath": "/furniture/home-office-furniture/desks"
+	},
+	{
+		"id": "cate00016",
+		"categoryId": "cate00016",
+		"name": "desk-chairs",
+		"text": "Desk Chairs",
+		"level": 3,
+		"children": [],
+		"parent": "/furniture/home-office-furniture",
+		"categoryPath": "/furniture/home-office-furniture/desk-chairs"
+	},
+	{
+		"id": "cate00017",
+		"categoryId": "cate00017",
+		"name": "living-room",
+		"text": "Living Room",
+		"level": 2,
+		"children": [
+			"sofas",
+			"sectionals",
+			"side-tables",
+			"chaises",
+			"chairs",
+			"coffee-tables"
+		],
+		"parent": "/furniture",
+		"categoryPath": "/furniture/living-room"
+	},
+	{
+		"id": "cate00018",
+		"categoryId": "cate00018",
+		"name": "sofas",
+		"text": "Sofas",
+		"level": 3,
+		"children": [],
+		"parent": "/furniture/living-room",
+		"categoryPath": "/furniture/living-room/sofas"
+	},
+	{
+		"id": "cate00019",
+		"categoryId": "cate00019",
+		"name": "sectionals",
+		"text": "Sectionals",
+		"level": 3,
+		"children": [],
+		"parent": "/furniture/living-room",
+		"categoryPath": "/furniture/living-room/sectionals"
+	},
+	{
+		"id": "cate00020",
+		"categoryId": "cate00020",
+		"name": "side-tables",
+		"text": "Side Tables",
+		"level": 3,
+		"children": [],
+		"parent": "/furniture/living-room",
+		"categoryPath": "/furniture/living-room/side-tables"
+	},
+	{
+		"id": "cate00021",
+		"categoryId": "cate00021",
+		"name": "chaises",
+		"text": "Chaises",
+		"level": 3,
+		"children": [],
+		"parent": "/furniture/living-room",
+		"categoryPath": "/furniture/living-room/chaises"
+	},
+	{
+		"id": "cate00022",
+		"categoryId": "cate00022",
+		"name": "chairs",
+		"text": "Chairs",
+		"level": 3,
+		"children": [],
+		"parent": "/furniture/living-room",
+		"categoryPath": "/furniture/living-room/chairs"
+	},
+	{
+		"id": "cate00023",
+		"categoryId": "cate00023",
+		"name": "coffee-tables",
+		"text": "Coffee Tables",
+		"level": 3,
+		"children": [],
+		"parent": "/furniture/living-room",
+		"categoryPath": "/furniture/living-room/coffee-tables"
+	},
+	{
+		"id": "cate00024",
+		"categoryId": "cate00024",
+		"name": "sideboards",
+		"text": "Sideboards",
+		"level": 2,
+		"children": [],
+		"parent": "/furniture",
+		"categoryPath": "/furniture/sideboards"
+	},
+	{
+		"id": "cate00025",
+		"categoryId": "cate00025",
+		"name": "games-game-tables",
+		"text": "Games & Game Tables",
+		"level": 2,
+		"children": [],
+		"parent": "/furniture",
+		"categoryPath": "/furniture/games-game-tables"
+	},
+	{
+		"id": "cate00026",
+		"categoryId": "cate00026",
+		"name": "lightning",
+		"text": "Lightning",
+		"level": 1,
+		"children": [
+			"all-lamps",
+			"table-lamps",
+			"chandeliers",
+			"pendants",
+			"floor-lamps"
+		],
+		"parent": "",
+		"categoryPath": "/lightning"
+	},
+	{
+		"id": "cate00027",
+		"categoryId": "cate00027",
+		"name": "all-lamps",
+		"text": "All Lamps",
+		"level": 2,
+		"children": ["table-lamps", "floor-lamps"],
+		"parent": "/lightning",
+		"categoryPath": "/lightning/all-lamps"
+	},
+	{
+		"id": "cate00028",
+		"categoryId": "cate00028",
+		"name": "table-lamps",
+		"text": "Table Lamps",
+		"level": 3,
+		"children": [],
+		"parent": "/lightning/all-lamps",
+		"categoryPath": "/lightning/all-lamps/table-lamps"
+	},
+	{
+		"id": "cate00029",
+		"categoryId": "cate00029",
+		"name": "chandeliers",
+		"text": "Chandeliers",
+		"level": 2,
+		"children": [],
+		"parent": "/lightning",
+		"categoryPath": "/lightning/chandeliers"
+	},
+	{
+		"id": "cate00030",
+		"categoryId": "cate00030",
+		"name": "pendants",
+		"text": "Pendants",
+		"level": 2,
+		"children": [],
+		"parent": "/lightning",
+		"categoryPath": "/lightning/pendants"
+	},
+	{
+		"id": "cate00031",
+		"categoryId": "cate00031",
+		"name": "floor-lamps",
+		"text": "Floor Lamps",
+		"level": 3,
+		"children": [],
+		"parent": "/lightning/all-lamps",
+		"categoryPath": "/lightning/all-lamps/floor-lamps"
+	},
+	{
+		"id": "cate00032",
+		"categoryId": "cate00032",
+		"name": "home-decor-accessories",
+		"text": "Home Decor & Accessories",
+		"level": 1,
+		"children": ["home-fragrance", "decorative-accessories", "rugs", "pillows"],
+		"parent": "",
+		"categoryPath": "/home-decor-accessories"
+	},
+	{
+		"id": "cate00033",
+		"categoryId": "cate00033",
+		"name": "home-fragrance",
+		"text": "Home Fragrance",
+		"level": 2,
+		"children": [],
+		"parent": "/home-decor-accessories",
+		"categoryPath": "/home-decor-accessories/home-fragrance"
+	},
+	{
+		"id": "cate00034",
+		"categoryId": "cate00034",
+		"name": "decorative-accessories",
+		"text": "Decorative Accessories",
+		"level": 2,
+		"children": [],
+		"parent": "/home-decor-accessories",
+		"categoryPath": "/home-decor-accessories/decorative-accessories"
+	},
+	{
+		"id": "cate00035",
+		"categoryId": "cate00035",
+		"name": "rugs",
+		"text": "Rugs",
+		"level": 2,
+		"children": [],
+		"parent": "/home-decor-accessories",
+		"categoryPath": "/home-decor-accessories/rugs"
+	},
+	{
+		"id": "cate00036",
+		"categoryId": "cate00036",
+		"name": "pillows",
+		"text": "Pillows",
+		"level": 2,
+		"children": [],
+		"parent": "/home-decor-accessories",
+		"categoryPath": "/home-decor-accessories/pillows"
+	},
+	{
+		"id": "cate00037",
+		"categoryId": "cate00037",
+		"name": "art-mirrors",
+		"text": "Art & Mirrors",
+		"level": 1,
+		"children": ["wall-decor", "art", "mirrors"],
+		"parent": "",
+		"categoryPath": "/art-mirrors"
+	},
+	{
+		"id": "cate00038",
+		"categoryId": "cate00038",
+		"name": "wall-decor",
+		"text": "Wall Decor",
+		"level": 2,
+		"children": [],
+		"parent": "/art-mirrors",
+		"categoryPath": "/art-mirrors/wall-decor"
+	},
+	{
+		"id": "cate00039",
+		"categoryId": "cate00039",
+		"name": "art",
+		"text": "Art",
+		"level": 2,
+		"children": [],
+		"parent": "/art-mirrors",
+		"categoryPath": "/art-mirrors/art"
+	},
+	{
+		"id": "cate00040",
+		"categoryId": "cate00040",
+		"name": "mirrors",
+		"text": "Mirrors",
+		"level": 2,
+		"children": [],
+		"parent": "/art-mirrors",
+		"categoryPath": "/art-mirrors/mirrors"
+	},
+	{
+		"id": "cate00041",
+		"categoryId": "cate00041",
+		"name": "outdoor-furniture",
+		"text": "Outdoor Furniture",
+		"level": 1,
+		"children": [],
+		"parent": "",
+		"categoryPath": "/outdoor-furniture"
+	}
+]

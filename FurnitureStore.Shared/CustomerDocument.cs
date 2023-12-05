@@ -12,13 +12,13 @@
         public string TotalAmount { get; set; }
     }
 
-    internal class Customer
+    public class CustomerDocument
     {
         [JsonProperty("id")]
         public string Id { get; set; }
 
-        [JsonProperty("customerID")]
-        public string CustomerID { get; set; }
+        [JsonProperty("customerId")]
+        public string CustomerId { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
