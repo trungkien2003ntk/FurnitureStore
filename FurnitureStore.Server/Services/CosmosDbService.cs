@@ -5,25 +5,22 @@ namespace FurnitureStore.Server.Services
 {
     public class CosmosDbService : ICosmosDbService
     {
-        private Database _database;
-        private Container _productContainer;
-        private Container _cartContainer;
-        private Container _staffContainer;
-        private Container _categoryContainer;
-        private Container _orderContainer;
-        private Container _customerContainer;
+        private readonly Container _productContainer;
+        private readonly Container _cartContainer;
+        private readonly Container _staffContainer;
+        private readonly Container _categoryContainer;
+        private readonly Container _orderContainer;
+        private readonly Container _customerContainer;
 
         public CosmosDbService(CosmosClient cosmosClient, IConfiguration configuration)
         {
-            //var cosmosClient = new CosmosClient(configuration["CosmosDbSettings:EndpointUri"], configuration["CosmosDbSettings:PrimaryKey"]);
-
-            _database = cosmosClient.GetDatabase("FurnitureStoreDb");
-            _productContainer = _database.GetContainer("products");
-            _cartContainer = _database.GetContainer("carts");
-            _staffContainer = _database.GetContainer("staffs");
-            _categoryContainer = _database.GetContainer("categories");
-            _orderContainer = _database.GetContainer("orders");
-            _customerContainer = _database.GetContainer("customers");
+            var database = cosmosClient.GetDatabase(configuration["CosmosDbSettings:DatabaseName"]);
+            _productContainer = database.GetContainer("products");
+            _cartContainer = database.GetContainer("carts");
+            _staffContainer = database.GetContainer("staffs");
+            _categoryContainer = database.GetContainer("categories");
+            _orderContainer = database.GetContainer("orders");
+            _customerContainer = database.GetContainer("customers");
         }
 
         public async Task AddCategoryAsync(CategoryDocument item)
@@ -43,8 +40,6 @@ namespace FurnitureStore.Server.Services
 
         public async Task AddProductAsync(ProductDocument item)
         {
-            
-
             await _productContainer.CreateItemAsync(item, new PartitionKey(item.ProductId));
         }
 

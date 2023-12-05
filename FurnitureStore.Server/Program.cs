@@ -1,17 +1,18 @@
 using FurnitureStore.Server.SeedData;
 using FurnitureStore.Server.Services;
 using Microsoft.Azure.Cosmos;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 
-
 var configuration = builder.Configuration;
 
 // Add services to the container.
 
+// CosmosClient dependency injection
 builder.Services.AddSingleton((provider) =>
 {
     var endpointUri = configuration["CosmosDbSettings:EndpointUri"];
@@ -20,11 +21,11 @@ builder.Services.AddSingleton((provider) =>
 
     var cosmosClientOptions = new CosmosClientOptions
     {
-        ApplicationName = databaseName,  // ========================================= FIRST RUN - comment =========================================
+        ApplicationName = databaseName,
         ConnectionMode = ConnectionMode.Gateway
     };
 
-    var loggerFactory = LoggerFactory.Create(builder =>
+    LoggerFactory.Create(builder =>
     {
         builder.AddConsole();
     });
@@ -32,7 +33,17 @@ builder.Services.AddSingleton((provider) =>
     return new CosmosClient(endpointUri, primaryKey, cosmosClientOptions); 
 });
 
-builder.Services.AddTransient<ICosmosDbService, CosmosDbService>(); // ========================================= FIRST RUN - comment =========================================
+// Create database
+builder.Services.AddSingleton<ICosmosDbService>(provider =>
+{
+    var cosmosClient = provider.GetRequiredService<CosmosClient>();
+    var databaseName = configuration["CosmosDbSettings:DatabaseName"];
+
+    cosmosClient.CreateDatabaseIfNotExistsAsync(databaseName);
+
+    return new CosmosDbService(cosmosClient, configuration);
+});
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -40,9 +51,33 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// Seed data if database is successfully created
+var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
+using (var scope = scopeFactory.CreateScope())
+{
+    var cosmosClient = scope.ServiceProvider.GetRequiredService<CosmosClient>();
+    // Call this here to initialize database.
+    var cosmosDbService = scope.ServiceProvider.GetRequiredService<ICosmosDbService>();
+    var database = cosmosClient.GetDatabase(configuration["CosmosDbSettings:DatabaseName"]);
+    var seeder = new DataSeeder(cosmosDbService);
 
-//await CreateCosmosDbAsync(app.Services); // ========================================= FIRST RUN - uncomment =========================================
+    if (database != null)
+    {
+        // If the containers has been initialized, do not seed data.
+        bool dataHaveNotBeenSeeded = 
+            (await database.CreateContainerIfNotExistsAsync("carts", "/customerId")).StatusCode == HttpStatusCode.Created &&
+            (await database.CreateContainerIfNotExistsAsync("customers", "/customerId")).StatusCode == HttpStatusCode.Created &&
+            (await database.CreateContainerIfNotExistsAsync("orders", "/customerId")).StatusCode == HttpStatusCode.Created &&
+            (await database.CreateContainerIfNotExistsAsync("categories", "/parent")).StatusCode == HttpStatusCode.Created &&
+            (await database.CreateContainerIfNotExistsAsync("staffs", "/staffId")).StatusCode == HttpStatusCode.Created &&
+            (await database.CreateContainerIfNotExistsAsync("products", "/productId")).StatusCode == HttpStatusCode.Created;
 
+        if (dataHaveNotBeenSeeded)
+        {
+            await seeder.SeedDataAsync();
+        }
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -58,26 +93,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
-// FIRST RUN - uncomment all below
-/* 
-async Task CreateCosmosDbAsync(IServiceProvider services)
-{
-    using var scope = services.CreateScope();
-    var cosmosClient = scope.ServiceProvider.GetRequiredService<CosmosClient>();
-    var databaseName = configuration["CosmosDbSettings:DatabaseName"];
-
-    var database = await cosmosClient.CreateDatabaseIfNotExistsAsync(databaseName);
-    await database.Database.CreateContainerIfNotExistsAsync("carts", "/customerId");
-    await database.Database.CreateContainerIfNotExistsAsync("customers", "/customerId");
-    await database.Database.CreateContainerIfNotExistsAsync("orders", "/customerId");
-    await database.Database.CreateContainerIfNotExistsAsync("products", "/productId");
-    await database.Database.CreateContainerIfNotExistsAsync("categories", "/parent");
-    await database.Database.CreateContainerIfNotExistsAsync("staffs", "/staffId");
-
-    CosmosDbService dbService = new CosmosDbService(cosmosClient, configuration);
-    DataSeeder seeder = new DataSeeder(dbService);
-
-    await seeder.SeedDataAsync();
-}
-*/

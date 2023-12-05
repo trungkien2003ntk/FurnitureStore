@@ -30,7 +30,6 @@ namespace FurnitureStore.Server.SeedData
             var categoriesJsonData = File.ReadAllText(_categoriesFilePath);
             var staffsJsonData = File.ReadAllText(_staffsFilePath);
 
-            
             // Seed Carts
             var cartItems = JsonConvert.DeserializeObject<List<CartDocument>>(cartsJsonData);
 
