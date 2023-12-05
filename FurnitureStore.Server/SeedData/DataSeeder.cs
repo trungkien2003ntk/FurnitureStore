@@ -15,10 +15,12 @@ namespace FurnitureStore.Server.SeedData
 
 
         private readonly ICosmosDbService _cosmosDbService;
+        private readonly ILogger _logger;
 
-        public DataSeeder(ICosmosDbService cosmosDbService)
+        public DataSeeder(ICosmosDbService cosmosDbService, ILogger<DataSeeder> logger)
         {
             _cosmosDbService = cosmosDbService;
+            this._logger = logger;
         }
 
         public async Task SeedDataAsync()
@@ -39,6 +41,8 @@ namespace FurnitureStore.Server.SeedData
                 {
                     await _cosmosDbService.AddCartAsync(item);
                 }
+
+                _logger.LogInformation("Populated cart data");
             }
 
             // Seed customers
@@ -50,6 +54,8 @@ namespace FurnitureStore.Server.SeedData
                 {
                     await _cosmosDbService.AddCustomerAsync(item);
                 }
+
+                _logger.LogInformation("Populated customer data");
             }
 
             // Seed products
@@ -61,6 +67,8 @@ namespace FurnitureStore.Server.SeedData
                 {
                     await _cosmosDbService.AddProductAsync(item);
                 }
+
+                _logger.LogInformation("Populated product data");
             }
 
             // Seed orders
@@ -72,6 +80,8 @@ namespace FurnitureStore.Server.SeedData
                 {
                     await _cosmosDbService.AddOrderAsync(item);
                 }
+
+                _logger.LogInformation("Populated order data");
             }
 
             // Seed categories
@@ -83,6 +93,8 @@ namespace FurnitureStore.Server.SeedData
                 {
                     await _cosmosDbService.AddCategoryAsync(item);
                 }
+
+                _logger.LogInformation("Populated category data");
             }
 
             // Seed staffs
@@ -94,6 +106,8 @@ namespace FurnitureStore.Server.SeedData
                 {
                     await _cosmosDbService.AddStaffAsync(item);
                 }
+
+                _logger.LogInformation("Populated staff data");
             }
         }
     }

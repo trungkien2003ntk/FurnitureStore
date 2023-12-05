@@ -1,3 +1,4 @@
+using Azure;
 using FurnitureStore.Server.SeedData;
 using FurnitureStore.Server.Services;
 using Microsoft.Azure.Cosmos;
@@ -32,20 +33,9 @@ builder.Services.AddSingleton((provider) =>
 
     return new CosmosClient(endpointUri, primaryKey, cosmosClientOptions); 
 });
-
-// Create database
-builder.Services.AddSingleton<ICosmosDbService>(provider =>
-{
-    var cosmosClient = provider.GetRequiredService<CosmosClient>();
-    var databaseName = configuration["CosmosDbSettings:DatabaseName"];
-
-    cosmosClient.CreateDatabaseIfNotExistsAsync(databaseName);
-
-    return new CosmosDbService(cosmosClient, configuration);
-});
+builder.Services.AddSingleton<ICosmosDbService, CosmosDbService>();
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -55,25 +45,38 @@ var app = builder.Build();
 var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
 using (var scope = scopeFactory.CreateScope())
 {
+    // Create instance of CosmosClient
     var cosmosClient = scope.ServiceProvider.GetRequiredService<CosmosClient>();
-    // Call this here to initialize database.
-    var cosmosDbService = scope.ServiceProvider.GetRequiredService<ICosmosDbService>();
-    var database = cosmosClient.GetDatabase(configuration["CosmosDbSettings:DatabaseName"]);
-    var seeder = new DataSeeder(cosmosDbService);
+
+    // Get the Database Name
+    var databaseName = cosmosClient.ClientOptions.ApplicationName;
+
+    // Autoscale throughput settings
+    ThroughputProperties autoscaleThroughputProperties = ThroughputProperties.CreateAutoscaleThroughput(1000);
+
+    //Create the database with autoscale enabled
+    var response = await cosmosClient.CreateDatabaseIfNotExistsAsync(databaseName, throughputProperties: autoscaleThroughputProperties);
+
+    // Logging
+    if (response.StatusCode == HttpStatusCode.Created)
+        app.Logger.LogInformation($"Database {databaseName} created");
+    else
+        app.Logger.LogInformation($"Database {databaseName} had already created before");
+
+    // Get the database
+    var database = cosmosClient.GetDatabase(databaseName);
+
 
     if (database != null)
     {
-        // If the containers has been initialized, do not seed data.
-        bool dataHaveNotBeenSeeded = 
-            (await database.CreateContainerIfNotExistsAsync("carts", "/customerId")).StatusCode == HttpStatusCode.Created &&
-            (await database.CreateContainerIfNotExistsAsync("customers", "/customerId")).StatusCode == HttpStatusCode.Created &&
-            (await database.CreateContainerIfNotExistsAsync("orders", "/customerId")).StatusCode == HttpStatusCode.Created &&
-            (await database.CreateContainerIfNotExistsAsync("categories", "/parent")).StatusCode == HttpStatusCode.Created &&
-            (await database.CreateContainerIfNotExistsAsync("staffs", "/staffId")).StatusCode == HttpStatusCode.Created &&
-            (await database.CreateContainerIfNotExistsAsync("products", "/productId")).StatusCode == HttpStatusCode.Created;
+        bool emptyContainerCreated = await EnsureContainersAreCreatedAsync(database);
 
-        if (dataHaveNotBeenSeeded)
+        if (emptyContainerCreated)
         {
+            var cosmosDbService = scope.ServiceProvider.GetRequiredService<ICosmosDbService>();
+            var logger = scope.ServiceProvider.GetRequiredService<ILogger<DataSeeder>>();
+            var seeder = new DataSeeder(cosmosDbService, logger);
+
             await seeder.SeedDataAsync();
         }
     }
@@ -93,3 +96,41 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
+async Task<bool> EnsureContainersAreCreatedAsync(Database database)
+{
+    var containersToCreate = new[]
+    {
+        ("carts", "/customerId"),
+        ("customers", "/customerId"),
+        ("orders", "/customerId"),
+        ("categories", "/parent"),
+        ("staffs", "/staffId"),
+        ("products", "/productId")
+    };
+
+    foreach (var (containerName, partitionKeyPath) in containersToCreate)
+    {
+        var statusCode = await GetContainerCreationStatusCode(database, containerName, partitionKeyPath);
+
+        if (statusCode != HttpStatusCode.Created)
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+async Task<HttpStatusCode> GetContainerCreationStatusCode(Database database, string containerName, string partitionKeyPath)
+{
+    var response = await database.CreateContainerIfNotExistsAsync(containerName, partitionKeyPath);
+
+    if (response.StatusCode == HttpStatusCode.Created)
+        app.Logger.LogInformation($"Container {containerName} created");
+    else
+        app.Logger.LogInformation($"Container {containerName} had already created before");
+
+    return response.StatusCode;
+}
