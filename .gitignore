@@ -361,8 +361,3 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/FurnitureStore.Server/appsettings.Development.json
-FurnitureStore.Server/appsettings.Development.json
-/FurnitureStore.Server/appsettings.json
-/FurnitureStore.Server/appsettings.Production.json
-FurnitureStore.Server/appsettings.json
