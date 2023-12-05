@@ -33,8 +33,8 @@ builder.Services.AddSingleton((provider) =>
 
     return new CosmosClient(endpointUri, primaryKey, cosmosClientOptions); 
 });
-builder.Services.AddSingleton<ICosmosDbService, CosmosDbService>();
-
+builder.Services.AddTransient<ICosmosDbService, CosmosDbService>();
+builder.Services.AddTransient<DataSeeder>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -73,9 +73,7 @@ using (var scope = scopeFactory.CreateScope())
 
         if (emptyContainerCreated)
         {
-            var cosmosDbService = scope.ServiceProvider.GetRequiredService<ICosmosDbService>();
-            var logger = scope.ServiceProvider.GetRequiredService<ILogger<DataSeeder>>();
-            var seeder = new DataSeeder(cosmosDbService, logger);
+            var seeder = scope.ServiceProvider.GetRequiredService<DataSeeder>();
 
             await seeder.SeedDataAsync();
         }
