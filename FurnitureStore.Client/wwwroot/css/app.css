@@ -2,6 +2,11 @@ html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
+.label1 {
+    color: #ffd800ff;
+    font-size ="100";
+}
+
 h1:focus {
     outline: none;
 }
