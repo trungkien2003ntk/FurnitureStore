@@ -48,9 +48,6 @@
         [JsonProperty("customerType")]
         public string CustomerType { get; set; }
 
-        [JsonProperty("customerId")]
-        public string CustomerId { get; set; }
-
         [JsonProperty("items")]
         public List<OrderItem> Items { get; set; }
 

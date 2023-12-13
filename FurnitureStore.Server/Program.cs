@@ -33,6 +33,7 @@ builder.Services.AddSingleton((provider) =>
 
     return new CosmosClient(endpointUri, primaryKey, cosmosClientOptions); 
 });
+
 builder.Services.AddTransient<ICosmosDbService, CosmosDbService>();
 builder.Services.AddTransient<DataSeeder>();
 builder.Services.AddControllers();

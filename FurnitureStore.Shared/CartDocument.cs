@@ -50,8 +50,8 @@
         [JsonProperty("id")]
         public string Id { get; set; }
 
-        [JsonProperty("customerId")]
-        public string CustomerId { get; set; }
+        [JsonProperty("token")]
+        public string Token { get; set; }
 
         [JsonProperty("currency")]
         public string Currency { get; set; }
