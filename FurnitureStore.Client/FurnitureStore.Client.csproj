@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\mdi\" />
+    <Folder Include="wwwroot\admin-images\" />
   </ItemGroup>
 
 </Project>
