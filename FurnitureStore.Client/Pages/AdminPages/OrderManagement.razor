@@ -1,0 +1,648 @@
+﻿@page "/ordermanagement"
+
+<PageTitle>Order Management</PageTitle>
+
+<head>
+    <link rel="stylesheet" href="css/popup.css">
+</head>
+<body>
+    <!-- partial:partials/_navbar.html -->
+    <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+            <a class="navbar-brand brand-logo" href="/">
+                <h2 class="textlogo-h2">
+                    Sixteen <em class="textlogo-em">Furnishings</em>
+                </h2>
+            </a>
+            <a class="navbar-brand brand-logo-mini" href="/">
+                <img src="admin-images/logo-mini.svg" alt="logo" />
+            </a>
+        </div>
+        <div class="navbar-menu-wrapper d-flex align-items-stretch">
+            <button class="navbar-toggler navbar-toggler align-self-center"
+                    type="button" data-toggle="minimize">
+                <span class="mdi mdi-menu"></span>
+            </button>
+            <div class="search-field d-none d-xl-block">
+                <form class="d-flex align-items-center h-100" action="#">
+                    <div class="input-group">
+                        <div class="input-group-prepend bg-transparent">
+                            <i class="input-group-text border-0 mdi mdi-magnify"></i>
+                        </div>
+                        <input type="text" class="form-control bg-transparent border-0"
+                               placeholder="Search products">
+                    </div>
+                </form>
+            </div>
+            <ul class="navbar-nav navbar-nav-right">
+                <li class="nav-item nav-profile dropdown">
+                    <a class="nav-link dropdown-toggle" id="profileDropdown" href="#"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        <div class="nav-profile-img">
+                            <img src="admin-images/admin_icon.png" alt="image" width="24" height="24">
+                        </div>
+                        <div class="nav-profile-text">
+                            <p class="mb-1 text-black">Admin</p>
+                        </div>
+                    </a>
+                    <div class="dropdown-menu navbar-dropdown dropdown-menu-right p-0 border-0 font-size-sm"
+                         aria-labelledby="profileDropdown" data-x-placement="bottom-end">
+                        <div class="p-2">
+                            <a class="dropdown-item py-1 d-flex align-items-center justify-content-between"
+                               href="#">
+                                <span>Setting</span>
+                                <i class="mdi mdi-logout ms-1"></i>
+                            </a>
+                        </div>
+                        <div class="p-2">
+                            <a class="dropdown-item py-1 d-flex align-items-center justify-content-between"
+                               href="#">
+                                <span>Log Out</span>
+                                <i class="mdi mdi-logout ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center"
+                    type="button" data-toggle="offcanvas">
+                <span class="mdi mdi-menu"></span>
+            </button>
+        </div>
+    </nav>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">
+                        <span class="icon-bg"><i class="mdi mdi-cube menu-icon"></i></span>
+                        <span class="menu-title">Product management</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/categorymanagement">
+                        <span class="icon-bg"><i class="mdi mdi-apps menu-icon"></i></span>
+                        <span class="menu-title">Category management</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/customermanagement">
+                        <span class="icon-bg">
+                            <i class="mdi mdi-account-multiple menu-icon"></i>
+                        </span>
+                        <span class="menu-title">Customer Management</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/ordermanagement">
+                        <span class="icon-bg"><i class="mdi mdi-clipboard-text menu-icon"></i></span>
+                        <span class="menu-title">Order Management</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/statistic">
+                        <span class="icon-bg">
+                            <i class="mdi mdi-chart-areaspline menu-icon"></i>
+                        </span>
+                        <span class="menu-title">Statistic</span>
+                    </a>
+                </li>
+                <li class="nav-item sidebar-user-actions">
+                    <div class="user-details">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="d-flex align-items-center">
+                                    <div class="nav-profile-img">
+                                        <img src="admin-images/admin_icon.png" alt="image" width="24" height="24">
+                                    </div>
+                                    <div class="sidebar-profile-text" style="margin-left:12px;">
+                                        <p style="margin:0;">Admin</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="badge badge-danger">3</div>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item sidebar-user-actions">
+                    <div class="sidebar-user-menu">
+                        <a href="#" class="nav-link">
+                            <i class="mdi mdi-settings menu-icon"></i>
+                            <span class="menu-title">Settings</span>
+                        </a>
+                    </div>
+                </li>
+                <li class="nav-item sidebar-user-actions">
+                    <div class="sidebar-user-menu">
+                        <a href="#" class="nav-link">
+                            <i class="mdi mdi-logout menu-icon"></i>
+                            <span class="menu-title">Log Out</span>
+                        </a>
+                    </div>
+                </li>
+            </ul>2
+        </nav>
+        <!-- partial -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row">
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="grid-margin stretch-card d-flex align-items-center">
+                                    <div class="col-lg-3 grid-margin stretch-card d-flex align-items-center">
+                                        <h4 class="card-title">Order list</h4>
+                                    </div>
+                                    <div class="col-lg-9 grid-margin stretch-card d-flex align-items-center justify-content-end">
+                                        <h4 class="page-title">Soft by</h4>
+                                        <div class="dropdown" style="margin-left: 12px;">
+                                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuOutlineButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Soft by </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuOutlineButton2">
+                                                <h6 class="dropdown-header">Level1</h6>
+                                                <a class="dropdown-item" href="#">Action</a>
+                                                <a class="dropdown-item" href="#">Another action</a>
+                                                <a class="dropdown-item" href="#">Something else here</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item" href="#">Separated link</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Order ID</th>
+                                            <th>Customer ID</th>
+                                            <th>Order Date</th>
+                                            <th>Order Address</th>
+                                            <th>Payment method</th>
+                                            <th>Total item</th>
+                                            <th>Total Amount</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>ord00001-00001</td>
+                                            <td>cust00001</td>
+                                            <td>13/11/2023</td>
+                                            <td class="product-col-2">Huyện Thống Nhất, Tỉnh Đồng Nai</td>
+                                            <td>Credit card</td>
+                                            <td>10</td>
+                                            <td>2799200</td>
+                                            <td><label class="badge badge-success">Paid</label></td>
+                                        </tr>
+                                        <tr>
+                                            <td>ord00001-00002</td>
+                                            <td>cust00001</td>
+                                            <td>13/11/2023</td>
+                                            <td class="product-col-2">Huyện Thống Nhất, Tỉnh Đồng Nai</td>
+                                            <td>Credit card</td>
+                                            <td>10</td>
+                                            <td>2799200</td>
+                                            <td><label class="badge badge-danger">Pending</label></td>
+                                        </tr>
+                                        <tr>
+                                            <td>ord00001-00001</td>
+                                            <td>cust00001</td>
+                                            <td>13/11/2023</td>
+                                            <td class="product-col-2">Huyện Thống Nhất, Tỉnh Đồng Nai</td>
+                                            <td>Credit card</td>
+                                            <td>10</td>
+                                            <td>2799200</td>
+                                            <td><label class="badge badge-success">Paid</label></td>
+                                        </tr>
+                                        <tr>
+                                            <td>ord00001-00002</td>
+                                            <td>cust00001</td>
+                                            <td>13/11/2023</td>
+                                            <td class="product-col-2">Huyện Thống Nhất, Tỉnh Đồng Nai</td>
+                                            <td>Credit card</td>
+                                            <td>10</td>
+                                            <td>2799200</td>
+                                            <td><label class="badge badge-danger">Pending</label></td>
+                                        </tr>
+                                        <tr>
+                                            <td>ord00001-00001</td>
+                                            <td>cust00001</td>
+                                            <td>13/11/2023</td>
+                                            <td class="product-col-2">Huyện Thống Nhất, Tỉnh Đồng Nai</td>
+                                            <td>Credit card</td>
+                                            <td>10</td>
+                                            <td>2799200</td>
+                                            <td><label class="badge badge-success">Paid</label></td>
+                                        </tr>
+                                        <tr>
+                                            <td>ord00001-00002</td>
+                                            <td>cust00001</td>
+                                            <td>13/11/2023</td>
+                                            <td class="product-col-2">Huyện Thống Nhất, Tỉnh Đồng Nai</td>
+                                            <td>Credit card</td>
+                                            <td>10</td>
+                                            <td>2799200</td>
+                                            <td><label class="badge badge-danger">Pending</label></td>
+                                        </tr>
+                                        <tr>
+                                            <td>ord00001-00001</td>
+                                            <td>cust00001</td>
+                                            <td>13/11/2023</td>
+                                            <td class="product-col-2">Huyện Thống Nhất, Tỉnh Đồng Nai</td>
+                                            <td>Credit card</td>
+                                            <td>10</td>
+                                            <td>2799200</td>
+                                            <td><label class="badge badge-success">Paid</label></td>
+                                        </tr>
+                                        <tr>
+                                            <td>ord00001-00002</td>
+                                            <td>cust00001</td>
+                                            <td>13/11/2023</td>
+                                            <td class="product-col-2">Huyện Thống Nhất, Tỉnh Đồng Nai</td>
+                                            <td>Credit card</td>
+                                            <td>10</td>
+                                            <td>2799200</td>
+                                            <td><label class="badge badge-danger">Pending</label></td>
+                                        </tr>
+                                        <tr>
+                                            <td>ord00001-00001</td>
+                                            <td>cust00001</td>
+                                            <td>13/11/2023</td>
+                                            <td class="product-col-2">Huyện Thống Nhất, Tỉnh Đồng Nai</td>
+                                            <td>Credit card</td>
+                                            <td>10</td>
+                                            <td>2799200</td>
+                                            <td><label class="badge badge-success">Paid</label></td>
+                                        </tr>
+                                        <tr>
+                                            <td>ord00001-00002</td>
+                                            <td>cust00001</td>
+                                            <td>13/11/2023</td>
+                                            <td class="product-col-2">Huyện Thống Nhất, Tỉnh Đồng Nai</td>
+                                            <td>Credit card</td>
+                                            <td>10</td>
+                                            <td>2799200</td>
+                                            <td><label class="badge badge-danger">Pending</label></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- content-wrapper ends -->
+            <!-- partial:partials/_footer.html -->
+            <footer class="footer">
+                <div class="footer-inner-wraper">
+                    <div class="d-sm-flex justify-content-center justify-content-sm-between py-2">
+                        <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © <a href="https://www.bootstrapdash.com/" target="_blank">bootstrapdash.com </a>2021</span>
+                        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Only the best <a href="https://www.bootstrapdash.com/" target="_blank"> Bootstrap dashboard </a> templates</span>
+                        <button @onclick="ShowPopup">Tạm</button>
+                    </div>
+                </div>
+            </footer>
+            <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+    </div>
+    <div class="model" hidden="@isHiddenPopup">
+        <div class="order-detail-form">
+            <div class="model_header d-flex align-items-center">
+                <div class="col-lg-9">
+                    <label class="model_header_title">Order detail form</label>
+                </div>
+                <div class="col-lg-3 d-flex justify-content-end">
+                    <button class="model_close_btn_size align-self-center" @onclick="CloseOrderDetailPopup">
+                        <span class="mdi mdi-close"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="order-detail-header">
+                <div class="d-flex">
+                    <h3 style="color: black; padding-top: 10px; padding-left: 10px;">Order</h3>
+                    <h3 style="color: #f33f3f; padding-top: 10px; padding-left: 10px;">#ord00001-00001</h3>
+                </div>
+                <div>
+                    <h5 style="padding-left: 10px; padding-bottom: 10px;">
+                        Dec 18, 2023
+                        at 11:11am
+                    </h5>
+                </div>
+            </div>
+            <div class="model-order-detail-overflow">
+                <div class="model-order-detail-main">
+                    <div class="row">
+                        <h5 style="color: black;">Customer info</h5>
+                        <hr>
+                        <div class="row" style="margin-bottom: 12px;">
+                            <div class="col-lg-8">
+                                <div>
+                                    <label class="model-product-name-label">Customer name</label>
+                                </div>
+                                <div>
+                                    <label class="model_main_label">Mai Hoàng Nhật Duy</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div>
+                                    <label class="model-product-name-label">Customer ID</label>
+                                </div>
+                                <div>
+                                    <label class="model_main_label">cust00003</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="model-order-detail-main">
+                    <div class="row">
+                        <h5 style="color: black;">Ordered item</h5>
+                        <hr>
+                        <div class="row" style="margin-bottom: 12px;">
+                            <div class="col-lg-1">
+                                <div class="model-image-format">
+                                    <img class="model_main_square"
+                                         src="https://rhomeco.com/cdn/shop/files/andersoncanopybed-knollnatural-fourhandsbedroomfurniture.webp?v=1699323751&width=1200" />
+                                </div>
+                            </div>
+                            <div class="col-lg-5">
+                                <label class="model-product-name-label">
+                                    Dorsey Dining Chair
+                                    Dining Chair Dorsey Dining Chair Dorsey Dining Chair
+                                    Dorsey Dining Chair (black)
+                                </label>
+                                <label class="model_main_label">
+                                    furniture / dining-room /
+                                    dining-chairs
+                                </label>
+                                <div class="d-flex gap-2">
+                                    <label class="model-product-id-label">SKU: </label>
+                                    <label class="model-product-id-label">dini00035</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 d-flex align-items-center">
+                                <label class="model-product-id-label">12.2 kg</label>
+                            </div>
+                            <div class="col-lg-2 d-flex align-items-center gap-2">
+                                <label class="model_main_label">23920đ</label>
+                                <label class="model_main_label">x</label>
+                                <label class="model_main_label">2</label>
+                            </div>
+                            <div class="col-lg-2 d-flex align-items-center justify-content-end gap-2">
+                                <label class="model_main_label">47840đ</label>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom: 12px;">
+                            <div class="col-lg-1">
+                                <div class="model-image-format">
+                                    <img class="model_main_square"
+                                         src="https://rhomeco.com/cdn/shop/files/andersoncanopybed-knollnatural-fourhandsbedroomfurniture.webp?v=1699323751&width=1200" />
+                                </div>
+                            </div>
+                            <div class="col-lg-5">
+                                <label class="model-product-name-label">
+                                    Dorsey Dining Chair
+                                    (black)
+                                </label>
+                                <label class="model_main_label">
+                                    furniture / dining-room /
+                                    dining-chairs
+                                </label>
+                                <div class="d-flex gap-2">
+                                    <label class="model-product-id-label">SKU: </label>
+                                    <label class="model-product-id-label">dini00035</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 d-flex align-items-center">
+                                <label class="model-product-id-label">12.2 kg</label>
+                            </div>
+                            <div class="col-lg-2 d-flex align-items-center gap-2">
+                                <label class="model_main_label">23920đ</label>
+                                <label class="model_main_label">x</label>
+                                <label class="model_main_label">2</label>
+                            </div>
+                            <div class="col-lg-2 d-flex align-items-center justify-content-end gap-2">
+                                <label class="model_main_label">47840đ</label>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom: 12px;">
+                            <div class="col-lg-1">
+                                <div class="model-image-format">
+                                    <img class="model_main_square"
+                                         src="https://rhomeco.com/cdn/shop/files/andersoncanopybed-knollnatural-fourhandsbedroomfurniture.webp?v=1699323751&width=1200" />
+                                </div>
+                            </div>
+                            <div class="col-lg-5">
+                                <label class="model-product-name-label">
+                                    Dorsey Dining Chair
+                                    (black)
+                                </label>
+                                <label class="model_main_label">
+                                    furniture / dining-room /
+                                    dining-chairs
+                                </label>
+                                <div class="d-flex gap-2">
+                                    <label class="model-product-id-label">SKU: </label>
+                                    <label class="model-product-id-label">dini00035</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 d-flex align-items-center">
+                                <label class="model-product-id-label">12.2 kg</label>
+                            </div>
+                            <div class="col-lg-2 d-flex align-items-center gap-2">
+                                <label class="model_main_label">23920đ</label>
+                                <label class="model_main_label">x</label>
+                                <label class="model_main_label">2</label>
+                            </div>
+                            <div class="col-lg-2 d-flex align-items-center justify-content-end gap-2">
+                                <label class="model_main_label">47840đ</label>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom: 12px;">
+                            <div class="col-lg-1">
+                                <div class="model-image-format">
+                                    <img class="model_main_square"
+                                         src="https://rhomeco.com/cdn/shop/files/andersoncanopybed-knollnatural-fourhandsbedroomfurniture.webp?v=1699323751&width=1200" />
+                                </div>
+                            </div>
+                            <div class="col-lg-5">
+                                <label class="model-product-name-label">
+                                    Dorsey Dining Chair
+                                    (black)
+                                </label>
+                                <label class="model_main_label">
+                                    furniture / dining-room /
+                                    dining-chairs
+                                </label>
+                                <div class="d-flex gap-2">
+                                    <label class="model-product-id-label">SKU: </label>
+                                    <label class="model-product-id-label">dini00035</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 d-flex align-items-center">
+                                <label class="model-product-id-label">12.2 kg</label>
+                            </div>
+                            <div class="col-lg-2 d-flex align-items-center gap-2">
+                                <label class="model_main_label">23920đ</label>
+                                <label class="model_main_label">x</label>
+                                <label class="model_main_label">2</label>
+                            </div>
+                            <div class="col-lg-2 d-flex align-items-center justify-content-end gap-2">
+                                <label class="model_main_label">47840đ</label>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom: 12px;">
+                            <div class="col-lg-1">
+                                <div class="model-image-format">
+                                    <img class="model_main_square"
+                                         src="https://rhomeco.com/cdn/shop/files/andersoncanopybed-knollnatural-fourhandsbedroomfurniture.webp?v=1699323751&width=1200" />
+                                </div>
+                            </div>
+                            <div class="col-lg-5">
+                                <label class="model-product-name-label">
+                                    Dorsey Dining Chair
+                                    (black)
+                                </label>
+                                <label class="model_main_label">
+                                    furniture / dining-room /
+                                    dining-chairs
+                                </label>
+                                <div class="d-flex gap-2">
+                                    <label class="model-product-id-label">SKU: </label>
+                                    <label class="model-product-id-label">dini00035</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 d-flex align-items-center">
+                                <label class="model-product-id-label">12.2 kg</label>
+                            </div>
+                            <div class="col-lg-2 d-flex align-items-center gap-2">
+                                <label class="model_main_label">23920đ</label>
+                                <label class="model_main_label">x</label>
+                                <label class="model_main_label">2</label>
+                            </div>
+                            <div class="col-lg-2 d-flex align-items-center justify-content-end gap-2">
+                                <label class="model_main_label">47840đ</label>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row justify-content-end" style="margin-bottom: 12px;">
+                            <div class="col-lg-2 d-flex align-items-center justify-content-start gap-2">
+                                <label class="model_main_label">Subtotal:</label>
+                            </div>
+                            <div class="col-lg-2 d-flex align-items-center justify-content-end gap-2">
+                                <label class="model_main_label" style="font-weight: 600;">47840đ</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="model-order-detail-main">
+                    <div class="row">
+                        <h5 style="color: black;">Shipping info</h5>
+                        <hr>
+                        <div class="row" style="margin-bottom: 12px;">
+                            <div class="col-lg-8">
+                                <div>
+                                    <label class="model-product-name-label">Shipping address</label>
+                                </div>
+                                <div>
+                                    <label class="model_main_label" style="margin-top:4px;">
+                                        Gia Kiệm, Thống Nhất, Đồng Nai
+                                    </label>
+                                </div>
+                                <div class="d-flex gap-2 align-items-center">
+                                    <label class="model_main_label" style="margin-top:4px;">Shipping date:</label>
+                                    <input type="date" class="custom-date-picker">
+                                </div>
+                            </div>
+                            <div class="col-lg-2 d-flex align-items-center">
+                                <label class="model_main_label">Shipping price:</label>
+                            </div>
+                            <div class="col-lg-2 d-flex align-items-center justify-content-end gap-2">
+                                <label class="model_main_label" style="font-weight: 600;">0đ</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="model-order-detail-main">
+                    <div class="row">
+                        <h5 style="color: black;">Order status</h5>
+                        <hr>
+                        <div class="d-flex" style="margin-bottom: 12px;">
+                            <div>
+                                <input class="custom-radio" type="radio" name="payment" id="created" checked="checked" />
+                                <label class="custom-radio" for="created">Created</label>
+                            </div>
+                            <div>
+                                <input class="custom-radio" type="radio" name="payment" id="paid" />
+                                <label class="custom-radio" for="paid">Paid</label>
+                            </div>
+                            <div>
+                                <input class="custom-radio" type="radio" name="payment" id="canceled" />
+                                <label class="custom-radio" for="canceled">Canceled</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="model-order-detail-main">
+                    <div class="row">
+                        <h5 style="color: black;">Total price</h5>
+                        <hr>
+                        <div class="row" style="margin-bottom: 12px;">
+                            <div class="col-lg-10">
+                                <div>
+                                    <label class="model_main_label">Subtotal price:</label>
+                                </div>
+                                <div style="margin-top:8px;">
+                                    <label class="model_main_label">Discounted price:</label>
+                                </div>
+                                <div style="margin-top:8px;">
+                                    <label class="model_main_label">Shipping price:</label>
+                                </div>
+                                <div style="margin-top:8px;">
+                                    <label class="model_main_label">Tax:</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="d-flex justify-content-end">
+                                    <label class="model_main_label" style="font-weight: 600;">47840đ</label>
+                                </div>
+                                <div class="d-flex justify-content-end" style="margin-top:8px;">
+                                    <label class="model_main_label" style="font-weight: 600;">47840đ</label>
+                                </div>
+                                <div class="d-flex justify-content-end" style="margin-top:8px;">
+                                    <label class="model_main_label" style="font-weight: 600;">0đ</label>
+                                </div>
+                                <div class="d-flex justify-content-end" style="margin-top:8px;">
+                                    <label class="model_main_label" style="font-weight: 600;">0đ</label>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row" style="margin-bottom: 12px;">
+                            <div class="col-lg-10">
+                                <div>
+                                    <label class="model_main_label">Total Amount:</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="d-flex justify-content-end">
+                                    <label class="model_main_label" style="font-weight: 600;">47840đ</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="model_main_div_children d-flex align-items-center justify-content-center gap-4">
+                    <button type="button" class="btn btn-outline-red btn-fw">
+                        Save
+                        changed
+                    </button>
+                    <button type="button" class="btn btn-outline-red btn-fw">Delete order</button>
+                    <button type="button" class="btn btn-outline-red btn-fw" @onclick="CancelOrderDetailPopup">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="misc.js"></script>
