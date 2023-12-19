@@ -1,40 +1,9 @@
 ﻿namespace FurnitureStore.Shared
 {
-    public class OrderItem
-    {
-        [JsonProperty("productId")]
-        public string ProductId { get; set; }
-
-        [JsonProperty("sku")]
-        public string Sku { get; set; }
-
-        [JsonProperty("name")]
-        public string Name { get; set; }
-
-        [JsonProperty("quantity")]
-        public int Quantity { get; set; }
-
-        [JsonProperty("sellingPrice")]
-        public int SellingPrice { get; set; }
-
-        [JsonProperty("totalPrice")]
-        public int TotalPrice { get; set; }
-    }
-
-    public class ShippingInfo
-    {
-        [JsonProperty("address")]
-        public string Address { get; set; }
-
-        [JsonProperty("shippingPrice")]
-        public int ShippingPrice { get; set; }
-
-        [JsonProperty("shippingDate")]
-        public DateTime ShippingDate { get; set; }
-    }
+    
 
 
-    public class OrderDocument
+    public class OrderDTO
     {
         [JsonProperty("id")]
         public string Id { get; set; }
@@ -52,7 +21,7 @@
         public List<OrderItem> Items { get; set; }
 
         [JsonProperty("shippingInfo")]
-        public ShippingInfo ShippingInfo { get; set; }
+        public OrderShippingInfo ShippingInfo { get; set; }
 
         [JsonProperty("totalItems")]
         public int TotalItems { get; set; }

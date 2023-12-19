@@ -1,10 +1,6 @@
-﻿using Newtonsoft.Json;
-using FurnitureStore.Shared;
-
-namespace FurnitureStore.Server.Models.Documents
+﻿namespace FurnitureStore.Shared
 {
-
-    public class ProductDocument
+    public class ProductDTO
     {
         [JsonProperty("id")]
         public string Id { get; set; }

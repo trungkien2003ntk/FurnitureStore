@@ -1,10 +1,10 @@
 [
 	{
-		"id": "ord00001-00001",
-		"orderId": "ord00001-00001",
+		"id": "ord00001",
+		"orderId": "ord00001",
 		"orderDate": "2023-12-09T23:58:12.999316",
+		"yearMonth": "2023-12",
 		"customerType": "Retail",
-		"customerId": "cust00001",
 		"items": [
 			{
 				"productId": "prod00035",
@@ -60,14 +60,16 @@
 		"paymentMethod": "credit_card",
 		"status": "Paid",
 		"note": "",
-		"createdAt": "2023-12-04T23:58:12.999338"
+		"createdAt": "2023-12-04T23:58:12.999338",
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
-		"id": "ord00001-00002",
-		"orderId": "ord00001-00002",
+		"id": "ord00002",
+		"orderId": "ord00002",
 		"orderDate": "2023-12-12T23:58:12.999351",
+		"yearMonth": "2023-12",
 		"customerType": "Retail",
-		"customerId": "cust00001",
 		"items": [
 			{
 				"productId": "prod00029",
@@ -91,14 +93,16 @@
 		"paymentMethod": "credit_card",
 		"status": "Paid",
 		"note": "",
-		"createdAt": "2023-12-04T23:58:12.999359"
+		"createdAt": "2023-12-04T23:58:12.999359",
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
-		"id": "ord00002-00001",
-		"orderId": "ord00002-00001",
+		"id": "ord00003",
+		"orderId": "ord00003",
 		"orderDate": "2023-12-05T23:58:12.999378",
+		"yearMonth": "2023-12",
 		"customerType": "Retail",
-		"customerId": "cust00002",
 		"items": [
 			{
 				"productId": "prod00029",
@@ -138,14 +142,16 @@
 		"paymentMethod": "credit_card",
 		"status": "Paid",
 		"note": "",
-		"createdAt": "2023-12-04T23:58:12.999387"
+		"createdAt": "2023-12-04T23:58:12.999387",
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
-		"id": "ord00002-00002",
-		"orderId": "ord00002-00002",
+		"id": "ord00004",
+		"orderId": "ord00004",
 		"orderDate": "2023-12-11T23:58:12.999397",
+		"yearMonth": "2023-12",
 		"customerType": "Retail",
-		"customerId": "cust00002",
 		"items": [
 			{
 				"productId": "prod00019",
@@ -169,14 +175,16 @@
 		"paymentMethod": "credit_card",
 		"status": "Paid",
 		"note": "",
-		"createdAt": "2023-12-04T23:58:12.999405"
+		"createdAt": "2023-12-04T23:58:12.999405",
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
-		"id": "ord00002-00003",
-		"orderId": "ord00002-00003",
+		"id": "ord00005",
+		"orderId": "ord00005",
 		"orderDate": "2023-12-08T23:58:12.999418",
+		"yearMonth": "2023-12",
 		"customerType": "Retail",
-		"customerId": "cust00002",
 		"items": [
 			{
 				"productId": "prod00022",
@@ -208,14 +216,16 @@
 		"paymentMethod": "credit_card",
 		"status": "Paid",
 		"note": "",
-		"createdAt": "2023-12-04T23:58:12.999426"
+		"createdAt": "2023-12-04T23:58:12.999426",
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
-		"id": "ord00003-00001",
-		"orderId": "ord00003-00001",
+		"id": "ord00006",
+		"orderId": "ord00006",
 		"orderDate": "2023-12-10T23:58:12.999451",
+		"yearMonth": "2023-12",
 		"customerType": "Retail",
-		"customerId": "cust00003",
 		"items": [
 			{
 				"productId": "prod00085",
@@ -271,14 +281,16 @@
 		"paymentMethod": "credit_card",
 		"status": "Paid",
 		"note": "",
-		"createdAt": "2023-12-04T23:58:12.999459"
+		"createdAt": "2023-12-04T23:58:12.999459",
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
-		"id": "ord00003-00002",
-		"orderId": "ord00003-00002",
+		"id": "ord00007",
+		"orderId": "ord00007",
 		"orderDate": "2023-12-08T23:58:12.999472",
+		"yearMonth": "2023-12",
 		"customerType": "Retail",
-		"customerId": "cust00003",
 		"items": [
 			{
 				"productId": "prod00077",
@@ -310,14 +322,16 @@
 		"paymentMethod": "credit_card",
 		"status": "Paid",
 		"note": "",
-		"createdAt": "2023-12-04T23:58:12.999480"
+		"createdAt": "2023-12-04T23:58:12.999480",
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
-		"id": "ord00003-00003",
-		"orderId": "ord00003-00003",
+		"id": "ord00008",
+		"orderId": "ord00008",
 		"orderDate": "2023-12-14T23:58:12.999499",
+		"yearMonth": "2023-12",
 		"customerType": "Retail",
-		"customerId": "cust00003",
 		"items": [
 			{
 				"productId": "prod00021",
@@ -365,14 +379,16 @@
 		"paymentMethod": "credit_card",
 		"status": "Paid",
 		"note": "",
-		"createdAt": "2023-12-04T23:58:12.999507"
+		"createdAt": "2023-12-04T23:58:12.999507",
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
-		"id": "ord00004-00001",
-		"orderId": "ord00004-00001",
+		"id": "ord00009",
+		"orderId": "ord00009",
 		"orderDate": "2023-12-08T23:58:12.999529",
+		"yearMonth": "2023-12",
 		"customerType": "Retail",
-		"customerId": "cust00004",
 		"items": [
 			{
 				"productId": "prod00058",
@@ -420,14 +436,16 @@
 		"paymentMethod": "credit_card",
 		"status": "Paid",
 		"note": "",
-		"createdAt": "2023-12-04T23:58:12.999538"
+		"createdAt": "2023-12-04T23:58:12.999538",
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
-		"id": "ord00004-00002",
-		"orderId": "ord00004-00002",
+		"id": "ord00010",
+		"orderId": "ord00010",
 		"orderDate": "2023-12-05T23:58:12.999551",
+		"yearMonth": "2023-12",
 		"customerType": "Retail",
-		"customerId": "cust00004",
 		"items": [
 			{
 				"productId": "prod00045",
@@ -459,14 +477,16 @@
 		"paymentMethod": "credit_card",
 		"status": "Paid",
 		"note": "",
-		"createdAt": "2023-12-04T23:58:12.999559"
+		"createdAt": "2023-12-04T23:58:12.999559",
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
-		"id": "ord00004-00003",
-		"orderId": "ord00004-00003",
+		"id": "ord00011",
+		"orderId": "ord00011",
 		"orderDate": "2023-12-13T23:58:12.999578",
+		"yearMonth": "2023-12",
 		"customerType": "Retail",
-		"customerId": "cust00004",
 		"items": [
 			{
 				"productId": "prod00086",
@@ -514,14 +534,16 @@
 		"paymentMethod": "credit_card",
 		"status": "Paid",
 		"note": "",
-		"createdAt": "2023-12-04T23:58:12.999586"
+		"createdAt": "2023-12-04T23:58:12.999586",
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
-		"id": "ord00005-00001",
-		"orderId": "ord00005-00001",
+		"id": "ord00012",
+		"orderId": "ord00012",
 		"orderDate": "2023-12-06T23:58:12.999605",
+		"yearMonth": "2023-12",
 		"customerType": "Retail",
-		"customerId": "cust00005",
 		"items": [
 			{
 				"productId": "prod00067",
@@ -561,14 +583,16 @@
 		"paymentMethod": "credit_card",
 		"status": "Paid",
 		"note": "",
-		"createdAt": "2023-12-04T23:58:12.999612"
+		"createdAt": "2023-12-04T23:58:12.999612",
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
-		"id": "ord00005-00002",
-		"orderId": "ord00005-00002",
+		"id": "ord00013",
+		"orderId": "ord00013",
 		"orderDate": "2023-12-09T23:58:12.999623",
+		"yearMonth": "2023-12",
 		"customerType": "Retail",
-		"customerId": "cust00005",
 		"items": [
 			{
 				"productId": "prod00029",
@@ -592,14 +616,16 @@
 		"paymentMethod": "credit_card",
 		"status": "Paid",
 		"note": "",
-		"createdAt": "2023-12-04T23:58:12.999631"
+		"createdAt": "2023-12-04T23:58:12.999631",
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
-		"id": "ord00005-00003",
-		"orderId": "ord00005-00003",
+		"id": "ord00014",
+		"orderId": "ord00014",
 		"orderDate": "2023-12-11T23:58:12.999651",
+		"yearMonth": "2023-12",
 		"customerType": "Retail",
-		"customerId": "cust00005",
 		"items": [
 			{
 				"productId": "prod00007",
@@ -655,14 +681,16 @@
 		"paymentMethod": "credit_card",
 		"status": "Paid",
 		"note": "",
-		"createdAt": "2023-12-04T23:58:12.999659"
+		"createdAt": "2023-12-04T23:58:12.999659",
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
-		"id": "ord00006-00001",
-		"orderId": "ord00006-00001",
+		"id": "ord00015",
+		"orderId": "ord00015",
 		"orderDate": "2023-12-13T23:58:12.999676",
+		"yearMonth": "2023-12",
 		"customerType": "Retail",
-		"customerId": "cust00006",
 		"items": [
 			{
 				"productId": "prod00038",
@@ -702,14 +730,16 @@
 		"paymentMethod": "credit_card",
 		"status": "Paid",
 		"note": "",
-		"createdAt": "2023-12-04T23:58:12.999684"
+		"createdAt": "2023-12-04T23:58:12.999684",
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
-		"id": "ord00006-00002",
-		"orderId": "ord00006-00002",
+		"id": "ord00016",
+		"orderId": "ord00016",
 		"orderDate": "2023-12-13T23:58:12.999697",
+		"yearMonth": "2023-12",
 		"customerType": "Retail",
-		"customerId": "cust00006",
 		"items": [
 			{
 				"productId": "prod00058",
@@ -741,14 +771,16 @@
 		"paymentMethod": "credit_card",
 		"status": "Paid",
 		"note": "",
-		"createdAt": "2023-12-04T23:58:12.999705"
+		"createdAt": "2023-12-04T23:58:12.999705",
+		"isDeleted": false,
+		"ttl": -1
 	},
 	{
-		"id": "ord00007-00001",
-		"orderId": "ord00007-00001",
+		"id": "ord00017",
+		"orderId": "ord00017",
 		"orderDate": "2023-12-06T23:58:12.999727",
+		"yearMonth": "2023-12",
 		"customerType": "Retail",
-		"customerId": "cust00007",
 		"items": [
 			{
 				"productId": "prod00065",
@@ -804,6 +836,8 @@
 		"paymentMethod": "credit_card",
 		"status": "Paid",
 		"note": "",
-		"createdAt": "2023-12-04T23:58:12.999735"
+		"createdAt": "2023-12-04T23:58:12.999735",
+		"isDeleted": false,
+		"ttl": -1
 	}
 ]
