@@ -1,6 +1,8 @@
 using Azure;
+using FurnitureStore.Server.Interfaces;
+using FurnitureStore.Server.Repository;
 using FurnitureStore.Server.SeedData;
-using FurnitureStore.Server.Services;
+using FurnitureStore.Server.Utils;
 using Microsoft.Azure.Cosmos;
 using System.Net;
 
@@ -8,6 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
+
+builder.Services.AddMemoryCache();
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 var configuration = builder.Configuration;
 
@@ -34,9 +39,14 @@ builder.Services.AddSingleton((provider) =>
     return new CosmosClient(endpointUri, primaryKey, cosmosClientOptions); 
 });
 
-builder.Services.AddTransient<ICosmosDbService, CosmosDbService>();
+builder.Services.AddTransient<IProductRepository, ProductRepository>();
+builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
+builder.Services.AddTransient<IOrderRepository, OrderRepository>();
+builder.Services.AddTransient<IStaffRepository, StaffRepository>();
 builder.Services.AddTransient<DataSeeder>();
 builder.Services.AddControllers();
+
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -101,12 +111,10 @@ async Task<bool> EnsureContainersAreCreatedAsync(Database database)
 {
     var containersToCreate = new[]
     {
-        ("carts", "/customerId"),
-        ("customers", "/customerId"),
-        ("orders", "/customerId"),
+        ("orders", "/yearMonth"),
         ("categories", "/parent"),
         ("staffs", "/staffId"),
-        ("products", "/productId")
+        ("products", "/sku")
     };
 
     foreach (var (containerName, partitionKeyPath) in containersToCreate)
@@ -124,7 +132,15 @@ async Task<bool> EnsureContainersAreCreatedAsync(Database database)
 
 async Task<HttpStatusCode> GetContainerCreationStatusCode(Database database, string containerName, string partitionKeyPath)
 {
-    var response = await database.CreateContainerIfNotExistsAsync(containerName, partitionKeyPath);
+    ContainerProperties properties = new()
+    {
+        Id = containerName,
+        PartitionKeyPath = partitionKeyPath,
+        // Expire all documents after 90 days
+        DefaultTimeToLive = -1
+    };
+
+    var response = await database.CreateContainerIfNotExistsAsync(properties);
 
     if (response.StatusCode == HttpStatusCode.Created)
         app.Logger.LogInformation($"Container {containerName} created");
