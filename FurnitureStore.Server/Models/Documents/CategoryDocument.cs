@@ -27,5 +27,14 @@ namespace FurnitureStore.Server.Models.Documents
 
         [JsonProperty("categoryPath")]
         public string CategoryPath { get; set; }
+
+        [JsonProperty("isDeletable")]
+        public bool IsDeletable { get; set; }
+
+        [JsonProperty("isDeleted")]
+        public bool IsDeleted { get; set; }
+
+        [JsonProperty("ttl")]
+        public int TTL { get; set; }
     }
 }

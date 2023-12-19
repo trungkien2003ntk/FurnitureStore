@@ -1,6 +1,6 @@
 ﻿namespace FurnitureStore.Shared
 {
-    public class CategoryDocument
+    public class CategoryDTO
     {
         [JsonProperty("id")]
         public string Id { get; set; }
@@ -25,5 +25,14 @@
 
         [JsonProperty("categoryPath")]
         public string CategoryPath { get; set; }
+
+        [JsonProperty("isDeletable")]
+        public bool IsDeletable { get; set; }
+
+        [JsonProperty("isDeleted")]
+        public bool IsDeleted { get; set; }
+
+        [JsonProperty("ttl")]
+        public int Ttl { get; set; }
     }
 }

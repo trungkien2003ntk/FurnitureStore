@@ -1,15 +1,6 @@
 ﻿namespace FurnitureStore.Shared
 {
-    public class Option
-    {
-        [JsonProperty("name")]
-        public string Name { get; set; }
-
-        [JsonProperty("value")]
-        public string Value { get; set; }
-    }
-
-    public class ProductDocument
+    public class ProductDTO
     {
         [JsonProperty("id")]
         public string Id { get; set; }
@@ -63,12 +54,18 @@
         public string FeaturedImage { get; set; }
 
         [JsonProperty("images")]
-        public List<object> Images { get; set; }
+        public List<string> Images { get; set; }
 
         [JsonProperty("tags")]
-        public List<object> Tags { get; set; }
+        public List<string> Tags { get; set; }
 
         [JsonProperty("options")]
-        public List<Option> Options { get; set; }
+        public List<ProductOption> Options { get; set; }
+
+        [JsonProperty("isDeleted")]
+        public bool IsDeleted { get; set; }
+
+        [JsonProperty("ttl")]
+        public int TTL { get; set; }
     }
 }
