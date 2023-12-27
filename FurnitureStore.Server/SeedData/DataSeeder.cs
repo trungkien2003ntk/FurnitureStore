@@ -1,62 +1,42 @@
-﻿using FurnitureStore.Server.Models.Documents;
-using FurnitureStore.Server.Services;
+﻿using FurnitureStore.Server.Interfaces;
+using FurnitureStore.Server.Models.Documents;
 using Newtonsoft.Json;
 
 namespace FurnitureStore.Server.SeedData
 {
     public class DataSeeder
     {
-        private readonly string _cartsFilePath = "./SeedData/SampleData/carts.json";
-        private readonly string _customersFilePath = "./SeedData/SampleData/customers.json";
         private readonly string _productsFilePath = "./SeedData/SampleData/products.json";
         private readonly string _ordersFilePath = "./SeedData/SampleData/orders.json";
         private readonly string _categoriesFilePath = "./SeedData/SampleData/categories.json";
         private readonly string _staffsFilePath = "./SeedData/SampleData/staffs.json";
-
-
-        private readonly ICosmosDbService _cosmosDbService;
+        private readonly IProductRepository _productRepository;
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly IStaffRepository _staffRepository;
+        private readonly IOrderRepository _orderRepository;
         private readonly ILogger _logger;
 
-        public DataSeeder(ICosmosDbService cosmosDbService, ILogger<DataSeeder> logger)
+        public DataSeeder(
+            IProductRepository productRepository,
+            ICategoryRepository categoryRepository,
+            IStaffRepository staffRepository,
+            IOrderRepository orderRepository,
+            ILogger<DataSeeder> logger)
         {
-            _cosmosDbService = cosmosDbService;
-            this._logger = logger;
+            _productRepository = productRepository;
+            _categoryRepository = categoryRepository;
+            _staffRepository = staffRepository;
+            _orderRepository = orderRepository;
+            _logger = logger;
         }
 
         public async Task SeedDataAsync()
         {
-            var cartsJsonData = File.ReadAllText(_cartsFilePath);
-            var customersJsonData = File.ReadAllText(_customersFilePath);
             var productsJsonData = File.ReadAllText(_productsFilePath);
             var ordersJsonData = File.ReadAllText(_ordersFilePath);
             var categoriesJsonData = File.ReadAllText(_categoriesFilePath);
             var staffsJsonData = File.ReadAllText(_staffsFilePath);
 
-            // Seed Carts
-            var cartItems = JsonConvert.DeserializeObject<List<CartDocument>>(cartsJsonData);
-
-            if (cartItems != null)
-            {
-                foreach (var item in cartItems)
-                {
-                    await _cosmosDbService.AddCartAsync(item);
-                }
-
-                _logger.LogInformation("Populated cart data");
-            }
-
-            // Seed customers
-            var customersItems = JsonConvert.DeserializeObject<List<CustomerDocument>>(customersJsonData);
-
-            if (customersItems != null)
-            {
-                foreach (var item in customersItems)
-                {
-                    await _cosmosDbService.AddCustomerAsync(item);
-                }
-
-                _logger.LogInformation("Populated customer data");
-            }
 
             // Seed products
             var productsItems = JsonConvert.DeserializeObject<List<ProductDocument>>(productsJsonData);
@@ -65,7 +45,7 @@ namespace FurnitureStore.Server.SeedData
             {
                 foreach (var item in productsItems)
                 {
-                    await _cosmosDbService.AddProductAsync(item);
+                    await _productRepository.AddProductDocumentAsync(item);
                 }
 
                 _logger.LogInformation("Populated product data");
@@ -78,7 +58,7 @@ namespace FurnitureStore.Server.SeedData
             {
                 foreach (var item in ordersItems)
                 {
-                    await _cosmosDbService.AddOrderAsync(item);
+                    await _orderRepository.AddOrderDocumentAsync(item);
                 }
 
                 _logger.LogInformation("Populated order data");
@@ -91,7 +71,7 @@ namespace FurnitureStore.Server.SeedData
             {
                 foreach (var item in categoriesItems)
                 {
-                    await _cosmosDbService.AddCategoryAsync(item);
+                    await _categoryRepository.AddCategoryDocumentAsync(item);
                 }
 
                 _logger.LogInformation("Populated category data");
@@ -104,7 +84,7 @@ namespace FurnitureStore.Server.SeedData
             {
                 foreach (var item in staffsItems)
                 {
-                    await _cosmosDbService.AddStaffAsync(item);
+                    await _staffRepository.AddStaffDocumentAsync(item);
                 }
 
                 _logger.LogInformation("Populated staff data");

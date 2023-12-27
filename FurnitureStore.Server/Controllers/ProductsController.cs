@@ -1,4 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using FurnitureStore.Server.Models.Documents;
+using FurnitureStore.Server.Interfaces;
+using FurnitureStore.Shared;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,36 +13,146 @@ namespace FurnitureStore.Server.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        // GET: api/<ProductsController>
+        private readonly IProductRepository _productRepository;
+        private readonly ILogger<ProductsController> _logger;
+        private readonly IMapper _mapper;
+        private readonly IMemoryCache _memoryCache;
+
+        public ProductsController(IProductRepository productRepository, ILogger<ProductsController> logger, IMapper mapper, IMemoryCache memoryCache)
+        {
+            _productRepository = productRepository;
+            _logger = logger;
+            _mapper = mapper;
+            this._memoryCache = memoryCache;
+        }
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProductsAsync()
         {
-            return new string[] { "value1", "value2" };
+            var products = await _productRepository.GetProductDTOsAsync();
+
+            if (products == null || !products.Any())
+            {
+                _logger.LogInformation($"No product found!");
+                return NotFound();
+            }
+
+            _logger.LogInformation($"Returned all products!");
+            return Ok(products);
         }
 
-        // GET api/<ProductsController>/5
+        [HttpGet("category/{categoryId}")]
+        public async Task<ActionResult<IEnumerable<ProductDocument>>> GetProductsInCategoryAsync(string categoryId)
+        {
+            var products = await _productRepository.GetProductDocumentsInCategoryAsync(categoryId);
+
+            if (products == null || !products.Any())
+            {
+                _logger.LogInformation($"No product found in category id {categoryId}!");
+                return NotFound();
+            }
+
+            _logger.LogInformation($"Returned all products in category id {categoryId}!");
+            return Ok(products);
+        }
+
+
+        [HttpGet("sku/{sku}")]
+        public async Task<ActionResult<ProductDTO>> GetProductBySkuAsync(string sku)
+        {
+            var product = await _productRepository.GetProductDTOBySkuAsync(sku);
+
+            if (product == null)
+            {
+                _logger.LogInformation($"Product with sku {sku} Not Found");
+                return NotFound();
+            }
+
+            _logger.LogInformation($"Product with sku {sku} Found");
+
+            return Ok(product);
+        }
+
+        [HttpGet("newId")]
+        public async Task<ActionResult<string>> GetNewProductIdAsync()
+        {
+            string newId = await _productRepository.GetNewProductIdAsync();
+
+            return Ok(newId);
+        }
+
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<ProductDTO>> GetProductByIdAsync(string id)
         {
-            return "value";
+            var product = await _productRepository.GetProductDTOByIdAsync(id);
+
+            if (product == null)
+            {
+                _logger.LogInformation($"Product with id {id} Not Found");
+                return NotFound();
+            }
+
+            _logger.LogInformation($"Product with id {id} Found");
+
+            return Ok(product);
         }
 
-        // POST api/<ProductsController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult> CreateProductAsync([FromBody] ProductDTO productDTO)
         {
+            if (productDTO == null)
+            {
+                return BadRequest("Product data is required.");
+            }
+
+            try
+            {
+                await _productRepository.AddProductDTOAsync(productDTO);
+
+                return Ok("Product created successfully.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation($"Error message: {ex.Message}");
+                return StatusCode(500, $"An error occurred while creating the product. ProductId: {productDTO.ProductId}");
+            }
         }
 
-        // PUT api/<ProductsController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<ActionResult> UpdateProductAsync(string id, [FromBody] ProductDTO productDTO)
         {
+            if (productDTO == null)
+            {
+                return BadRequest("Product data is required.");
+            }
+
+            try
+            {
+                await _productRepository.UpdateProductDTOAsync(productDTO);
+
+                return Ok("Product updated successfully.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation($"Error message: {ex.Message}");
+                return StatusCode(500, $"An error occurred while updating the product. ProductId: {productDTO.ProductId}");
+            }
         }
 
-        // DELETE api/<ProductsController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ActionResult> DeleteProductAsync(string id)
         {
+            try
+            {
+                await _productRepository.DeleteProductDTOAsync(id);
+
+                return Ok("Product deleted successfully");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation($"Error message: {ex.Message}");
+                return StatusCode(500, $"An error occurred while deleting the product. Product Id: {id}");
+            }
         }
     }
 }

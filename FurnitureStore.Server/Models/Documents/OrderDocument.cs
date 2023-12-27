@@ -1,41 +1,8 @@
 ﻿using Newtonsoft.Json;
+using FurnitureStore.Shared;
 
 namespace FurnitureStore.Server.Models.Documents
 {
-    public class OrderItem
-    {
-        [JsonProperty("productId")]
-        public string ProductId { get; set; }
-
-        [JsonProperty("sku")]
-        public string Sku { get; set; }
-
-        [JsonProperty("name")]
-        public string Name { get; set; }
-
-        [JsonProperty("quantity")]
-        public int Quantity { get; set; }
-
-        [JsonProperty("sellingPrice")]
-        public int SellingPrice { get; set; }
-
-        [JsonProperty("totalPrice")]
-        public int TotalPrice { get; set; }
-    }
-
-    public class ShippingInfo
-    {
-        [JsonProperty("address")]
-        public string Address { get; set; }
-
-        [JsonProperty("shippingPrice")]
-        public int ShippingPrice { get; set; }
-
-        [JsonProperty("shippingDate")]
-        public DateTime ShippingDate { get; set; }
-    }
-
-
     public class OrderDocument
     {
         [JsonProperty("id")]
@@ -47,17 +14,17 @@ namespace FurnitureStore.Server.Models.Documents
         [JsonProperty("orderDate")]
         public DateTime OrderDate { get; set; }
 
+        [JsonProperty("yearMonth")]
+        public string YearMonth { get; set; }
+
         [JsonProperty("customerType")]
         public string CustomerType { get; set; }
-
-        [JsonProperty("customerId")]
-        public string CustomerId { get; set; }
 
         [JsonProperty("items")]
         public List<OrderItem> Items { get; set; }
 
         [JsonProperty("shippingInfo")]
-        public ShippingInfo ShippingInfo { get; set; }
+        public OrderShippingInfo ShippingInfo { get; set; }
 
         [JsonProperty("totalItems")]
         public int TotalItems { get; set; }
@@ -85,6 +52,12 @@ namespace FurnitureStore.Server.Models.Documents
 
         [JsonProperty("createdAt")]
         public DateTime CreatedAt { get; set; }
+
+        [JsonProperty("isDeleted")]
+        public bool IsDeleted { get; set; }
+
+        [JsonProperty("ttl")]
+        public int TTL { get; set; }
     }
 
     

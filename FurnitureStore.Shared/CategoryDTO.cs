@@ -1,8 +1,6 @@
-﻿using Newtonsoft.Json;
-
-namespace FurnitureStore.Server.Models.Documents
+﻿namespace FurnitureStore.Shared
 {
-    public class CategoryDocument
+    public class CategoryDTO
     {
         [JsonProperty("id")]
         public string Id { get; set; }
@@ -35,6 +33,6 @@ namespace FurnitureStore.Server.Models.Documents
         public bool IsDeleted { get; set; }
 
         [JsonProperty("ttl")]
-        public int TTL { get; set; }
+        public int Ttl { get; set; }
     }
 }
