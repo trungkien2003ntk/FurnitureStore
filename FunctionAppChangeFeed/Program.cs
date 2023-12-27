@@ -1,9 +1,5 @@
+using FunctionAppChangeFeed.IRepositories;
 using FunctionAppChangeFeed.Repositories;
-using Microsoft.Azure.Cosmos;
-using Microsoft.Azure.Functions.Worker;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 var host = new HostBuilder()
     .ConfigureFunctionsWorkerDefaults()
@@ -13,7 +9,7 @@ var host = new HostBuilder()
         services.ConfigureFunctionsApplicationInsights();
         services.AddSingleton((s) => {
 
-            CosmosClientOptions options = new CosmosClientOptions()
+            CosmosClientOptions options = new()
             {
                 ApplicationName = context.Configuration.GetValue<string>("DatabaseName"),
                 ConnectionMode = ConnectionMode.Gateway

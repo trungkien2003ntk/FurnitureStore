@@ -1,20 +1,19 @@
-﻿namespace FurnitureStore.Shared
+﻿namespace FurnitureStore.Shared;
+
+public class StaffDTO
 {
-    public class StaffDTO
-    {
-        [JsonProperty("id")]
-        public string Id { get; set; }
+    [JsonProperty("id")]
+    public string Id { get; set; }
 
-        [JsonProperty("staffId")]
-        public string StaffId { get; set; }
+    [JsonProperty("staffId")]
+    public string StaffId { get; set; }
 
-        [JsonProperty("username")]
-        public string Username { get; set; }
+    [JsonProperty("username")]
+    public string Username { get; set; }
 
-        [JsonProperty("passwordTemp")]
-        public string PasswordTemp { get; set; }
+    [JsonProperty("passwordTemp")]
+    public string PasswordTemp { get; set; }
 
-        [JsonProperty("hashedAndSaltedPassword")]
-        public string HashedAndSaltedPassword { get; set; }
-    }
+    [JsonProperty("hashedAndSaltedPassword")]
+    public string HashedAndSaltedPassword { get; set; }
 }

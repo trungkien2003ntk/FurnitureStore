@@ -1,13 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿namespace FunctionAppChangeFeed.Models;
 
-namespace FunctionAppChangeFeed.Models
+public class ProductOption
 {
-    public class ProductOption
-    {
-        [JsonProperty("name")]
-        public string Name { get; set; }
+    [JsonProperty("name")]
+    public string Name { get; set; }
 
-        [JsonProperty("value")]
-        public string Value { get; set; }
-    }
+    [JsonProperty("value")]
+    public string Value { get; set; }
 }

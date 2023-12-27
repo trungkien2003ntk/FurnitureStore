@@ -1,64 +1,60 @@
-﻿using Newtonsoft.Json;
-using FurnitureStore.Shared;
+﻿namespace FurnitureStore.Server.Models.Documents;
 
-namespace FurnitureStore.Server.Models.Documents
+public class OrderDocument
 {
-    public class OrderDocument
-    {
-        [JsonProperty("id")]
-        public string Id { get; set; }
+    [JsonProperty("id")]
+    public string Id { get; set; }
 
-        [JsonProperty("orderId")]
-        public string OrderId { get; set; }
+    [JsonProperty("orderId")]
+    public string OrderId { get; set; }
 
-        [JsonProperty("orderDate")]
-        public DateTime OrderDate { get; set; }
+    [JsonProperty("orderDate")]
+    public DateTime OrderDate { get; set; }
 
-        [JsonProperty("yearMonth")]
-        public string YearMonth { get; set; }
+    [JsonProperty("yearMonth")]
+    public string YearMonth { get; set; }
 
-        [JsonProperty("customerType")]
-        public string CustomerType { get; set; }
+    [JsonProperty("customerType")]
+    public string CustomerType { get; set; }
 
-        [JsonProperty("items")]
-        public List<OrderItem> Items { get; set; }
+    [JsonProperty("items")]
+    public List<OrderItem> Items { get; set; }
 
-        [JsonProperty("shippingInfo")]
-        public OrderShippingInfo ShippingInfo { get; set; }
+    [JsonProperty("shippingInfo")]
+    public OrderShippingInfo ShippingInfo { get; set; }
 
-        [JsonProperty("totalItems")]
-        public int TotalItems { get; set; }
+    [JsonProperty("totalItems")]
+    public int TotalItems { get; set; }
 
-        [JsonProperty("subtotal")]
-        public int Subtotal { get; set; }
+    [JsonProperty("subtotal")]
+    public int Subtotal { get; set; }
 
-        [JsonProperty("discounts")]
-        public int Discounts { get; set; }
+    [JsonProperty("discounts")]
+    public int Discounts { get; set; }
 
-        [JsonProperty("tax")]
-        public int Tax { get; set; }
+    [JsonProperty("tax")]
+    public int Tax { get; set; }
 
-        [JsonProperty("totalAmount")]
-        public int TotalAmount { get; set; }
+    [JsonProperty("totalAmount")]
+    public int TotalAmount { get; set; }
 
-        [JsonProperty("paymentMethod")]
-        public string PaymentMethod { get; set; }
+    [JsonProperty("paymentMethod")]
+    public string PaymentMethod { get; set; }
 
-        [JsonProperty("status")]
-        public string Status { get; set; }
+    [JsonProperty("status")]
+    public string Status { get; set; }
 
-        [JsonProperty("note")]
-        public string Note { get; set; }
+    [JsonProperty("note")]
+    public string Note { get; set; }
 
-        [JsonProperty("createdAt")]
-        public DateTime CreatedAt { get; set; }
+    [JsonProperty("createdAt")]
+    public DateTime CreatedAt { get; set; }
 
-        [JsonProperty("isDeleted")]
-        public bool IsDeleted { get; set; }
+    [JsonProperty("isDeleted")]
+    public bool IsDeleted { get; set; }
 
-        [JsonProperty("ttl")]
-        public int TTL { get; set; }
-    }
-
-    
+    [JsonProperty("ttl")]
+    public int TTL { get; set; }
 }
+
+
