@@ -1,24 +1,23 @@
-﻿namespace FurnitureStore.Server.Utils
+﻿namespace FurnitureStore.Server.Utils;
+
+public class IdUtils
 {
-    public class IdUtils
+    public static string IncreaseId(string id)
     {
-        public static string IncreaseId(string id)
+        if (!string.IsNullOrEmpty(id))
         {
-            if (!string.IsNullOrEmpty(id))
+            string prefix = id[..4];
+            string numericPart = id[4..];
+
+            if (int.TryParse(numericPart, out int numericValue))
             {
-                string prefix = id[..4];
-                string numericPart = id[4..];
+                numericValue++;
 
-                if (int.TryParse(numericPart, out int numericValue))
-                {
-                    numericValue++;
-
-                    string newId = $"{prefix}{numericValue:D5}";
-                    return newId;
-                }
+                string newId = $"{prefix}{numericValue:D5}";
+                return newId;
             }
-
-            return id;
         }
+
+        return id;
     }
 }

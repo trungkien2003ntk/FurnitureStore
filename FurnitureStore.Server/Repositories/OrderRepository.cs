@@ -1,9 +1,5 @@
-﻿using AutoMapper;
-using Microsoft.Azure.Cosmos;
-using Microsoft.Extensions.Caching.Memory;
+﻿using FurnitureStore.Server.IRepositories;
 using FurnitureStore.Server.Models.Documents;
-using FurnitureStore.Shared;
-using FurnitureStore.Server.Interfaces;
 using FurnitureStore.Server.Utils;
 
 namespace FurnitureStore.Server.Repository
@@ -23,8 +19,8 @@ namespace FurnitureStore.Server.Repository
             var containerName = "orders";
 
             _orderContainer = cosmosClient.GetContainer(databaseName, containerName);
-            this._mapper = mapper;
-            this._memoryCache = memoryCache;
+            _mapper = mapper;
+            _memoryCache = memoryCache;
         }
 
         public async Task AddOrderDocumentAsync(OrderDocument item)

@@ -1,10 +1,7 @@
-using Azure;
-using FurnitureStore.Server.Interfaces;
+using FurnitureStore.Server.IRepositories;
 using FurnitureStore.Server.Repository;
 using FurnitureStore.Server.SeedData;
 using FurnitureStore.Server.Utils;
-using Microsoft.Azure.Cosmos;
-using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,8 +12,6 @@ builder.Services.AddMemoryCache();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 var configuration = builder.Configuration;
-
-// Add services to the container.
 
 // CosmosClient dependency injection
 builder.Services.AddSingleton((provider) =>

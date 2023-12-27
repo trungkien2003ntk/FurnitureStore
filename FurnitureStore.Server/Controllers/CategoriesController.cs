@@ -1,110 +1,104 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using FurnitureStore.Shared;
-using FurnitureStore.Server.Repository;
-using FurnitureStore.Server.Interfaces;
+﻿using FurnitureStore.Server.IRepositories;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+namespace FurnitureStore.Server.Controllers;
 
-namespace FurnitureStore.Server.Controllers
+[Route("api/[controller]")]
+[ApiController]
+public class CategoriesController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class CategoriesController : ControllerBase
+    private readonly ILogger _logger;
+    private readonly ICategoryRepository _categoryRepository;
+
+    public CategoriesController(ILogger<CategoriesController> logger, ICategoryRepository categoryRepository)
     {
-        private readonly ILogger _logger;
-        private readonly ICategoryRepository _categoryRepository;
+        _logger = logger;
+        _categoryRepository = categoryRepository;
+    }
 
-        public CategoriesController(ILogger<CategoriesController> logger, ICategoryRepository categoryRepository)
+    // GET: api/<CategoriesController>
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetCategoriesAsync()
+    {
+        var categories = await _categoryRepository.GetCategoryDTOsAsync();
+
+        if (categories == null || !categories.Any()) 
         {
-            this._logger = logger;
-            this._categoryRepository = categoryRepository;
+            return NotFound();
         }
 
-        // GET: api/<CategoriesController>
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetCategoriesAsync()
+        return Ok(categories);
+    }
+
+    [HttpGet("newId")]
+    public async Task<ActionResult<string>> GetNewCategoryIdAsync()
+    {
+        string newId = await _categoryRepository.GetNewCategoryIdAsync();
+
+        return Ok(newId);
+    }
+
+    // GET api/<CategoriesController>/5
+    [HttpGet("{id}")]
+    public async Task<ActionResult<CategoryDTO>> GetCategoryDTOByIdAsync(string id)
+    {
+        var category = await _categoryRepository.GetCategoryDTOByIdAsync(id);
+
+        if (category == null)
         {
-            var categories = await _categoryRepository.GetCategoryDTOsAsync();
-
-            if (categories == null || !categories.Any()) 
-            {
-                return NotFound();
-            }
-
-            return Ok(categories);
+            return NotFound();
         }
 
-        [HttpGet("newId")]
-        public async Task<ActionResult<string>> GetNewCategoryIdAsync()
-        {
-            string newId = await _categoryRepository.GetNewCategoryIdAsync();
+        return Ok(category);
+    }
 
-            return Ok(newId);
+    // POST api/<CategoriesController>
+    [HttpPost]
+    public async Task<ActionResult> CreateCategoryAsync([FromBody] CategoryDTO categoryDTO)
+    {
+        try
+        {
+            await _categoryRepository.AddCategoryDTOAsync(categoryDTO);
+
+            return Ok("Category created successfully.");
         }
-
-        // GET api/<CategoriesController>/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<CategoryDTO>> GetCategoryDTOByIdAsync(string id)
+        catch (Exception ex)
         {
-            var category = await _categoryRepository.GetCategoryDTOByIdAsync(id);
-
-            if (category == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(category);
+            _logger.LogInformation($"Error message: {ex.Message}");
+            return StatusCode(500, $"An error occurred while creating the category. CategoryId: {categoryDTO.CategoryId}");
         }
+    }
 
-        // POST api/<CategoriesController>
-        [HttpPost]
-        public async Task<ActionResult> CreateCategoryAsync([FromBody] CategoryDTO categoryDTO)
+    // PUT api/<CategoriesController>/5
+    [HttpPut("{id}")]
+    public async Task<ActionResult> UpdateCategoryAsync(string id, [FromBody] CategoryDTO categoryDTO)
+    {
+        try
         {
-            try
-            {
-                await _categoryRepository.AddCategoryDTOAsync(categoryDTO);
+            await _categoryRepository.UpdateCategoryAsync(categoryDTO);
 
-                return Ok("Category created successfully.");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogInformation($"Error message: {ex.Message}");
-                return StatusCode(500, $"An error occurred while creating the category. CategoryId: {categoryDTO.CategoryId}");
-            }
+            return Ok("Category updated successfully.");
         }
-
-        // PUT api/<CategoriesController>/5
-        [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateCategoryAsync(string id, [FromBody] CategoryDTO categoryDTO)
+        catch (Exception ex)
         {
-            try
-            {
-                await _categoryRepository.UpdateCategoryAsync(categoryDTO);
-
-                return Ok("Category updated successfully.");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogInformation($"Error message: {ex.Message}");
-                return StatusCode(500, $"An error occurred while creating the category. CategoryId: {categoryDTO.CategoryId}");
-            }
+            _logger.LogInformation($"Error message: {ex.Message}");
+            return StatusCode(500, $"An error occurred while creating the category. CategoryId: {categoryDTO.CategoryId}");
         }
+    }
 
-        // DELETE api/<CategoriesController>/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteCategoryAsync(string id)
+    // DELETE api/<CategoriesController>/5
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteCategoryAsync(string id)
+    {
+        try
         {
-            try
-            {
-                await _categoryRepository.DeleteCategoryAsync(id);
+            await _categoryRepository.DeleteCategoryAsync(id);
 
-                return Ok("Category updated successfully.");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogInformation($"Error message: {ex.Message}");
-                return StatusCode(500, $"{ex.Message}");
-            }
+            return Ok("Category updated successfully.");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogInformation($"Error message: {ex.Message}");
+            return StatusCode(500, $"{ex.Message}");
         }
     }
 }

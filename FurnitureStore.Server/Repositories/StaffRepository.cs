@@ -1,16 +1,12 @@
-﻿using AutoMapper;
-using Microsoft.Azure.Cosmos;
-using Microsoft.Extensions.Caching.Memory;
+﻿using FurnitureStore.Server.IRepositories;
 using FurnitureStore.Server.Models.Documents;
-using FurnitureStore.Shared;
-using FurnitureStore.Server.Interfaces;
 using FurnitureStore.Server.Utils;
 
 namespace FurnitureStore.Server.Repository
 {
     public class StaffRepository : IStaffRepository
     {
-        private Container _staffContainer;
+        private readonly Container _staffContainer;
         private readonly IMapper _mapper;
         private readonly IMemoryCache _memoryCache;
 
@@ -20,8 +16,8 @@ namespace FurnitureStore.Server.Repository
             var containerName = "staffs";
 
             _staffContainer = cosmosClient.GetContainer(databaseName, containerName);
-            this._mapper = mapper;
-            this._memoryCache = memoryCache;
+            _mapper = mapper;
+            _memoryCache = memoryCache;
         }
 
         public async Task AddStaffDocumentAsync(StaffDocument item)
@@ -38,6 +34,7 @@ namespace FurnitureStore.Server.Repository
 
             await AddStaffDocumentAsync(staffDoc);
         }
+
         public async Task UpdateStaffAsync(StaffDTO staffDTO)
         {
             var staffToUpdate = _mapper.Map<StaffDocument>(staffDTO);
