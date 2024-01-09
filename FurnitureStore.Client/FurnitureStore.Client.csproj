@@ -16,4 +16,8 @@
     <Folder Include="wwwroot\admin-images\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FurnitureStore.Shared\FurnitureStore.Shared.csproj" />
+  </ItemGroup>
+
 </Project>
