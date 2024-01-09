@@ -1,0 +1,168 @@
+@inject NavigationManager Navigation
+
+<div class="modal">
+	<div class="modal__overlay"></div>
+	<div class="modal__body--border modal-body-right">
+		<!-- chứa thành phần riêng  -->
+		<div class="modal-cart">
+			<div class="cart-contain">
+				<div class="cart-header">
+					<a class="cart-btn-close" href="" @onclick="CloseCart">
+						<span class="material-symbols-outlined"> close </span>
+					</a>
+				</div>
+				<div class="cart-contain-header">
+					<div class="cart-contain-header1">
+						<span>Cart</span>
+						<span>$4,497.00 USD</span>
+					</div>
+					<div class="cart-contain-header2">
+						<span><strong>3 item(s)</strong></span>
+					</div>
+				</div>
+				<ul class="cart-list-product">
+					<li class="cart-product-item">
+						<div class="cart-product-img">
+							<img class="cart-product-img-link"
+								 src="https://rhomeco.com/cdn/shop/files/1b00cd78ab42310fd6dd707da6de8512.jpg?v=1691011947&width=200"
+								 alt="" />
+						</div>
+						<div class="cart-product-detail1">
+							<div class="cart-product-name"> Bauer Chair - Leather </div>
+							<div class="cart-product-color"> Blue Sky </div>
+							<div class="cart-product-updown">
+								<button class="cart-product-updown-link">-</button>
+								<input class="cart-product-quantity"
+									   type="text"
+									   placeholder="1" />
+								<button class="cart-product-updown-link">+</button>
+							</div>
+						</div>
+						<div class="cart-product-detail2">
+							<div class="cart-product-price"> $1,999.00 </div>
+							<div class="cart-header">
+								<a class="cart-btn-delete" href="">
+									<span class="material-symbols-outlined cart-btn-delete-icon">
+										close
+									</span>
+								</a>
+							</div>
+						</div>
+					</li>
+					<li class="cart-product-item">
+						<div class="cart-product-img">
+							<img class="cart-product-img-link"
+								 src="https://rhomeco.com/cdn/shop/files/1b00cd78ab42310fd6dd707da6de8512.jpg?v=1691011947&width=200"
+								 alt="" />
+						</div>
+						<div class="cart-product-detail">
+							<div class="cart-product-name"> Bauer Chair - Leather </div>
+							<div class="cart-product-color"> Blue Sky </div>
+							<div class="cart-product-updown">
+								<button class="cart-product-updown-link">-</button>
+								<input class="cart-product-quantity"
+									   type="text"
+									   placeholder="1" />
+								<button class="cart-product-updown-link">+</button>
+							</div>
+						</div>
+						<div class="cart-product-detail2">
+							<div class="cart-product-price"> $1,999.00 </div>
+							<div class="cart-header">
+								<a class="cart-btn-delete" href="">
+									<span class="material-symbols-outlined cart-btn-delete-icon">
+										close
+									</span>
+								</a>
+							</div>
+						</div>
+					</li>
+					<li class="cart-product-item">
+						<div class="cart-product-img">
+							<img class="cart-product-img-link"
+								 src="https://rhomeco.com/cdn/shop/files/ad0945527ea38caa6d3a9c7f9c1cbf40.jpg?v=1697736626&width=200"
+								 alt="" />
+						</div>
+						<div class="cart-product-detail">
+							<div class="cart-product-name"> Bauer Chair - Leather </div>
+							<div class="cart-product-color"> Blue Sky </div>
+							<div class="cart-product-updown">
+								<button class="cart-product-updown-link">-</button>
+								<input class="cart-product-quantity"
+									   type="text"
+									   placeholder="1" />
+								<button class="cart-product-updown-link">+</button>
+							</div>
+						</div>
+						<div class="cart-product-detail2">
+							<div class="cart-product-price"> $1,999.00 </div>
+							<div class="cart-header">
+								<a class="cart-btn-delete" href="">
+									<span class="material-symbols-outlined cart-btn-delete-icon">
+										close
+									</span>
+								</a>
+							</div>
+						</div>
+					</li>
+					<li class="cart-product-item">
+						<div class="cart-product-img">
+							<img class="cart-product-img-link"
+								 src="https://rhomeco.com/cdn/shop/files/54fa5e01960e745ad15034dccf4e7a9e.jpg?v=1691005200&width=1200"
+								 alt="" />
+						</div>
+						<div class="cart-product-detail">
+							<div class="cart-product-name"> Bauer Chair - Leather </div>
+							<div class="cart-product-color"> Blue Sky </div>
+							<div class="cart-product-updown">
+								<button class="cart-product-updown-link">-</button>
+								<input class="cart-product-quantity"
+									   type="text"
+									   placeholder="1" />
+								<button class="cart-product-updown-link">+</button>
+							</div>
+						</div>
+						<div class="cart-product-detail2">
+							<div class="cart-product-price"> $1,999.00 </div>
+							<div class="cart-header">
+								<a class="cart-btn-delete" href="">
+									<span class="material-symbols-outlined cart-btn-delete-icon">
+										close
+									</span>
+								</a>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="cart-footer">
+				<div class="cart-footer-head">
+					<div class="cart-total">Total</div>
+					<div class="cart-btn-checkout">$12,493.00</div>
+				</div>
+				<div class="cart-footer-top">
+					<a class="app-btn app-btn-S" href="">View Cart</a>
+					<a class="app-btn app-btn-S" href="" @onclick="CheckOut">Check Out</a>
+					<strong>OR</strong>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+@code {
+	[Parameter]
+	public EventCallback<(bool, string)> ShowCartChanged { get; set; }
+	private async Task CloseCart()
+	{
+		await ShowCartChanged.InvokeAsync((false, ""));
+	}
+	// thanh toán
+	private async Task CheckOut()
+	{
+		await ShowCartChanged.InvokeAsync((false,"checkout"));
+	}
+
+
+	
+}

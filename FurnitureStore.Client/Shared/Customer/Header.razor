@@ -1,0 +1,115 @@
+@using FurnitureStore.Client.Shared.Customer
+@inject NavigationManager navManager
+
+
+<header class="">
+	<nav class="navbar navbar-expand-lg grid">
+		<div class="container">
+			<button class="navbar-brand" href="" @onclick="navigateHome"><h2>Sixteen <em>Furnishings</em></h2></button>
+			<!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+			  <span class="navbar-toggler-icon"></span>
+			</button> -->
+			<form class="nav-form" action="">
+				<input class="header-search-text" type="search" placeholder="Search">
+				<button class="header-search-btn">
+					<span class="material-symbols-outlined">
+						search
+					</span>
+				</button>
+			</form>
+			<div class="nav-item-container">
+				<div @onclick="ShowCart">
+					<img class="nav-item-pointer" src="https://hasaki.vn/images/graphics/icon_header_1.svg" alt="">
+				</div>
+			</div>
+
+		</div>
+		<div class="collapse navbar-collapse" id="navbarResponsive">
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item active">
+					<a class="nav-link" href="index.html">
+						Home
+						<span class="sr-only">(current)</span>
+					</a>
+
+				</li>
+
+				<li class="nav-item">
+					<a class="nav-link" href="products.html">
+						Furniture
+						<span class="material-symbols-outlined nav-link-icon-down">
+							expand_more
+						</span>
+					</a>
+
+
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="products.html">
+						Lighting
+						<span class="material-symbols-outlined nav-link-icon-down">
+							expand_more
+						</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="products.html">
+						Home Decor & Accessories
+						<span class="material-symbols-outlined nav-link-icon-down">
+							expand_more
+						</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="products.html">
+						Art & Mirrors
+						<span class="material-symbols-outlined nav-link-icon-down">
+							expand_more
+						</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="products.html">
+						Outdoor Furniture
+						<span class="material-symbols-outlined nav-link-icon-down">
+							expand_more
+						</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/aboutUs">About Us</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="contact.html">Contact Us</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	@if (showCart)
+	{
+		<Cart ShowCartChanged="@((args)=> UpdateShowCart(args.Item1,args.Item2))" />
+
+	}
+</header>
+
+@code {
+	private void UpdateShowCart(bool newShowCartValue, string navigatePage)
+	{
+			showCart = newShowCartValue;
+			if (navigatePage == "checkout")
+			navManager.NavigateTo("/checkout", forceLoad: false);
+
+
+	}
+	bool showCart = false;
+	private void ShowCart()
+	{
+		showCart = true;
+	}
+	private void navigateHome()
+	{
+		navManager.NavigateTo("/", forceLoad: false);
+	}
+
+
+}

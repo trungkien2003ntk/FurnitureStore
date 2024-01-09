@@ -1,0 +1,63 @@
+.body-banner img {
+    width: 100%;
+    object-fit: cover;
+    height: 400px;
+}
+
+.icon {
+    position: relative;
+}
+
+    .icon span {
+        font-size: 38px;
+    }
+
+    .icon::before {
+        content: "";
+        width: 33px;
+        height: 33px;
+        position: absolute;
+        background: rgba(59, 93, 80, 0.2);
+        border-radius: 50%;
+        left: 20px;
+        top: 10px;
+    }
+
+.img-wrap {
+    border-radius: 20px;
+    padding: 80px 0;
+}
+
+.our-team-name {
+    text-decoration: underline;
+    font-weight: 400;
+}
+
+.our-team-learn-more {
+    all: unset;
+    text-decoration: underline !important;
+    font-weight: 600;
+}
+
+.d-block {
+    margin-bottom: 0 !important;
+    padding-top: 10px;
+}
+
+.our-team-descrip {
+    padding: 20px 0;
+}
+
+.our-team-title {
+    padding-bottom: 48px;
+    padding-top: 80px;
+    text-align: center;
+}
+
+
+.grid {
+    margin: 0 auto;
+}
+.row {
+    margin-bottom: 100px;
+}

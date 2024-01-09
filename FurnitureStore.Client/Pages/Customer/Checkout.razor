@@ -1,0 +1,228 @@
+@page "/checkout"
+@using FurnitureStore.Client.Shared.Customer
+@inject HttpClient Http
+@inject IJSRuntime JavaScript
+
+
+<PageTitle>Home</PageTitle>
+    <div class="checkout-container">
+    <div class="checkout-header">
+        <a class="checkout-logo" href="index.html"><h2>SIXTEEN <em>FURNISHINGS</em></h2></a>
+    </div>
+    <div class="checkout-body grid">
+      
+        <div class="checkout-body__item checkout-body__item1">
+          <div class="checkout-body__item1-container">
+          <div class="checkout-contact">
+            <h2>Contact</h2>
+            <div class="checkout-block">
+          
+              <div class="checkout-name__title">Email or mobile phone number</div>
+              <input  class="checkout-name__value" type="email">
+          
+            </div>
+          </div>
+          <h2>Delivery</h2>
+          <div class="checkout-block checkout-name">
+          
+              <div class="checkout-name__title">Full name</div>
+              <input class="checkout-name__value" type="text">
+          
+          </div>
+          <div class="checkout-block checkout-phone">
+          
+            <div class="checkout-name__title">Phone</div>
+            <input class="checkout-name__value" type="text">
+        
+          </div>
+          <div class="checkout-block checkout-province">
+          
+            <div class="checkout-name__title">Select Province</div>
+					<select class="checkout-name__value"
+							name="area"
+							id="city-select"
+							@onchange="onChangeSelectCity"
+							required >
+            <option value="-1">--- Select Province ---</option>
+           
+            </select>
+          </div>
+          <div class="checkout-block checkout-district">
+          
+            <div class="checkout-name__title">Select District</div>
+					<select class="checkout-name__value" name="area" id="district-select"
+						@onchange="onChangeSelectDistrict" required>
+					</select>
+          </div>
+          <div class="checkout-block checkout-ward">
+          
+            <div class="checkout-name__title">Select Ward</div>
+            <select			class="checkout-name__value"
+							name="area"
+							id="ward-select"
+							required>
+          
+            </select>
+          </div>
+          <div class="checkout-block checkout-detailed-address">
+          
+            <div class="checkout-name__title">Detail address</div>
+            <input class="checkout-name__value" type="text">
+        
+          </div>
+          <div class="checkout-block checkout-note">
+          
+            <div class="checkout-name__title">Note (option)</div>
+            <span><textarea class=""  name="" id="" cols="30" rows="10" placeholder="Notes about the order, for example, time or more detailed delivery location instructions."></textarea></span>
+        
+          </div>
+          <h2>Payment</h2>
+          <div class="checkout-block checkout-payment-method">
+            <div class="payment-method-container">
+            <input class="" type="radio" name="payment-method">
+            <label for="option1">Cash on Delivery</label>
+          </div>
+            <span class="material-symbols-outlined payment-icon">
+              payments
+              </span>
+          </div>
+          <div class="checkout-block checkout-payment-method">
+            <div class="payment-method-container">
+            <input class="" type="radio" name="payment-method">
+            <label for="option1">Bank Transfer</label>
+            </div>
+            <span class="material-symbols-outlined payment-icon">
+              account_balance
+            </span>
+          </div>
+          <script> 
+            const parentDivs = document.querySelectorAll('.checkout-payment-method');
+
+                    parentDivs.forEach(parentDiv => {
+                      parentDiv.addEventListener('click', () => {
+                        const radioInput = parentDiv.querySelector('input[type="radio"]');
+                        radioInput.checked = true;
+                      });
+                    });
+          </script>
+          <a class="app-btn" href="">Pay now</a>
+        </div>
+        </div>
+      
+        <div class="checkout-body__item checkout-body__item2">
+            <div class='order-info'>
+                <div class='order-info-content'>
+                  <h2>Order Summary</h2>
+                          <div class='line'></div>
+                  <table class='order-table'>
+                    <tbody>
+                      <tr>
+                        <td><img src='https://dl.dropboxusercontent.com/s/sim84r2xfedj99n/%24_32.JPG' class='full-width'>
+                        </td>
+                        <td>
+                          <br> <span class='thin'>Nike</span>
+                          <br> Free Run 3.0 Women<br> <span class='thin small'> Color: Grey/Orange, Size: 10.5<br><br></span>
+                        </td>
+          
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class='price'>$99.95</div>
+                        </td>
+                      </tr>
+                    </tbody>
+          
+                  </table>
+                  <div class='line'></div>
+                  <table class='order-table'>
+                    <tbody>
+                      <tr>
+                        <td><img src='https://dl.dropboxusercontent.com/s/qbj9tsbvthqq72c/Vintage-20L-Backpack-by-Fj%C3%A4llr%C3%A4ven.jpg' class='full-width'>
+                        </td>
+                        <td>
+                          <br> <span class='thin'>Fjällräven</span>
+                          <br>Vintage Backpack<br> <span class='thin small'> Color: Olive, Size: 20L</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class='price'>$235.95</div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class='line'></div>
+                  <table class='order-table'>
+                    <tbody>
+                      <tr>
+                        <td><img src='https://dl.dropboxusercontent.com/s/nbr4koso8dpoggs/6136C1p5FjL._SL1500_.jpg' class='full-width'>
+                        </td>
+                        <td>
+                          <br> <span class='thin'>Monobento</span>
+                          <br>Double Lunchbox<br> <span class='thin small'> Color: Pink, Size: Medium</span>
+                        </td>
+          
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class='price'>$25.95</div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class='line'></div>
+                  <div class='total'>
+                    <span style='float:left;'>
+                      <div class='thin dense'>VAT 19%</div>
+                      <div class='thin dense'>Delivery</div>
+                      TOTAL
+                    </span>
+                    <span style='float:right; text-align:right;'>
+                      <div class='thin dense'>$68.75</div>
+                      <div class='thin dense'>$4.95</div>
+                      $435.55
+                    </span>
+                  </div>
+          </div>
+          </div>
+        </div>
+       
+    </div>
+</div>
+@code
+{
+	protected override async Task OnInitializedAsync()
+	{
+		await getProvinceList();
+	}
+	#region use JS Interop to get address from web API
+	private async Task getProvinceList()
+	{
+		await JavaScript.InvokeVoidAsync("getProvinceListAJAX");
+	}
+	private async Task getDistrictListByProvinceCode(int code)
+	{
+		await JavaScript.InvokeAsync<int> ("getDistrictListByProvinceCodeAJAX", code);
+	}
+	private async Task getWardListByDistrictCode(int code)
+	{
+		await JavaScript.InvokeAsync<int>("getWardListByDistrictCodeAJAX", code);
+	}
+	#endregion
+	#region handle onchange for select tag address
+	private async Task onChangeSelectCity(ChangeEventArgs e) 
+	{
+	
+			await getDistrictListByProvinceCode(int.Parse(e.Value.ToString()));
+		
+	}
+	private async Task 	onChangeSelectDistrict(ChangeEventArgs e)
+	{
+
+		await getWardListByDistrictCode(int.Parse(e.Value.ToString()));
+
+	}
+	#endregion
+
+
+}

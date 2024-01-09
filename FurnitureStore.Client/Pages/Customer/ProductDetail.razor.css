@@ -1,0 +1,141 @@
+.related-list-titile {
+    text-align: center;
+}
+
+.detail-product {
+    margin: 20px 0;
+}
+
+.detail-product_contain {
+    display: flex;
+    gap: 30px;
+}
+
+.detail-img-section {
+    flex: 1;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 1.9fr 9fr;
+}
+
+.list-product-item img {
+    height: 100%;
+    width: 100%;
+}
+
+.display-img {
+    position: relative;
+}
+
+.display-img-main {
+    height: 100%;
+    width: 100%;
+}
+
+.detail-descript-section {
+    flex: 1;
+}
+
+.container-btn {
+    display: flex;
+}
+
+.app-btn {
+    margin: 10px 0;
+    display: inline-block;
+    width: 40%;
+}
+
+.app-btn--payment {
+    background-color: #5a31f4;
+}
+
+.description-header {
+    width: 100%;
+    border: initial;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    border-top: solid 0.5px rgba(0, 0, 0, 0.2);
+    border-bottom: solid 0.5px rgba(0, 0, 0, 0.2);
+    padding: 20px 10px;
+}
+
+.detail-product-description-text {
+    padding: 20px 10px;
+}
+
+    .detail-product-description-text p {
+        font-size: var(--font-size);
+    }
+
+h3 {
+    font-size: var(--h1-size);
+    font-weight: 300;
+}
+
+.detail-descript-block {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.round-button span {
+    font-size: 15px;
+    margin-left: 5px;
+}
+
+.round-button--left {
+    position: absolute;
+    top: 12px;
+    left: 10px;
+    line-height: 42px;
+}
+
+.round-button--right {
+    position: absolute;
+    top: 12px;
+    left: 61px;
+    line-height: 42px;
+}
+
+.path {
+    font-weight: 200;
+    padding: 20px 0;
+}
+
+    .path a {
+        color: black;
+    }
+
+.path__current {
+    font-weight: 300;
+}
+.cart-product-updown {
+    display: flex;
+    width: 97px;
+    justify-content: center;
+    margin-top: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+.cart-product-updown-link {
+    padding: 5px;
+    background: none;
+    border: none;
+}
+
+.cart-product-quantity {
+    border: none;
+    width: 28px;
+}
+.text-center {
+    display: flex !important;
+    flex-wrap: wrap;
+}
+.col-lg-3 {
+    width: 25% !important;
+    flex-basis: 25%;
+}
+.card {
+    height: 100%;
+}

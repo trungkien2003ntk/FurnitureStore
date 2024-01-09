@@ -1,0 +1,109 @@
+/* header */
+
+.nav-item-align {
+    display: flex;
+}
+
+.nav-link-black {
+    font-size: 16px;
+    font-weight: 400;
+    margin-left: 10px;
+    text-decoration: none;
+    color: white;
+}
+
+    .nav-link-black:hover {
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+.nav-item-container {
+    display: flex;
+    gap: 50px;
+    cursor: pointer;
+}
+
+.header-auth-notlogin {
+    display: flex;
+    align-items: center;
+}
+
+.nav-link-line {
+    background-color: white;
+    height: 23px;
+    width: 1px;
+    margin-left: 10px;
+}
+
+.container {
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0;
+    max-width: 103vw;
+}
+
+.navbar {
+    height: 210px !important;
+    padding-bottom: 0px !important;
+}
+
+.header-search-text {
+    width: 740px;
+    height: 50px;
+    background-color: #232323;
+    border: 0.4px solid white;
+    padding: 0 15px;
+    color: white;
+    outline: none;
+    margin-left: -126px;
+}
+
+    .header-search-text:focus {
+        border: 0.4px dashed white;
+    }
+
+.header-search-btn {
+    width: 50px;
+    max-width: initial;
+    height: 50px;
+    line-height: initial;
+    padding: 0 12px;
+    position: absolute;
+    right: 0;
+    top: 0px;
+    font-size: 15px;
+    line-height: 1;
+    background: transparent !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.nav-form {
+    position: relative;
+}
+
+.nav-link {
+    font-size: 17px !important;
+    position: relative;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+}
+
+.nav-link-icon-down {
+    color: white;
+    position: absolute;
+    top: 13px;
+    font-size: 19px;
+}
+.navbar[b-7wrk8wm0t6] {
+    height: auto !important;
+}
+.navbar-brand {
+    all: unset;
+    cursor: pointer;
+}

@@ -1,0 +1,127 @@
+.modal {
+    z-index: 1000 !important;
+    display: flex !important;
+
+}
+
+.modal-cart {
+    background-color: white;
+    height: 100vh;
+    width: 30vw;
+    z-index: 200;
+    margin-left: auto;
+    position: relative;
+}
+
+.modal__body--border.modal-body-right {
+    margin-left: auto !important;
+    z-index: 1;
+}
+
+.cart-product-item {
+    padding: 20px 10px;
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.cart-list-product {
+    font-weight: 300;
+    font-size: 16px;
+    overflow: auto;
+    height: 401px;
+}
+
+.cart-product-color {
+    font-size: 14px;
+}
+
+.cart-contain-header {
+    padding: 20px 10px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+}
+
+.cart-contain-header1 {
+    display: flex;
+    gap: 10px;
+    font-weight: 300;
+}
+
+.cart-btn-close {
+    color: black;
+    font-size: 20px;
+}
+
+.cart-header {
+    text-align: end;
+    padding-top: 10px;
+    padding-right: 13px;
+}
+
+.cart-product-updown {
+    display: flex;
+    width: 97px;
+    justify-content: center;
+    margin-top: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.cart-product-quantity {
+    width: 40px;
+    text-align: center;
+}
+
+.cart-product-img-link {
+    width: 80px;
+}
+
+.cart-product-updown-link {
+    padding: 5px;
+    background: none;
+    border: none;
+}
+
+.cart-product-quantity {
+    border: none;
+    width: 28px;
+}
+
+.cart-footer {
+    z-index: 1000;
+    font-weight: 300;
+    font-size: 18px;
+    position: absolute;
+    bottom: 17px;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.cart-footer-head {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cart-footer-top {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.cart-product-detail2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.cart-btn-delete-icon {
+    font-size: 21px;
+}
+
+.cart-btn-delete {
+    color: black;
+}

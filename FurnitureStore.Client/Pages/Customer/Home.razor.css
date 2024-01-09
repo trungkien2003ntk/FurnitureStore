@@ -1,0 +1,50 @@
+/* body */
+.body-contain {
+    margin-bottom: 100px;
+}
+/* product */
+.section-heading {
+    margin-top: 50px;
+    margin-bottom: 0;
+}
+
+.col-lg-3 {
+    width: 25% !important;
+    flex-basis: 25%;
+}
+
+.card {
+    height: 100%;
+}
+
+.text-center {
+    display: flex !important;
+    flex-wrap: wrap;
+}
+/* category */
+.body-cate {
+    display: flex;
+    margin-top: 100px;
+    height: 550px !important;
+}
+
+.card-body--center {
+    position: absolute;
+    right: 113px;
+    top: 235px;
+}
+
+.card--center {
+    position: relative;
+}
+
+.card-title1 {
+    font-size: 25px;
+    color: white;
+    font-weight: 300;
+}
+
+.card-body-contain {
+    margin-top: 30px;
+    margin-left: 30px;
+}

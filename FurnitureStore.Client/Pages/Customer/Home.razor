@@ -1,0 +1,204 @@
+@page "/"
+@using FurnitureStore.Client.Services.Customer
+@using FurnitureStore.Client.Shared.Customer
+@using FurnitureStore.Shared
+@inject ProductService ProductServiceDI
+
+<PageTitle>Home</PageTitle>
+
+
+	<div class="body-contain">
+				<!-- Banner Starts Here -->
+				<div class="banner header-text">
+		<div class="owl-banner owl-carousel">
+			<div class="banner-item-01">
+				<div class="text-content">
+					<h4>Best Offer</h4>
+					<h2>New Arrivals On Sale</h2>
+				</div>
+			</div>
+			<div class="banner-item-02">
+				<div class="text-content">
+					<h4>Flash Deals</h4>
+					<h2>Get your best products</h2>
+				</div>
+			</div>
+			<div class="banner-item-03">
+				<div class="text-content">
+					<h4>Last Minute</h4>
+					<h2>Grab last minute deals</h2>
+				</div>
+			</div>
+		</div>
+	</div>
+				<!-- Banner Ends Here -->
+				<!-- Lastest Products -->
+				<div class="latest-products grid">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="section-heading">
+									<h2>Latest Products</h2>
+									<a href="products.html"
+										>view all products <i class="fa fa-angle-right"></i
+									></a>
+								</div>
+							</div>
+							<section>
+								<div class="text-center">
+									<!-- Product -->
+							@if (latestProducts != null)
+							{
+								@foreach (var productItem in latestProducts)
+								{
+									<div class="col-lg-3 col-md-6 mb-4">
+									<div class="card">
+											<div
+												class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
+												data-mdb-ripple-color="light"
+											>
+												<img
+													src="https://rhomeco.com/cdn/shop/files/0cf32a9c7df69043bbca9de2ff92c1a6.jpg?v=1691011197&width=1200"
+													class="w-100"
+												/>
+												<a href="#!">
+													<div class="mask">
+														<div
+															class="d-flex justify-content-start align-items-end h-100"
+														>
+															<h5><span class="badge bg-dark ms-2">NEW</span>
+																</h5>
+														</div>
+													</div>
+													<div class="hover-overlay">
+														<div
+															class="mask"
+															style="
+																background-color: rgba(251, 251, 251, 0.15);
+															"
+														></div>
+													</div>
+												</a>
+											</div>
+											<div class="card-body">
+												<a href="" class="text-reset">
+												<h5 class="card-title mb-2"> @productItem.Name</h5>
+												</a>
+												
+											<h6 class="mb-3 price">$@productItem.RegularPrice</h6>
+											</div>
+										</div>
+									</div>
+								}
+							}
+							
+								</div>
+							</section>
+						</div>
+					</div>
+				</div>
+				<!-- Lastest Products Ends Here -->
+				<!-- category -->
+				<div class="body-cate grid">
+					<div class="col-lg-4 col-md-6 mb-4">
+						<div class="card">
+							<div
+								class="bg-image hover-zoom ripple card--center"
+								data-mdb-ripple-color="light"
+							>
+								<img
+									src="https://rhomeco.com/cdn/shop/files/dinin-room-furniture-gray-wood-table-brown-whicker-chairs-white-seat.jpg?v=1686879952&width=600"
+									class="w-100"
+								/>
+								<a href="#!">
+									<div class="hover-overlay">
+										<div
+											class="mask"
+											style="background-color: rgba(251, 251, 251, 0.15)"
+										></div>
+									</div>
+								</a>
+							</div>
+							<div class="card-body card-body--center">
+								<a href="" class="text-reset">
+									<h5 class="card-title1 mb-2">DINING ROOM</h5>
+								</a>
+								<div class="card-body-contain">
+									<a class="app-btn" href="">Shop Now</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-6 mb-4">
+						<div class="card">
+							<div
+								class="bg-image hover-zoom ripple card--center"
+								data-mdb-ripple-color="light"
+							>
+								<img
+									src="https://rhomeco.com/cdn/shop/files/Accent-chair-wood-light-fabric.jpg?v=1686879476&width=600"
+									class="w-100"
+								/>
+								<a href="#!">
+									<div class="hover-overlay">
+										<div
+											class="mask"
+											style="background-color: rgba(251, 251, 251, 0.15)"
+										></div>
+									</div>
+								</a>
+							</div>
+							<div class="card-body card-body--center">
+								<a href="" class="text-reset">
+									<h5 class="card-title1 mb-2">ACCENT CHAIRS</h5>
+								</a>
+								<div class="card-body-contain">
+									<a class="app-btn" href="">Shop Now</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-6 mb-4">
+						<div class="card">
+							<div
+								class="bg-image hover-zoom ripple card--center"
+								data-mdb-ripple-color="light"
+							>
+								<img
+									src="https://rhomeco.com/cdn/shop/files/Living-room-furniture-gray-sectional-white-round-coffee-table-columbia-mo.jpg?v=1686921162&width=600"
+									class="w-100"
+								/>
+								<a href="#!">
+									<div class="hover-overlay">
+										<div
+											class="mask"
+											style="background-color: rgba(251, 251, 251, 0.15)"
+										></div>
+									</div>
+								</a>
+							</div>
+							<div class="card-body card-body--center">
+								<a href="" class="text-reset">
+									<h5 class="card-title1 mb-2">LIVING ROOM</h5>
+								</a>
+								<div class="card-body-contain">
+									<a class="app-btn" href="">Shop Now</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- category Ends Here -->
+
+	</div>
+
+@code
+{
+	private ProductDTO[]? latestProducts;
+
+	protected override async Task OnInitializedAsync()
+	{
+		latestProducts = await ProductServiceDI.GetLatestProducts();
+	}
+}
+
