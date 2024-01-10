@@ -124,5 +124,30 @@ namespace FurnitureStore.Server.Repository
 
             return staff;
         }
+
+        public async Task<StaffDocument?> GetStaffByUsernameAndPassword(string username, string password)
+        {
+            var queryDef = new QueryDefinition(
+                query:
+                    "SELECT * " +
+                    "FROM staffs s " +
+                    "WHERE s.username = @username " +
+                    "AND s.password = @password"
+            ).WithParameter("@username", username)
+            .WithParameter("@password", password);
+
+            var staff = await CosmosDbUtils.GetDocumentByQueryDefinition<StaffDocument>(_staffContainer, queryDef);
+
+            return staff;
+        }
+
+        public async Task<StaffDTO> LoginStaff(string username, string password)
+        {
+            var staffDoc = await GetStaffByUsernameAndPassword(username, password);
+
+            var staffDTO = _mapper.Map<StaffDTO>(staffDoc);
+
+            return staffDTO;
+        }
     }
 }

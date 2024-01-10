@@ -11,9 +11,6 @@ public class StaffDocument
     [JsonProperty("username")]
     public string Username { get; set; }
 
-    [JsonProperty("passwordTemp")]
-    public string PasswordTemp { get; set; }
-
-    [JsonProperty("hashedAndSaltedPassword")]
-    public string HashedAndSaltedPassword { get; set; }
+    [JsonProperty("password")]
+    public string Password { get; set; }
 }

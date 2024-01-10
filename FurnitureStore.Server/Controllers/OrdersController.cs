@@ -4,18 +4,11 @@ namespace FurnitureStore.Server.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class OrdersController : ControllerBase
+public class OrdersController(IOrderRepository orderRepository, ILogger<OrdersController> logger) : ControllerBase
 {
-    private readonly IOrderRepository _orderRepository;
-    private readonly ILogger<OrdersController> _logger;
+    private readonly IOrderRepository _orderRepository = orderRepository;
+    private readonly ILogger<OrdersController> _logger = logger;
 
-    public OrdersController(IOrderRepository orderRepository, ILogger<OrdersController> logger)
-    {
-        _orderRepository = orderRepository;
-        _logger = logger;
-    }
-
-    // GET: api/<OrdersController>
     [HttpGet]
     public async Task<ActionResult<IEnumerable<OrderDTO>>> GetOrderDTOsAsync()
     {
@@ -37,7 +30,6 @@ public class OrdersController : ControllerBase
         return Ok(newId);
     }
 
-    // GET api/<OrdersController>/5
     [HttpGet("{id}")]
     public async Task<ActionResult<OrderDTO>> GetOrderDTOByIdAsync(string id)
     {
@@ -51,7 +43,6 @@ public class OrdersController : ControllerBase
         return Ok(order);
     }
 
-    // POST api/<OrdersController>
     [HttpPost]
     public async Task<ActionResult> CreateOrderAsync([FromBody] OrderDTO orderDTO)
     {
@@ -68,9 +59,8 @@ public class OrdersController : ControllerBase
         }
     }
 
-    // PUT api/<OrdersController>/5
-    [HttpPut("{id}")]
-    public async Task<ActionResult> UpdateOrderAsync(string id, [FromBody] OrderDTO orderDTO)
+    [HttpPut]
+    public async Task<ActionResult> UpdateOrderAsync([FromBody] OrderDTO orderDTO)
     {
         try
         {
@@ -85,7 +75,6 @@ public class OrdersController : ControllerBase
         }
     }
 
-    // DELETE api/<OrdersController>/5
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteOrderAsync(string id)
     {

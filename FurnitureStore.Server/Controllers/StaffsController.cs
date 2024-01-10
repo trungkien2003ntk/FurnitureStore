@@ -51,7 +51,19 @@ public class StaffsController : ControllerBase
         return Ok(staff);
     }
 
-    // POST api/<StaffsController>
+    [HttpGet("{username}/{password}")]
+    public async Task<ActionResult<StaffDTO>> LoginStaff(string username, string password)
+    {
+        var staff = await _staffRepository.LoginStaff(username, password);
+
+        if (staff == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(staff);
+    }
+
     [HttpPost]
     public async Task<ActionResult> CreateStaffAsync([FromBody] StaffDTO staffDTO)
     {
