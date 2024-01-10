@@ -1,5 +1,5 @@
-﻿using FurnitureStore.Server.IRepositories;
-using FurnitureStore.Server.Models.Documents;
+﻿using FurnitureStore.Server.Models.Documents;
+using FurnitureStore.Server.Repositories.Interfaces;
 
 namespace FurnitureStore.Server.SeedData;
 
@@ -9,13 +9,22 @@ public class DataSeeder
     private readonly string _ordersFilePath = "./SeedData/SampleData/orders.json";
     private readonly string _categoriesFilePath = "./SeedData/SampleData/categories.json";
     private readonly string _staffsFilePath = "./SeedData/SampleData/staffs.json";
+    private readonly string _variationsFilePath = "./SeedData/SampleData/variations.json";
+
     private readonly IProductRepository _productRepository;
     private readonly ICategoryRepository _categoryRepository;
     private readonly IStaffRepository _staffRepository;
     private readonly IOrderRepository _orderRepository;
     private readonly ILogger _logger;
 
+    private readonly Container _productContainer;
+    private readonly Container _orderContainer;
+    private readonly Container _categoryContainer;
+    private readonly Container _staffContainer;
+    private readonly Container _variationContainer;
+
     public DataSeeder(
+        CosmosClient cosmosClient,
         IProductRepository productRepository,
         ICategoryRepository categoryRepository,
         IStaffRepository staffRepository,
@@ -27,6 +36,14 @@ public class DataSeeder
         _staffRepository = staffRepository;
         _orderRepository = orderRepository;
         _logger = logger;
+
+
+        var databaseName = cosmosClient.ClientOptions.ApplicationName;
+        _productContainer = cosmosClient.GetContainer(databaseName, "products");
+        _orderContainer = cosmosClient.GetContainer(databaseName, "orders");
+        _categoryContainer = cosmosClient.GetContainer(databaseName, "categories");
+        _staffContainer = cosmosClient.GetContainer(databaseName, "staffs");
+        _variationContainer = cosmosClient.GetContainer(databaseName, "variations");
     }
 
     public async Task SeedDataAsync()
@@ -35,6 +52,7 @@ public class DataSeeder
         var ordersJsonData = File.ReadAllText(_ordersFilePath);
         var categoriesJsonData = File.ReadAllText(_categoriesFilePath);
         var staffsJsonData = File.ReadAllText(_staffsFilePath);
+        var variationsJsonData = File.ReadAllText(_variationsFilePath);
 
 
         // Seed products
@@ -44,7 +62,13 @@ public class DataSeeder
         {
             foreach (var item in productsItems)
             {
-                await _productRepository.AddProductDocumentAsync(item);
+                item.CreatedAt ??= DateTime.UtcNow;
+                item.ModifiedAt ??= item.CreatedAt;
+
+                 await _productContainer.UpsertItemAsync(
+                     item: item,
+                     partitionKey: new PartitionKey(item.Sku)
+                 );
             }
 
             _logger.LogInformation("Populated product data");
@@ -57,7 +81,13 @@ public class DataSeeder
         {
             foreach (var item in ordersItems)
             {
-                await _orderRepository.AddOrderDocumentAsync(item);
+                item.CreatedAt = DateTime.UtcNow;
+                item.ModifiedAt = item.CreatedAt;
+
+                await _orderContainer.UpsertItemAsync(
+                    item: item,
+                    partitionKey: new PartitionKey(item.YearMonth)
+                );
             }
 
             _logger.LogInformation("Populated order data");
@@ -70,7 +100,13 @@ public class DataSeeder
         {
             foreach (var item in categoriesItems)
             {
-                await _categoryRepository.AddCategoryDocumentAsync(item);
+                item.CreatedAt ??= DateTime.UtcNow;
+                item.ModifiedAt ??= item.CreatedAt;
+
+                await _categoryContainer.UpsertItemAsync(
+                    item: item,
+                    partitionKey: new PartitionKey(item.ParentPath)
+                );
             }
 
             _logger.LogInformation("Populated category data");
@@ -83,10 +119,35 @@ public class DataSeeder
         {
             foreach (var item in staffsItems)
             {
-                await _staffRepository.AddStaffDocumentAsync(item);
+                item.CreatedAt = DateTime.UtcNow;
+                item.ModifiedAt = item.CreatedAt;
+                
+                await _staffContainer.UpsertItemAsync(
+                    item: item,
+                    partitionKey: new PartitionKey(item.StaffId)
+                );
             }
 
             _logger.LogInformation("Populated staff data");
+        }
+
+        // Seed variations
+        var variationsItems = JsonConvert.DeserializeObject<List<VariationDocument>>(variationsJsonData);
+
+        if (variationsItems != null)
+        {
+            foreach (var item in variationsItems)
+            {
+                item.CreatedAt = DateTime.UtcNow;
+                item.ModifiedAt = item.CreatedAt;
+                
+                await _variationContainer.UpsertItemAsync(
+                    item: item,
+                    partitionKey: new PartitionKey(item.VariationId)
+                );
+            }
+
+            _logger.LogInformation("Populated variation data");
         }
     }
 }

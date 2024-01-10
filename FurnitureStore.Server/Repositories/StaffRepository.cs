@@ -1,8 +1,8 @@
-﻿using FurnitureStore.Server.IRepositories;
-using FurnitureStore.Server.Models.Documents;
+﻿using FurnitureStore.Server.Models.Documents;
+using FurnitureStore.Server.Repositories.Interfaces;
 using FurnitureStore.Server.Utils;
 
-namespace FurnitureStore.Server.Repository
+namespace FurnitureStore.Server.Repositories
 {
     public class StaffRepository : IStaffRepository
     {
@@ -22,6 +22,10 @@ namespace FurnitureStore.Server.Repository
 
         public async Task AddStaffDocumentAsync(StaffDocument item)
         {
+            item.CreatedAt = DateTime.UtcNow;
+            item.ModifiedAt = item.CreatedAt;
+
+
             await _staffContainer.UpsertItemAsync(
                 item: item,
                 partitionKey: new PartitionKey(item.StaffId)

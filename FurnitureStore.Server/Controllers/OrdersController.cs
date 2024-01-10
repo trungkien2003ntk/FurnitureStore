@@ -1,10 +1,13 @@
-﻿using FurnitureStore.Server.IRepositories;
+﻿using FurnitureStore.Server.Repositories.Interfaces;
 
 namespace FurnitureStore.Server.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class OrdersController(IOrderRepository orderRepository, ILogger<OrdersController> logger) : ControllerBase
+public class OrdersController(
+    IOrderRepository orderRepository,
+    ILogger<OrdersController> logger
+) : ControllerBase
 {
     private readonly IOrderRepository _orderRepository = orderRepository;
     private readonly ILogger<OrdersController> _logger = logger;

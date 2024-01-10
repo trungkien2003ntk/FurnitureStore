@@ -1,15 +1,15 @@
-﻿namespace FurnitureStore.Server.Models.Documents;
+﻿namespace FurnitureStore.Shared.DTOs;
 
-public class CategoryDocument
+public class CategoryDTO
 {
     [JsonProperty("id")]
-    public string Id { get; set; }
+    public string? Id { get; set; }
 
     [JsonProperty("categoryId")]
-    public string CategoryId { get; set; }
+    public string? CategoryId { get; set; }
 
     [JsonProperty("name")]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     [JsonProperty("text")]
     public string Text { get; set; }
@@ -18,16 +18,16 @@ public class CategoryDocument
     public int Level { get; set; }
 
     [JsonProperty("children")]
-    public List<string> Children { get; set; }
+    public List<string>? Children { get; set; }
 
     [JsonProperty("parentId")]
     public string ParentId { get; set; }
 
     [JsonProperty("parentPath")]
-    public string ParentPath { get; set; }
+    public string? ParentPath { get; set; }
 
     [JsonProperty("categoryPath")]
-    public string CategoryPath { get; set; }
+    public string? CategoryPath { get; set; }
 
     [JsonProperty("createdAt")]
     public DateTime? CreatedAt { get; set; }
@@ -36,11 +36,11 @@ public class CategoryDocument
     public DateTime? ModifiedAt { get; set; }
 
     [JsonProperty("isRemovable")]
-    public bool IsRemovable { get; set; }
+    public bool? IsRemovable { get; set; }
 
     [JsonProperty("isDeleted")]
-    public bool IsDeleted { get; set; }
+    public bool? IsDeleted { get; set; }
 
     [JsonProperty("ttl")]
-    public int TTL { get; set; }
+    public int? TTL { get; set; }
 }

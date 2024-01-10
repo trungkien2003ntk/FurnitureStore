@@ -1,60 +1,62 @@
-﻿namespace FurnitureStore.Server.Models.Documents;
-
-public class OrderDocument
+﻿namespace FurnitureStore.Server.Models.Documents
 {
-    [JsonProperty("id")]
-    public string Id { get; set; }
+    public class OrderDocument
+    {
+        [JsonProperty("id")]
+        public string Id { get; set; }
 
-    [JsonProperty("orderId")]
-    public string OrderId { get; set; }
+        [JsonProperty("orderId")]
+        public string OrderId { get; set; }
 
-    [JsonProperty("orderDate")]
-    public DateTime OrderDate { get; set; }
+        [JsonProperty("yearMonth")]
+        public string YearMonth { get; set; }
 
-    [JsonProperty("yearMonth")]
-    public string YearMonth { get; set; }
+        [JsonProperty("customerType")]
+        public string CustomerType { get; set; }
 
-    [JsonProperty("customerType")]
-    public string CustomerType { get; set; }
+        [JsonProperty("customerName")]
+        public string CustomerName { get; set; }
 
-    [JsonProperty("items")]
-    public List<OrderItem> Items { get; set; }
+        [JsonProperty("phone")]
+        public string Phone { get; set; }
 
-    [JsonProperty("shippingInfo")]
-    public OrderShippingInfo ShippingInfo { get; set; }
+        [JsonProperty("items")]
+        public List<OrderItem> Items { get; set; }
 
-    [JsonProperty("totalItems")]
-    public int TotalItems { get; set; }
+        [JsonProperty("shippingInfo")]
+        public OrderShippingInfo ShippingInfo { get; set; }
 
-    [JsonProperty("subtotal")]
-    public int Subtotal { get; set; }
+        [JsonProperty("totalItems")]
+        public int TotalItems { get; set; }
 
-    [JsonProperty("discounts")]
-    public int Discounts { get; set; }
+        [JsonProperty("subtotal")]
+        public int Subtotal { get; set; }
 
-    [JsonProperty("tax")]
-    public int Tax { get; set; }
+        [JsonProperty("discountValue")]
+        public int DiscountValue { get; set; }
 
-    [JsonProperty("totalAmount")]
-    public int TotalAmount { get; set; }
+        [JsonProperty("tax")]
+        public int Tax { get; set; }
 
-    [JsonProperty("paymentMethod")]
-    public string PaymentMethod { get; set; }
+        [JsonProperty("totalAmount")]
+        public int TotalAmount { get; set; }
 
-    [JsonProperty("status")]
-    public string Status { get; set; }
+        [JsonProperty("paymentDetails")]
+        public PaymentDetails PaymentDetails { get; set; }
 
-    [JsonProperty("note")]
-    public string Note { get; set; }
+        [JsonProperty("status")]
+        public string Status { get; set; }
 
-    [JsonProperty("createdAt")]
-    public DateTime CreatedAt { get; set; }
+        [JsonProperty("note")]
+        public string Note { get; set; }
 
-    [JsonProperty("isDeleted")]
-    public bool IsDeleted { get; set; }
+        [JsonProperty("createdAt")]
+        public DateTime? CreatedAt { get; set; }
 
-    [JsonProperty("ttl")]
-    public int TTL { get; set; }
+        [JsonProperty("modifiedAt")]
+        public DateTime? ModifiedAt { get; set; }
+
+        [JsonProperty("ttl")]
+        public int TTL { get; set; }
+    }
 }
-
-
