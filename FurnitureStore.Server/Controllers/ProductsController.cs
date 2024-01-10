@@ -1,69 +1,67 @@
-﻿using FurnitureStore.Server.IRepositories;
+﻿using FurnitureStore.Server.Models.BindingModels;
+using FurnitureStore.Server.Models.BindingModels.FilterModels;
 using FurnitureStore.Server.Models.Documents;
+using FurnitureStore.Server.Repositories.Interfaces;
+using FurnitureStore.Server.Utils;
 
 namespace FurnitureStore.Server.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ProductsController : ControllerBase
+public class ProductsController(
+    IProductRepository productRepository,
+    ILogger<ProductsController> logger,
+    IValidator<QueryParameters> queryParametersValidator
+) : ControllerBase
 {
-    private readonly IProductRepository _productRepository;
-    private readonly ILogger<ProductsController> _logger;
-
-    public ProductsController(IProductRepository productRepository, ILogger<ProductsController> logger)
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProductsAsync(QueryParameters queryParameters, ProductFilterModel filter)
     {
-        _productRepository = productRepository;
-        _logger = logger;
+        var queryParamResult = queryParametersValidator.Validate(queryParameters);
+
+        if (!queryParamResult.IsValid)
+        {
+            return BadRequest(queryParamResult.Errors);
+        }
+
+        var result = await productRepository.GetProductDTOsAsync(queryParameters, filter);
+
+        if (VariableHelpers.IsNull(result))
+        {
+            logger.LogInformation($"No product found!");
+            return NotFound();
+        }
+
+        logger.LogInformation($"Returned all products!");
+        return Ok(result);
     }
 
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProductsAsync(int limit, int offset)
+
+    [HttpGet("variation/{variationId}")]
+    public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProductDTOsByVariationId(string variationId)
     {
-        var products = await _productRepository.GetProductDTOsAsync();
-        List<ProductDTO> result = [];
+        var products = await productRepository.GetProductDTOsByVariationIdAsync(variationId);
 
-        if (limit == 0 && offset == 0)
+        if (products == null || !products.Any()) 
         {
-            result = products.ToList();
-        }
-        else if (limit > 0 && offset > 0)
-        {
-            for (int i = limit * (offset - 1); i < limit * offset; i++)
-            {
-                if (i < products.Count())
-                {
-                    result.Add(products.ElementAt(i));
-                }
-            }
-        }
-        else
-        {
-            _logger.LogInformation($"Invalid limit and offset value!");
             return NotFound();
         }
 
-        if (!result.Any())
-        {
-            _logger.LogInformation($"No product found!");
-            return NotFound();
-        }
-
-        _logger.LogInformation($"Returned all products!");
-        return Ok(result);
+        return Ok(products);
     }
 
     [HttpGet("category/{categoryId}")]
     public async Task<ActionResult<IEnumerable<ProductDocument>>> GetProductsInCategoryAsync(string categoryId)
     {
-        var products = await _productRepository.GetProductDocumentsInCategoryAsync(categoryId);
+        var products = await productRepository.GetProductDocumentsInCategoryAsync(categoryId);
 
         if (products == null || !products.Any())
         {
-            _logger.LogInformation($"No product found in category id {categoryId}!");
+            logger.LogInformation($"No product found in category id {categoryId}!");
             return NotFound();
         }
 
-        _logger.LogInformation($"Returned all products in category id {categoryId}!");
+        logger.LogInformation($"Returned all products in category id {categoryId}!");
         return Ok(products);
     }
 
@@ -71,15 +69,15 @@ public class ProductsController : ControllerBase
     [HttpGet("sku/{sku}")]
     public async Task<ActionResult<ProductDTO>> GetProductBySkuAsync(string sku)
     {
-        var product = await _productRepository.GetProductDTOBySkuAsync(sku);
+        var product = await productRepository.GetProductDTOBySkuAsync(sku);
 
         if (product == null)
         {
-            _logger.LogInformation($"Product with sku {sku} Not Found");
+            logger.LogInformation($"Product with sku {sku} Not Found");
             return NotFound();
         }
 
-        _logger.LogInformation($"Product with sku {sku} Found");
+        logger.LogInformation($"Product with sku {sku} Found");
 
         return Ok(product);
     }
@@ -87,7 +85,7 @@ public class ProductsController : ControllerBase
     [HttpGet("newId")]
     public async Task<ActionResult<string>> GetNewProductIdAsync()
     {
-        string newId = await _productRepository.GetNewProductIdAsync();
+        string newId = await productRepository.GetNewProductIdAsync();
 
         return Ok(newId);
     }
@@ -95,15 +93,15 @@ public class ProductsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<ProductDTO>> GetProductByIdAsync(string id)
     {
-        var product = await _productRepository.GetProductDTOByIdAsync(id);
+        var product = await productRepository.GetProductDTOByIdAsync(id);
 
         if (product == null)
         {
-            _logger.LogInformation($"Product with id {id} Not Found");
+            logger.LogInformation($"Product with id {id} Not Found");
             return NotFound();
         }
 
-        _logger.LogInformation($"Product with id {id} Found");
+        logger.LogInformation($"Product with id {id} Found");
 
         return Ok(product);
     }
@@ -118,13 +116,13 @@ public class ProductsController : ControllerBase
 
         try
         {
-            await _productRepository.AddProductDTOAsync(productDTO);
+            await productRepository.AddProductDTOAsync(productDTO);
 
             return Ok("Product created successfully.");
         }
         catch (Exception ex)
         {
-            _logger.LogInformation($"Error message: {ex.Message}");
+            logger.LogInformation($"Error message: {ex.Message}");
             return StatusCode(500, $"An error occurred while creating the product. ProductId: {productDTO.ProductId}");
         }
     }
@@ -139,13 +137,13 @@ public class ProductsController : ControllerBase
 
         try
         {
-            await _productRepository.UpdateProductDTOAsync(productDTO);
+            await productRepository.UpdateProductDTOAsync(productDTO);
 
             return Ok("Product updated successfully.");
         }
         catch (Exception ex)
         {
-            _logger.LogInformation($"Error message: {ex.Message}");
+            logger.LogInformation($"Error message: {ex.Message}");
             return StatusCode(500, $"An error occurred while updating the product. ProductId: {productDTO.ProductId}");
         }
     }
@@ -155,13 +153,13 @@ public class ProductsController : ControllerBase
     {
         try
         {
-            await _productRepository.DeleteProductDTOAsync(id);
+            await productRepository.DeleteProductDTOAsync(id);
 
             return Ok("Product deleted successfully");
         }
         catch (Exception ex)
         {
-            _logger.LogInformation($"Error message: {ex.Message}");
+            logger.LogInformation($"Error message: {ex.Message}");
             return StatusCode(500, $"An error occurred while deleting the product. Product Id: {id}");
         }
     }

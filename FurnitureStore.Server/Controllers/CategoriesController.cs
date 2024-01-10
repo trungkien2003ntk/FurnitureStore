@@ -1,19 +1,14 @@
-﻿using FurnitureStore.Server.IRepositories;
+﻿using FurnitureStore.Server.Repositories.Interfaces;
 
 namespace FurnitureStore.Server.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class CategoriesController : ControllerBase
+public class CategoriesController(
+    ILogger<CategoriesController> logger,
+    ICategoryRepository categoryRepository
+) : ControllerBase
 {
-    private readonly ILogger _logger;
-    private readonly ICategoryRepository _categoryRepository;
-
-    public CategoriesController(ILogger<CategoriesController> logger, ICategoryRepository categoryRepository)
-    {
-        _logger = logger;
-        _categoryRepository = categoryRepository;
-    }
 
     // GET: api/<CategoriesController>
     [HttpGet]
@@ -22,12 +17,12 @@ public class CategoriesController : ControllerBase
         List<CategoryDTO> categories;
         if (level == 0)
         {
-            categories = (await _categoryRepository.GetCategoryDTOsAsync())
+            categories = (await categoryRepository.GetCategoryDTOsAsync())
                 .ToList();
         }
         else
         {
-            categories = (await _categoryRepository.GetCategoryDTOsAsync())
+            categories = (await categoryRepository.GetCategoryDTOsAsync())
                 .Where(c => c.Level == level)
                 .ToList();
         }
@@ -43,7 +38,7 @@ public class CategoriesController : ControllerBase
     [HttpGet("level/{level}")]
     public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetCategoriesByLevel(int level)
     {
-        var categories = await _categoryRepository.GetCategoryDTOsByLevelAsync(level);
+        var categories = await categoryRepository.GetCategoryDTOsByLevelAsync(level);
 
         if (categories == null || !categories.Any())
         {
@@ -56,7 +51,7 @@ public class CategoriesController : ControllerBase
     [HttpGet("parent/{parent}")]
     public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetCategoriesByParent(string? parent)
     {
-        var categories = await _categoryRepository.GetCategoryDTOsByParentAsync(parent);
+        var categories = await categoryRepository.GetCategoryDTOsByParentAsync(parent);
 
         if (categories == null || !categories.Any())
         {
@@ -69,7 +64,7 @@ public class CategoriesController : ControllerBase
     [HttpGet("newId")]
     public async Task<ActionResult<string>> GetNewCategoryIdAsync()
     {
-        string newId = await _categoryRepository.GetNewCategoryIdAsync();
+        string newId = await categoryRepository.GetNewCategoryIdAsync();
 
         return Ok(newId);
     }
@@ -78,7 +73,7 @@ public class CategoriesController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<CategoryDTO>> GetCategoryDTOByIdAsync(string id)
     {
-        var category = await _categoryRepository.GetCategoryDTOByIdAsync(id);
+        var category = await categoryRepository.GetCategoryDTOByIdAsync(id);
 
         if (category == null)
         {
@@ -94,13 +89,13 @@ public class CategoriesController : ControllerBase
     {
         try
         {
-            await _categoryRepository.AddCategoryDTOAsync(categoryDTO);
+            await categoryRepository.AddCategoryDTOAsync(categoryDTO);
 
             return Ok("Category created successfully.");
         }
         catch (Exception ex)
         {
-            _logger.LogInformation($"Error message: {ex.Message}");
+            logger.LogInformation($"Error message: {ex.Message}");
             return StatusCode(500, $"An error occurred while creating the category. CategoryId: {categoryDTO.CategoryId}");
         }
     }
@@ -111,13 +106,13 @@ public class CategoriesController : ControllerBase
     {
         try
         {
-            await _categoryRepository.UpdateCategoryAsync(categoryDTO);
+            await categoryRepository.UpdateCategoryAsync(categoryDTO);
 
             return Ok("Category updated successfully.");
         }
         catch (Exception ex)
         {
-            _logger.LogInformation($"Error message: {ex.Message}");
+            logger.LogInformation($"Error message: {ex.Message}");
             return StatusCode(500, $"An error occurred while creating the category. CategoryId: {categoryDTO.CategoryId}");
         }
     }
@@ -128,13 +123,13 @@ public class CategoriesController : ControllerBase
     {
         try
         {
-            await _categoryRepository.DeleteCategoryAsync(id);
+            await categoryRepository.DeleteCategoryAsync(id);
 
             return Ok("Category updated successfully.");
         }
         catch (Exception ex)
         {
-            _logger.LogInformation($"Error message: {ex.Message}");
+            logger.LogInformation($"Error message: {ex.Message}");
             return StatusCode(500, $"{ex.Message}");
         }
     }
