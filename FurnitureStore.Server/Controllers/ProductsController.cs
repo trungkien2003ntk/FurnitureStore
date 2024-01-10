@@ -67,7 +67,6 @@ public class ProductsController : ControllerBase
         return Ok(products);
     }
 
-
     [HttpGet("sku/{sku}")]
     public async Task<ActionResult<ProductDTO>> GetProductBySkuAsync(string sku)
     {
