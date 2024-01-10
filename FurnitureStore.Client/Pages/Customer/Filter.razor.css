@@ -1,0 +1,123 @@
+.category-img {
+    width: 100%;
+    object-fit: cover;
+    height: 400px;
+}
+
+.main--collection__title {
+    grid-area: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    text-align: center;
+    z-index: 1;
+    padding: 50px;
+    color: white;
+}
+
+    .main--collection__title h1 {
+        font-size: 30px;
+        font-weight: 300;
+        font-family: "Poppins", sans-serif;
+        font-style: 400;
+        letter-spacing: 0.05em;
+    }
+
+.body-contain {
+    display: grid;
+}
+
+.collection__banner-image {
+    grid-area: 1 / -1;
+}
+
+.btn-filter span {
+    font-size: 15px;
+}
+
+.btn-filter {
+    padding: 10px;
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.section-heading {
+    margin-top: 50px;
+    margin-bottom: 20px;
+    border-bottom: 0;
+}
+
+.modal {
+    display: flex;
+}
+
+.filter-contain h4 {
+    font-weight: 300;
+    padding: 20px 20px;
+}
+
+.filter-title h4 {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.filter-availabitiy {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.filter-close {
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.availabity-input {
+    padding: 20px 20px;
+    padding-top: 0;
+}
+
+    .availabity-input input {
+        margin-right: 15px;
+    }
+
+.price-input {
+    padding: 20px 20px;
+    padding-top: 0;
+}
+
+.price-input input {
+        width: 90px;
+        padding: 5px;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.modal {
+    display: none;
+    z-index: 1000;
+}
+
+.modal-cart {
+    background-color: white;
+    height: 100vh;
+    width: 30vw;
+    z-index: 200;
+    margin-left: auto;
+    position: relative;
+}
+
+.modal__body--border.modal-body-right {
+    margin-left: auto !important;
+    z-index: 1;
+}
+.path {
+    font-weight: 200;
+    padding: 20px 0;
+}
+.path a {
+        color: black;
+}
+.path__current {
+    font-weight: 300;
+}
+.text-center {
+    display: flex !important;
+    flex-wrap: wrap;
+}
