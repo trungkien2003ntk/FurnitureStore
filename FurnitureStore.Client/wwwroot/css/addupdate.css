@@ -21581,3 +21581,6 @@ dl li {
 }
 
 /* Add other corrected styles as needed */
+.selected-category {
+    background-color: lightblue; /* Change this to the desired background color */
+}

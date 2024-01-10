@@ -8,9 +8,9 @@ namespace FurnitureStore.Client.Pages.AdminPages
     {
         [Inject]
         ICategoryService categoryService { get; set; } = null!;
-        public IEnumerable<CategoryDTO> categorieListLV1 { get; set; } =new List<CategoryDTO>();
-        public IEnumerable<CategoryDTO> categorieListLV2 { get; set; } = new List<CategoryDTO>();
-        public IEnumerable<CategoryDTO> categorieListLV3 { get; set; } = new List<CategoryDTO>();
+        public IEnumerable<CategoryDTO> categoryListLV1 { get; set; } =new List<CategoryDTO>();
+        public IEnumerable<CategoryDTO> categoryListLV2 { get; set; } = new List<CategoryDTO>();
+        public IEnumerable<CategoryDTO> categoryListLV3 { get; set; } = new List<CategoryDTO>();
         private string selectedCategoryId;
 
 
@@ -25,7 +25,7 @@ namespace FurnitureStore.Client.Pages.AdminPages
 
         public async Task GetCategoryByLevel1()
         {
-            categorieListLV1 = await categoryService.GetCategoryByLevel(1);
+            categoryListLV1 = await categoryService.GetCategoryDTOsByLevel(1);
         }
 
         public void AddCategoryLV1()
@@ -53,7 +53,6 @@ namespace FurnitureStore.Client.Pages.AdminPages
         {
             selectedCategoryId = Id;
 
-            Console.WriteLine($"Selected Category ID: {selectedCategoryId}");
         }
     }
 }

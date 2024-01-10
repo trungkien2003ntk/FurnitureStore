@@ -187,9 +187,10 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach(var item in categorieListLV1)
+                                        @foreach(var item in categoryListLV1)
                                         {
-                                            <tr @onclick="(() => SelectCategory(item.Id))">
+                                            <tr @onclick="(() => SelectCategory(item.Id))"
+                                                style="@((item.Id == selectedCategoryId) ? "background-color: #f0f1f6;" : "")">
                                                 <td>@item.CategoryId</td>
                                                 <td class="category-col-2">@item.Name</td>
                                             </tr>
