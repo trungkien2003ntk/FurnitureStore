@@ -31,7 +31,7 @@ public class CategoriesController(
         if (!string.IsNullOrEmpty(parent))
         {
             categories = categories
-                .Where(c => c.Parent == parent)
+                .Where(c => c.ParentPath == parent)
                 .ToList();
         }
 
