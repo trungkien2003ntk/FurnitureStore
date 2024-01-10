@@ -1,9 +1,5 @@
-﻿using AutoMapper;
-using Microsoft.Azure.Cosmos;
-using Microsoft.Extensions.Caching.Memory;
+﻿using FurnitureStore.Server.IRepositories;
 using FurnitureStore.Server.Models.Documents;
-using FurnitureStore.Shared;
-using FurnitureStore.Server.Interfaces;
 using FurnitureStore.Server.Utils;
 
 namespace FurnitureStore.Server.Repository
@@ -19,9 +15,9 @@ namespace FurnitureStore.Server.Repository
 
         public ProductRepository(CosmosClient cosmosClient, ILogger<CategoryRepository> logger, IMemoryCache memoryCache, IMapper mapper)
         {
-            this._logger = logger;
-            this._memoryCache = memoryCache;
-            this._mapper = mapper;
+            _logger = logger;
+            _memoryCache = memoryCache;
+            _mapper = mapper;
             var databaseName = cosmosClient.ClientOptions.ApplicationName;
 
             _productContainer = cosmosClient.GetContainer(databaseName, "products");
@@ -46,7 +42,6 @@ namespace FurnitureStore.Server.Repository
 
             _logger.LogInformation($"Product and inventory with id {productDoc.Id} added");
         }
-
 
         public async Task UpdateProductDTOAsync(ProductDTO productDTO)
         {
@@ -80,8 +75,6 @@ namespace FurnitureStore.Server.Repository
             _memoryCache.Set("LatestProductId", newId);
             return newId;
         }
-
-
 
         public async Task<IEnumerable<ProductDocument>> GetProductDocumentsAsync()
         {
@@ -123,7 +116,6 @@ namespace FurnitureStore.Server.Repository
             return results;
         }
 
-
         public async Task<ProductDTO?> GetProductDTOBySkuAsync(string sku)
         {
             var productDoc = await GetProductDocumentBySkuAsync(sku) ?? throw new Exception(NotiProductNotFound);
@@ -132,7 +124,6 @@ namespace FurnitureStore.Server.Repository
 
             return result;
         }
-
 
         private async Task<ProductDocument?> GetProductDocumentBySkuAsync(string sku)
         {
@@ -168,8 +159,6 @@ namespace FurnitureStore.Server.Repository
 
             return result;
         }
-
-
 
         private void LogRequestCharged(double requestCharge)
         {

@@ -12,11 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\mdi\" />
-    <Folder Include="wwwroot\admin-images\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\FurnitureStore.Shared\FurnitureStore.Shared.csproj" />
   </ItemGroup>
 

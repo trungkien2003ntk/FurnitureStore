@@ -1,22 +1,16 @@
-﻿using Newtonsoft.Json;
+﻿namespace FurnitureStore.Server.Models.Documents;
 
-namespace FurnitureStore.Server.Models.Documents
+public class StaffDocument
 {
-    public class StaffDocument
-    {
-        [JsonProperty("id")]
-        public string Id { get; set; }
+    [JsonProperty("id")]
+    public string Id { get; set; }
 
-        [JsonProperty("staffId")]
-        public string StaffId { get; set; }
+    [JsonProperty("staffId")]
+    public string StaffId { get; set; }
 
-        [JsonProperty("username")]
-        public string Username { get; set; }
+    [JsonProperty("username")]
+    public string Username { get; set; }
 
-        [JsonProperty("passwordTemp")]
-        public string PasswordTemp { get; set; }
-
-        [JsonProperty("hashedAndSaltedPassword")]
-        public string HashedAndSaltedPassword { get; set; }
-    }
+    [JsonProperty("password")]
+    public string Password { get; set; }
 }

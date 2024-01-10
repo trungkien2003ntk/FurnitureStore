@@ -1,16 +1,12 @@
-﻿using AutoMapper;
-using Microsoft.Azure.Cosmos;
-using Microsoft.Extensions.Caching.Memory;
+﻿using FurnitureStore.Server.IRepositories;
 using FurnitureStore.Server.Models.Documents;
-using FurnitureStore.Shared;
-using FurnitureStore.Server.Interfaces;
 using FurnitureStore.Server.Utils;
 
 namespace FurnitureStore.Server.Repository
 {
     public class StaffRepository : IStaffRepository
     {
-        private Container _staffContainer;
+        private readonly Container _staffContainer;
         private readonly IMapper _mapper;
         private readonly IMemoryCache _memoryCache;
 
@@ -20,8 +16,8 @@ namespace FurnitureStore.Server.Repository
             var containerName = "staffs";
 
             _staffContainer = cosmosClient.GetContainer(databaseName, containerName);
-            this._mapper = mapper;
-            this._memoryCache = memoryCache;
+            _mapper = mapper;
+            _memoryCache = memoryCache;
         }
 
         public async Task AddStaffDocumentAsync(StaffDocument item)
@@ -38,6 +34,7 @@ namespace FurnitureStore.Server.Repository
 
             await AddStaffDocumentAsync(staffDoc);
         }
+
         public async Task UpdateStaffAsync(StaffDTO staffDTO)
         {
             var staffToUpdate = _mapper.Map<StaffDocument>(staffDTO);
@@ -126,6 +123,31 @@ namespace FurnitureStore.Server.Repository
             var staff = await CosmosDbUtils.GetDocumentByQueryDefinition<StaffDocument>(_staffContainer, queryDef);
 
             return staff;
+        }
+
+        public async Task<StaffDocument?> GetStaffByUsernameAndPassword(string username, string password)
+        {
+            var queryDef = new QueryDefinition(
+                query:
+                    "SELECT * " +
+                    "FROM staffs s " +
+                    "WHERE s.username = @username " +
+                    "AND s.password = @password"
+            ).WithParameter("@username", username)
+            .WithParameter("@password", password);
+
+            var staff = await CosmosDbUtils.GetDocumentByQueryDefinition<StaffDocument>(_staffContainer, queryDef);
+
+            return staff;
+        }
+
+        public async Task<StaffDTO> LoginStaff(string username, string password)
+        {
+            var staffDoc = await GetStaffByUsernameAndPassword(username, password);
+
+            var staffDTO = _mapper.Map<StaffDTO>(staffDoc);
+
+            return staffDTO;
         }
     }
 }
