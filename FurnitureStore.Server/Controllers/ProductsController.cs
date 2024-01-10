@@ -17,18 +17,39 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProductsAsync()
+    public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProductsAsync(int limit, int offset)
     {
         var products = await _productRepository.GetProductDTOsAsync();
+        List<ProductDTO> result = [];
 
-        if (products == null || !products.Any())
+        if (limit == 0 && offset == 0)
+        {
+            result = products.ToList();
+        }
+        else if (limit > 0 && offset > 0)
+        {
+            for (int i = limit * (offset - 1); i < limit * offset; i++)
+            {
+                if (i < products.Count())
+                {
+                    result.Add(products.ElementAt(i));
+                }
+            }
+        }
+        else
+        {
+            _logger.LogInformation($"Invalid limit and offset value!");
+            return NotFound();
+        }
+
+        if (!result.Any())
         {
             _logger.LogInformation($"No product found!");
             return NotFound();
         }
 
         _logger.LogInformation($"Returned all products!");
-        return Ok(products);
+        return Ok(result);
     }
 
     [HttpGet("category/{categoryId}")]
