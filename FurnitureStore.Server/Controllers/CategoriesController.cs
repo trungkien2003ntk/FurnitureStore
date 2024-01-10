@@ -14,7 +14,7 @@ public class CategoriesController(
     [HttpGet]
     public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetCategoriesAsync(int level, string parent)
     {
-        List<CategoryDTO> categories = (await _categoryRepository.GetCategoryDTOsAsync()).ToList();
+        List<CategoryDTO> categories = (await categoryRepository.GetCategoryDTOsAsync()).ToList();
 
         if (level != 0)
         {

@@ -1,5 +1,5 @@
 ﻿using FurnitureStore.Client.IServices;
-using FurnitureStore.Shared;
+using FurnitureStore.Shared.DTOs;
 using Newtonsoft.Json;
 
 namespace FurnitureStore.Client.Services

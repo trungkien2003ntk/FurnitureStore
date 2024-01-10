@@ -1,5 +1,5 @@
 ﻿using FurnitureStore.Client.IServices;
-using FurnitureStore.Shared;
+using FurnitureStore.Shared.DTOs;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 

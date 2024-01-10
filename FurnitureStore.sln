@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FurnitureStore.Server", "Fu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FurnitureStore.Shared", "FurnitureStore.Shared\FurnitureStore.Shared.csproj", "{73A906CB-2C43-4C09-AD4A-73E61CD9B7E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CosmosChangeFeedFunction", "CosmosChangeFeedFunction\CosmosChangeFeedFunction.csproj", "{036D7820-D488-4E1E-909A-3C42D6845C93}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionAppChangeFeed", "FunctionAppChangeFeed\FunctionAppChangeFeed.csproj", "{036D7820-D488-4E1E-909A-3C42D6845C93}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
