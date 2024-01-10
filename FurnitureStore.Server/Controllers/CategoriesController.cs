@@ -42,6 +42,19 @@ public class CategoriesController : ControllerBase
         return Ok(categories);
     }
 
+    [HttpGet("parent/{parent}")]
+    public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetCategoriesByParent(string? parent)
+    {
+        var categories = await _categoryRepository.GetCategoryDTOsByParentAsync(parent);
+
+        if (categories == null || !categories.Any())
+        {
+            return NotFound();
+        }
+
+        return Ok(categories);
+    }
+
     [HttpGet("newId")]
     public async Task<ActionResult<string>> GetNewCategoryIdAsync()
     {
