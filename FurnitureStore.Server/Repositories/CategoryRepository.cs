@@ -189,7 +189,7 @@ public class CategoryRepository : ICategoryRepository
                 "SELECT * " +
                 "FROM categories c " +
                 "WHERE c.parent = @parent"
-        ).WithParameter("@parent", parent);
+        ).WithParameter("@parent", $"/{parent}");
 
         var categoryDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<CategoryDocument>(_categoryContainer, queryDef);
         var categoryDTOs = categoryDocs.Select(categoryDoc =>

@@ -11,7 +11,8 @@ namespace FurnitureStore.Client.Pages.AdminPages
         public IEnumerable<CategoryDTO> categoryListLV1 { get; set; } =new List<CategoryDTO>();
         public IEnumerable<CategoryDTO> categoryListLV2 { get; set; } = new List<CategoryDTO>();
         public IEnumerable<CategoryDTO> categoryListLV3 { get; set; } = new List<CategoryDTO>();
-        private string selectedCategoryId;
+        private string selectedCategoryId="";
+        private string selectedCategoryName="";
 
 
         private bool isHiddenPopup { get; set; } = true;
@@ -49,10 +50,11 @@ namespace FurnitureStore.Client.Pages.AdminPages
             isHiddenPopup = true;
         }
         //Select a category item
-        private void SelectCategory(string Id)
+        private async Task SelectCategory(string Id, string name)
         {
             selectedCategoryId = Id;
-
+            selectedCategoryName = name;
+            categoryListLV2 = await categoryService.GetCategoryDTOsByParent(name);
         }
     }
 }

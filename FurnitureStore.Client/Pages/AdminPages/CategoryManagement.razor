@@ -189,10 +189,10 @@
                                     <tbody>
                                         @foreach(var item in categoryListLV1)
                                         {
-                                            <tr @onclick="(() => SelectCategory(item.Id))"
+                                            <tr @onclick="(() => SelectCategory(item.Id, item.Name))"
                                                 style="@((item.Id == selectedCategoryId) ? "background-color: #f0f1f6;" : "")">
                                                 <td>@item.CategoryId</td>
-                                                <td class="category-col-2">@item.Name</td>
+                                                <td class="category-col-2">@item.Text</td>
                                             </tr>
                                         }
                                     </tbody>
@@ -230,42 +230,14 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>beds00001</td>
-                                            <td class="category-col-2">Anderson Canopy Bed Anderson Canopy Bed Anderson Canopy Bed</td>
-                                        </tr>
-                                        <tr>
-                                            <td>beds00001</td>
-                                            <td class="category-col-2">Anderson Canopy Bed Anderson Canopy Bed Anderson Canopy Bed</td>
-                                        </tr>
-                                        <tr>
-                                            <td>beds00001</td>
-                                            <td class="category-col-2">Anderson Canopy Bed Anderson Canopy Bed Anderson Canopy Bed</td>
-                                        </tr>
-                                        <tr>
-                                            <td>beds00001</td>
-                                            <td class="category-col-2">Anderson Canopy Bed Anderson Canopy Bed Anderson Canopy Bed</td>
-                                        </tr>
-                                        <tr>
-                                            <td>beds00001</td>
-                                            <td class="category-col-2">Anderson Canopy Bed Anderson Canopy Bed Anderson Canopy Bed</td>
-                                        </tr>
-                                        <tr>
-                                            <td>beds00001</td>
-                                            <td class="category-col-2">Anderson Canopy Bed Anderson Canopy Bed Anderson Canopy Bed</td>
-                                        </tr>
-                                        <tr>
-                                            <td>beds00001</td>
-                                            <td class="category-col-2">Anderson Canopy Bed Anderson Canopy Bed Anderson Canopy Bed</td>
-                                        </tr>
-                                        <tr>
-                                            <td>beds00001</td>
-                                            <td class="category-col-2">Anderson Canopy Bed Anderson Canopy Bed Anderson Canopy Bed</td>
-                                        </tr>
-                                        <tr>
-                                            <td>beds00001</td>
-                                            <td class="category-col-2">Anderson Canopy Bed Anderson Canopy Bed Anderson Canopy Bed</td>
-                                        </tr>
+                                        @foreach (var item in categoryListLV2)
+                                        {
+                                            <tr @onclick="(() => SelectCategory(item.Id, item.Name))"
+                                                style="@((item.Id == selectedCategoryId) ? "background-color: #f0f1f6;" : "")">
+                                                <td>@item.CategoryId</td>
+                                                <td class="category-col-2">@item.Text</td>
+                                            </tr>
+                                        }
                                     </tbody>
                                 </table>
                             </div>
