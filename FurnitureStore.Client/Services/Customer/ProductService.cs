@@ -1,19 +1,60 @@
+using FurnitureStore.Client.IServices.Customer;
 using FurnitureStore.Shared;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using static System.Net.WebRequestMethods;
 
 namespace FurnitureStore.Client.Services.Customer
 {
-    public class ProductService
+    public class ProductService : IProductService
     {
-     
-        public Task<ProductDTO[]> GetLatestProducts()
+        private readonly HttpClient _httpClient;
+
+        public ProductService(HttpClient httpClient)
         {
-            var rng = new Random();
-            return Task.FromResult(Enumerable.Range(1, 5).Select(index => new ProductDTO
+            _httpClient = httpClient;
+        }
+        public async Task<IEnumerable<ProductDTO>> GetLatestProducts()
+        {
+            string apiUrl = "https://localhost:7007/api/Products/";
+            var response = await _httpClient.GetAsync(new Uri(apiUrl));
+            if (response.IsSuccessStatusCode)
             {
-                ProductId = rng.Next(-20, 55).ToString(),
-                Name = "Denim shirt",
-                RegularPrice = 10000,
-            }).ToArray()); 
+                string jsonResponse = await response.Content.ReadAsStringAsync();
+                var product = JsonConvert.DeserializeObject<List<ProductDTO>>(jsonResponse);
+                return product!;
+            }
+            return null!;
+
+        }
+        public async Task<ProductDTO> GetProductById (string ProductId)
+        {
+            string apiUrl = "https://localhost:7007/api/Products/" + ProductId;
+            var response = await _httpClient.GetAsync(new Uri(apiUrl));
+            if (response.IsSuccessStatusCode)
+            {
+                string jsonResponse = await response.Content.ReadAsStringAsync();
+                var product = JsonConvert.DeserializeObject<ProductDTO>(jsonResponse);
+                return product!;
+            }
+            return null!;
+        }
+        public async Task<IEnumerable<ProductDTO>> GetProductListByProductIdList(List<string> listProductId)
+        {
+            List<ProductDTO> result= new List<ProductDTO>();
+            for (int i = 0; i < listProductId.Count; i++)
+            {
+                string apiUrl = "https://localhost:7007/api/Products/" + listProductId[i];
+                var response = await _httpClient.GetAsync(new Uri(apiUrl));
+                if (response.IsSuccessStatusCode)
+                {
+                    string jsonResponse = await response.Content.ReadAsStringAsync();
+                    var product = JsonConvert.DeserializeObject<ProductDTO>(jsonResponse);
+                    if (product != null)
+                    result.Add(product);
+                }
+            }
+            return result!;
         }
     }
 }

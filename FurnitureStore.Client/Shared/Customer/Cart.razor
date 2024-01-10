@@ -1,4 +1,9 @@
+@using FurnitureStore.Client.IServices.Customer
+@using FurnitureStore.Shared
 @inject NavigationManager Navigation
+@inject IJSRuntime JavaScript
+@inject IProductService ProductServiceDI
+
 
 <div class="modal">
 	<div class="modal__overlay"></div>
@@ -21,118 +26,42 @@
 					</div>
 				</div>
 				<ul class="cart-list-product">
-					<li class="cart-product-item">
-						<div class="cart-product-img">
-							<img class="cart-product-img-link"
-								 src="https://rhomeco.com/cdn/shop/files/1b00cd78ab42310fd6dd707da6de8512.jpg?v=1691011947&width=200"
-								 alt="" />
-						</div>
-						<div class="cart-product-detail1">
-							<div class="cart-product-name"> Bauer Chair - Leather </div>
-							<div class="cart-product-color"> Blue Sky </div>
-							<div class="cart-product-updown">
-								<button class="cart-product-updown-link">-</button>
-								<input class="cart-product-quantity"
-									   type="text"
-									   placeholder="1" />
-								<button class="cart-product-updown-link">+</button>
-							</div>
-						</div>
-						<div class="cart-product-detail2">
-							<div class="cart-product-price"> $1,999.00 </div>
-							<div class="cart-header">
-								<a class="cart-btn-delete" href="">
-									<span class="material-symbols-outlined cart-btn-delete-icon">
-										close
-									</span>
-								</a>
-							</div>
-						</div>
-					</li>
-					<li class="cart-product-item">
-						<div class="cart-product-img">
-							<img class="cart-product-img-link"
-								 src="https://rhomeco.com/cdn/shop/files/1b00cd78ab42310fd6dd707da6de8512.jpg?v=1691011947&width=200"
-								 alt="" />
-						</div>
-						<div class="cart-product-detail">
-							<div class="cart-product-name"> Bauer Chair - Leather </div>
-							<div class="cart-product-color"> Blue Sky </div>
-							<div class="cart-product-updown">
-								<button class="cart-product-updown-link">-</button>
-								<input class="cart-product-quantity"
-									   type="text"
-									   placeholder="1" />
-								<button class="cart-product-updown-link">+</button>
-							</div>
-						</div>
-						<div class="cart-product-detail2">
-							<div class="cart-product-price"> $1,999.00 </div>
-							<div class="cart-header">
-								<a class="cart-btn-delete" href="">
-									<span class="material-symbols-outlined cart-btn-delete-icon">
-										close
-									</span>
-								</a>
-							</div>
-						</div>
-					</li>
-					<li class="cart-product-item">
-						<div class="cart-product-img">
-							<img class="cart-product-img-link"
-								 src="https://rhomeco.com/cdn/shop/files/ad0945527ea38caa6d3a9c7f9c1cbf40.jpg?v=1697736626&width=200"
-								 alt="" />
-						</div>
-						<div class="cart-product-detail">
-							<div class="cart-product-name"> Bauer Chair - Leather </div>
-							<div class="cart-product-color"> Blue Sky </div>
-							<div class="cart-product-updown">
-								<button class="cart-product-updown-link">-</button>
-								<input class="cart-product-quantity"
-									   type="text"
-									   placeholder="1" />
-								<button class="cart-product-updown-link">+</button>
-							</div>
-						</div>
-						<div class="cart-product-detail2">
-							<div class="cart-product-price"> $1,999.00 </div>
-							<div class="cart-header">
-								<a class="cart-btn-delete" href="">
-									<span class="material-symbols-outlined cart-btn-delete-icon">
-										close
-									</span>
-								</a>
-							</div>
-						</div>
-					</li>
-					<li class="cart-product-item">
-						<div class="cart-product-img">
-							<img class="cart-product-img-link"
-								 src="https://rhomeco.com/cdn/shop/files/54fa5e01960e745ad15034dccf4e7a9e.jpg?v=1691005200&width=1200"
-								 alt="" />
-						</div>
-						<div class="cart-product-detail">
-							<div class="cart-product-name"> Bauer Chair - Leather </div>
-							<div class="cart-product-color"> Blue Sky </div>
-							<div class="cart-product-updown">
-								<button class="cart-product-updown-link">-</button>
-								<input class="cart-product-quantity"
-									   type="text"
-									   placeholder="1" />
-								<button class="cart-product-updown-link">+</button>
-							</div>
-						</div>
-						<div class="cart-product-detail2">
-							<div class="cart-product-price"> $1,999.00 </div>
-							<div class="cart-header">
-								<a class="cart-btn-delete" href="">
-									<span class="material-symbols-outlined cart-btn-delete-icon">
-										close
-									</span>
-								</a>
-							</div>
-						</div>
-					</li>
+					@if (cartProducts != null)
+					{
+						@for (int i =0; i<cartProducts.Count();i++)
+						{
+								<li class="cart-product-item">
+								<div class="cart-product-img">
+									<img class="cart-product-img-link"
+										 src="@cartProducts.ElementAt(i).FeaturedImage"
+									alt="" />
+								</div>
+								<div class="cart-product-detail">
+									<div class="cart-product-name">@cartProducts.ElementAt(i).Name</div>
+									<div class="cart-product-color"> Blue Sky </div>
+									<div class="cart-product-updown">
+										<button class="cart-product-updown-link">-</button>
+										
+											<input class="cart-product-quantity"
+											type="text"
+											value="@cartQuantity[i]" />
+											<button class="cart-product-updown-link">+</button>
+										
+									</div>
+								</div>
+								<div class="cart-product-detail2">
+									<div class="cart-product-price">@cartProducts.ElementAt(i).RegularPrice</div>
+									<div class="cart-header">
+										<a class="cart-btn-delete" href="">
+											<span class="material-symbols-outlined cart-btn-delete-icon">
+												close
+											</span>
+										</a>
+									</div>
+								</div>
+							</li>
+						}
+					}
 				</ul>
 			</div>
 			<div class="cart-footer">
@@ -151,8 +80,11 @@
 </div>
 
 @code {
+
 	[Parameter]
 	public EventCallback<(bool, string)> ShowCartChanged { get; set; }
+	private IEnumerable<ProductDTO>? cartProducts;
+	private List<int>? cartQuantity;
 	private async Task CloseCart()
 	{
 		await ShowCartChanged.InvokeAsync((false, ""));
@@ -162,7 +94,30 @@
 	{
 		await ShowCartChanged.InvokeAsync((false,"checkout"));
 	}
+	protected override async Task OnInitializedAsync()
+	{
+		await JavaScript.InvokeVoidAsync("storeIdProductIntoCookie", "prod00004", 4);
+		
+		Dictionary<string, int> maSP = new Dictionary<string, int>();
+		maSP.Add("prod00001", 1);
+		maSP.Add("prod00002", 2);
+		maSP.Add("prod00003", 3);
+		await JavaScript.InvokeAsync<Dictionary<string, int>>("setCookie", "shopping_Cart", maSP);
 
+		
+		await getShoppingCartFromCookie();
+	}
+	private async Task getShoppingCartFromCookie()
+	{
+		Dictionary<string, int> listProducts = await JavaScript.InvokeAsync<Dictionary<string, int>>("getProductsFromCookie");
+		if (listProducts.Count !=0)
+		{
+			cartQuantity = listProducts.Values.ToList();
+			List<string> productKeys = listProducts.Keys.ToList();
+			//lấy ds sp lên
+			this.cartProducts = await ProductServiceDI.GetProductListByProductIdList(productKeys);
 
+		}
+	}
 	
 }

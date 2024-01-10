@@ -1,4 +1,4 @@
-﻿namespace FurnitureStore.Shared;
+namespace FurnitureStore.Shared;
 
 public class ProductDTO
 {
@@ -39,7 +39,7 @@ public class ProductDTO
     public int SalePrice { get; set; }
 
     [JsonProperty("discountedPrice")]
-    public int DiscountedPrice { get; set; }
+    public int DiscountedPrice { get; set; } // bỏ
 
     [JsonProperty("totalDiscount")]
     public int TotalDiscount { get; set; }

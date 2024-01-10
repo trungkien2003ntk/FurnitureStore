@@ -1,9 +1,13 @@
 @page "/"
+@using FurnitureStore.Client.IServices.Customer
 @using FurnitureStore.Client.Layout.Customer
 @using FurnitureStore.Client.Services.Customer
 @using FurnitureStore.Client.Shared.Customer
 @using FurnitureStore.Shared
-@inject ProductService ProductServiceDI
+@inject IProductService ProductServiceDI
+@inject NavigationManager navManager
+
+
 @layout MainLayout
 
 
@@ -55,13 +59,12 @@
 								@foreach (var productItem in latestProducts)
 								{
 									<div class="col-lg-3 col-md-6 mb-4">
-									<div class="card">
+									<div class="card" @onclick="@(e => productClick(productItem.ProductId))">
 											<div
 												class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
 												data-mdb-ripple-color="light"
 											>
-												<img
-													src="https://rhomeco.com/cdn/shop/files/0cf32a9c7df69043bbca9de2ff92c1a6.jpg?v=1691011197&width=1200"
+											<img src="@productItem.FeaturedImage"
 													class="w-100"
 												/>
 												<a href="#!">
@@ -87,7 +90,7 @@
 												<a href="" class="text-reset">
 												<h5 class="card-title mb-2"> @productItem.Name</h5>
 												</a>
-												
+											
 											<h6 class="mb-3 price">$@productItem.RegularPrice</h6>
 											</div>
 										</div>
@@ -104,7 +107,7 @@
 				<!-- category -->
 				<div class="body-cate grid">
 					<div class="col-lg-4 col-md-6 mb-4">
-						<div class="card">
+						<div class="card" >
 							<div
 								class="bg-image hover-zoom ripple card--center"
 								data-mdb-ripple-color="light"
@@ -197,11 +200,16 @@
 
 @code
 {
-	private ProductDTO[]? latestProducts;
+	private IEnumerable<ProductDTO> ?latestProducts;
 
 	protected override async Task OnInitializedAsync()
 	{
 		latestProducts = await ProductServiceDI.GetLatestProducts();
 	}
+	 void productClick(string idProduct)
+	{
+		navManager.NavigateTo("/product/detail" + "/" + idProduct);
+	}
+	
 }
 
