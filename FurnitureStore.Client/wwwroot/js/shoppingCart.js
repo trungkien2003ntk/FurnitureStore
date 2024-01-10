@@ -1,8 +1,8 @@
 function storeIdProductIntoCookie(id,quantity) {
     // check if cart has items?
-    var myShoppingCart = JSON.parse(getCookie("shopping_Cart"));
+    var myShoppingCart = getCookie("shopping_Cart");
     
-    if (myShoppingCart.length == 0) {
+    if (myShoppingCart =="") {
         // if not, create new cart
         var myArray = {
             [id]: [quantity]
@@ -10,6 +10,7 @@ function storeIdProductIntoCookie(id,quantity) {
         setCookie("shopping_Cart", myArray);
     }
     else {
+        myShoppingCart = JSON.parse(myShoppingCart);
         myShoppingCart[id] = quantity;
         setCookie("shopping_Cart", myShoppingCart);
     }
