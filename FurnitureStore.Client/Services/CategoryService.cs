@@ -15,7 +15,7 @@ namespace FurnitureStore.Client.Services
 
         public async Task<IEnumerable<CategoryDTO>> GetCategoryDTOsByLevel(int level)
         {
-            string apiUrl = $"{GlobalConfig.PRODUCT_BASE_URL}level/{level}";
+            string apiUrl = $"{GlobalConfig.CATEGORY_BASE_URL}level/{level}";
 
             var response = await _httpClient.GetAsync(new Uri(apiUrl));
             if (response.IsSuccessStatusCode)
