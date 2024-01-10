@@ -3,7 +3,6 @@
 		"id": "staf00001",
 		"staffId": "staf00001",
 		"username": "admin",
-		"passwordTemp": "123456789abc",
-		"hashedAndSaltedPassword": "Hashed And Salted Password"
+		"password": "MTIzNDU2Nzg5YWJj"
 	}
 ]

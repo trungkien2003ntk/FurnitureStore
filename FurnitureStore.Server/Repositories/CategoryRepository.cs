@@ -162,4 +162,22 @@ public class CategoryRepository : ICategoryRepository
         _memoryCache.Set(CategoryIdCacheName, newId);
         return newId;
     }
+
+    public async Task<IEnumerable<CategoryDTO>> GetCategoryDTOsByLevelAsync(int level)
+    {
+        var queryDef = new QueryDefinition(
+            query:
+                "SELECT * " +
+                "FROM categories c " +
+                "WHERE c.level = @level"
+        ).WithParameter("@level", level);
+
+        var categoryDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<CategoryDocument>(_categoryContainer, queryDef);
+        var categoryDTOs = categoryDocs.Select(categoryDoc =>
+        {
+            return _mapper.Map<CategoryDTO>(categoryDoc);
+        }).ToList();
+
+        return categoryDTOs;
+    }
 }

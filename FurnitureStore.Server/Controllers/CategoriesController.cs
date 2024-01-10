@@ -29,6 +29,19 @@ public class CategoriesController : ControllerBase
         return Ok(categories);
     }
 
+    [HttpGet("level/{level}")]
+    public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetCategoriesByLevel(int level)
+    {
+        var categories = await _categoryRepository.GetCategoryDTOsByLevelAsync(level);
+
+        if (categories == null || !categories.Any())
+        {
+            return NotFound();
+        }
+
+        return Ok(categories);
+    }
+
     [HttpGet("newId")]
     public async Task<ActionResult<string>> GetNewCategoryIdAsync()
     {
