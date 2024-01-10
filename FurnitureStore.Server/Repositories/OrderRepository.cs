@@ -1,8 +1,8 @@
-﻿using FurnitureStore.Server.IRepositories;
-using FurnitureStore.Server.Models.Documents;
+﻿using FurnitureStore.Server.Models.Documents;
+using FurnitureStore.Server.Repositories.Interfaces;
 using FurnitureStore.Server.Utils;
 
-namespace FurnitureStore.Server.Repository
+namespace FurnitureStore.Server.Repositories
 {
     public class OrderRepository : IOrderRepository
     {
@@ -25,6 +25,9 @@ namespace FurnitureStore.Server.Repository
 
         public async Task AddOrderDocumentAsync(OrderDocument item)
         {
+            item.CreatedAt = DateTime.UtcNow;
+            item.ModifiedAt = item.CreatedAt;
+
             await _orderContainer.UpsertItemAsync(
                 item:item,
                 partitionKey: new PartitionKey(item.YearMonth)

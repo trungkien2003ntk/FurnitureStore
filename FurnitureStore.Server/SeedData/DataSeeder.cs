@@ -24,6 +24,7 @@ public class DataSeeder
     private readonly Container _variationContainer;
 
     public DataSeeder(
+        CosmosClient cosmosClient,
         IProductRepository productRepository,
         ICategoryRepository categoryRepository,
         IStaffRepository staffRepository,
@@ -35,6 +36,14 @@ public class DataSeeder
         _staffRepository = staffRepository;
         _orderRepository = orderRepository;
         _logger = logger;
+
+
+        var databaseName = cosmosClient.ClientOptions.ApplicationName;
+        _productContainer = cosmosClient.GetContainer(databaseName, "products");
+        _orderContainer = cosmosClient.GetContainer(databaseName, "orders");
+        _categoryContainer = cosmosClient.GetContainer(databaseName, "categories");
+        _staffContainer = cosmosClient.GetContainer(databaseName, "staffs");
+        _variationContainer = cosmosClient.GetContainer(databaseName, "variations");
     }
 
     public async Task SeedDataAsync()

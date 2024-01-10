@@ -1,8 +1,11 @@
-﻿using FurnitureStore.Server.IRepositories;
+﻿using FurnitureStore.Server.Models.BindingModels;
+using FurnitureStore.Server.Models.BindingModels.FilterModels;
 using FurnitureStore.Server.Models.Documents;
+using FurnitureStore.Server.Repositories.Interfaces;
 using FurnitureStore.Server.Utils;
+using System.Runtime.CompilerServices;
 
-namespace FurnitureStore.Server.Repository
+namespace FurnitureStore.Server.Repositories
 {
     public class ProductRepository : IProductRepository
     {
@@ -90,9 +93,11 @@ namespace FurnitureStore.Server.Repository
             return results;
         }
 
-        public async Task<IEnumerable<ProductDTO>> GetProductDTOsAsync()
+        public async Task<IEnumerable<ProductDTO>> GetProductDTOsAsync(QueryParameters queryParameters, ProductFilterModel filter)
         {
-            var productDocs = await GetProductDocumentsAsync();
+            var queryDef = CosmosDbUtils.BuildQuery(queryParameters, filter, isRemovableDocument: true);
+
+            var productDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<ProductDocument>(_productContainer, queryDef);
 
             var productDTOs = productDocs.Select(productDoc =>
             {
@@ -101,6 +106,23 @@ namespace FurnitureStore.Server.Repository
 
             return productDTOs;
         }
+
+        public async Task<IEnumerable<ProductDTO>> GetProductDTOsByVariationIdAsync(string variationId)
+        {
+            var queryDef = new QueryDefinition(
+                query:
+                "SELECT * " +
+                "FROM p " +
+                "WHERE p.isDeleted = false " +
+                "   AND STRINGEQUALS(p.variationDetail.id, @variationId"
+            ).WithParameter("@variationId", variationId);
+
+            var result = await CosmosDbUtils.GetDocumentsByQueryDefinition<ProductDocument>(_productContainer, queryDef);
+
+
+            return result.Select(prodDoc => _mapper.Map<ProductDTO>(prodDoc));
+        }
+
 
         public async Task<IEnumerable<ProductDocument>> GetProductDocumentsInCategoryAsync(string categoryId)
         {
