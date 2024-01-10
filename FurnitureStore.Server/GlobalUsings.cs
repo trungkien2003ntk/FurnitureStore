@@ -1,4 +1,5 @@
 ﻿global using AutoMapper;
+global using FluentValidation;
 global using FurnitureStore.Shared;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.Azure.Cosmos;
