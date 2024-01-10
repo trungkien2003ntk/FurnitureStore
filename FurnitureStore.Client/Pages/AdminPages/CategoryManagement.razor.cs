@@ -1,32 +1,34 @@
 ﻿using FurnitureStore.Client.IServices;
 using FurnitureStore.Shared;
+using Microsoft.AspNetCore.Components;
 
 namespace FurnitureStore.Client.Pages.AdminPages
 {
     public partial class CategoryManagement
     {
-        private readonly IServiceProvider _serviceProvider;
+        [Inject]
+        IProductService productService { get; set; } = null!;
+        public IEnumerable<ProductDTO> productList { get; set; } =new List<ProductDTO>();
 
         private bool isHiddenPopup { get; set; } = true;
-        private List<ProductDTO> productList = new List<ProductDTO>();
         private string labelContent = "";
 
         protected override async Task OnInitializedAsync()
         {
-            GetProductList();
+            await GetProductList();
             foreach (var item in productList)
             {
-                labelContent = item.CategoryId.ToString();
+                labelContent = item.Name;
             }
             await base.OnInitializedAsync();
         }
 
         public async Task GetProductList()
         {
-            var _productServer = _serviceProvider.GetService<IProductService>();
-            productList = await _productServer.GetAllProduct();
+            productList = await productService.GetAllProduct();
         }
-        public async void AddCategoryLV1()
+
+        public void AddCategoryLV1()
         {
             isHiddenPopup = false;
         }

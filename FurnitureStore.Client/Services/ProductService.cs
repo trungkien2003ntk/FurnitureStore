@@ -11,19 +11,18 @@ namespace FurnitureStore.Client.Services
         {
             _httpClient = httpClient;
         }
-        public async Task<List<ProductDTO>> GetAllProduct()
+        public async Task<IEnumerable<ProductDTO>> GetAllProduct()
         {
-            string apiUrl = $"{GlobalConfig.PRODUCT_BASE_URL}";
+            string apiUrl = GlobalConfig.PRODUCT_BASE_URL;
 
             var response = await _httpClient.GetAsync(new Uri(apiUrl));
             if (response.IsSuccessStatusCode)
             {
                 string jsonResponse = await response.Content.ReadAsStringAsync();
                 var product = JsonConvert.DeserializeObject<List<ProductDTO>>(jsonResponse);
-                return product;
+                return product!;
             }
-
-            return null;
+            return null!;
         }
     }
 }

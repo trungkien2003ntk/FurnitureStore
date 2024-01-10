@@ -1,4 +1,4 @@
-﻿namespace FurnitureStore.Shared
+﻿ namespace FurnitureStore.Shared
 {
     public class ProductDTO
     {
