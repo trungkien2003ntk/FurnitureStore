@@ -1,7 +1,6 @@
 ﻿using FurnitureStore.Server.IRepositories;
 using FurnitureStore.Server.Models.Documents;
 using FurnitureStore.Server.Utils;
-using System.Reflection.Emit;
 
 namespace FurnitureStore.Server.Repository;
 
@@ -198,5 +197,26 @@ public class CategoryRepository : ICategoryRepository
         }).ToList();
 
         return categoryDTOs;
+    }
+
+    public Task<IEnumerable<CategoryDetailDocument>> GetFullInformationOfAllCategories()
+    {
+
+        throw new NotImplementedException();
+
+        //var queryDef = new QueryDefinition(
+        //    query:
+        //        "SELECT * " +
+        //        "FROM categories c " +
+        //        "WHERE c.parent = @parent"
+        //).WithParameter("@parent", parent);
+
+        //var categoryDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<CategoryDocument>(_categoryContainer, queryDef);
+        //var categoryDTOs = categoryDocs.Select(categoryDoc =>
+        //{
+        //    return _mapper.Map<CategoryDTO>(categoryDoc);
+        //}).ToList();
+
+        //return categoryDTOs;
     }
 }

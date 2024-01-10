@@ -13,4 +13,5 @@ public interface ICategoryRepository
     Task<CategoryDTO> GetCategoryDTOByIdAsync(string id);
     Task DeleteCategoryAsync(string id);
     Task<string> GetNewCategoryIdAsync();
+    Task<IEnumerable<CategoryDetailDocument>> GetFullInformationOfAllCategories();
 }

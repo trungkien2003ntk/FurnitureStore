@@ -17,37 +17,25 @@ public class CategoriesController : ControllerBase
 
     // GET: api/<CategoriesController>
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetCategoriesAsync()
+    public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetCategoriesAsync(int level, string parent)
     {
-        var categories = await _categoryRepository.GetCategoryDTOsAsync();
+        List<CategoryDTO> categories = (await _categoryRepository.GetCategoryDTOsAsync()).ToList();
 
-        if (categories == null || !categories.Any()) 
+        if (level != 0)
         {
-            return NotFound();
+            categories = categories
+                .Where(c => c.Level == level)
+                .ToList();
         }
 
-        return Ok(categories);
-    }
-
-    [HttpGet("level/{level}")]
-    public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetCategoriesByLevel(int level)
-    {
-        var categories = await _categoryRepository.GetCategoryDTOsByLevelAsync(level);
-
-        if (categories == null || !categories.Any())
+        if (!string.IsNullOrEmpty(parent))
         {
-            return NotFound();
+            categories = categories
+                .Where(c => c.Parent == parent)
+                .ToList();
         }
 
-        return Ok(categories);
-    }
-
-    [HttpGet("parent/{parent}")]
-    public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetCategoriesByParent(string? parent)
-    {
-        var categories = await _categoryRepository.GetCategoryDTOsByParentAsync(parent);
-
-        if (categories == null || !categories.Any())
+        if (!categories.Any())
         {
             return NotFound();
         }
