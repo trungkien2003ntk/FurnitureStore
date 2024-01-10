@@ -52,6 +52,8 @@ public class CosmosDbUtils
             throw new ArgumentNullException(nameof(document));
     }
 
+
+
     public static QueryDefinition BuildQuery(QueryParameters queryParams, string defaultSelect = "SELECT *", bool isRemovableDocument = true)
     {
         var query = new StringBuilder($"{defaultSelect} FROM c WHERE ISDEFINED(c.id) ");
@@ -76,15 +78,13 @@ public class CosmosDbUtils
     }
 
 
-
-
     private static void AppendProductFilter(StringBuilder query, ProductFilterModel filter)
     {
-        //if (!VariableHelpers.IsNull(filter.CategoryIds))
-        //{
-        //    var categoryIds = string.Join(", ", filter.CategoryIds!.Select(id => $"\"{id}\""));
-        //    query.Append($" and c.categoryId IN ({categoryIds})");
-        //}
+        if (!VariableHelpers.IsNull(filter.CategoryIds))
+        {
+            var categoryIds = string.Join(", ", filter.CategoryIds!.Select(id => $"\"{id}\""));
+            query.Append($" and c.categoryId IN ({categoryIds})");
+        }
 
         if (!VariableHelpers.IsNull(filter.VariationId))
         {
