@@ -20,14 +20,23 @@ public class CategoryDocument
     [JsonProperty("children")]
     public List<string> Children { get; set; }
 
-    [JsonProperty("parent")]
-    public string Parent { get; set; }
+    [JsonProperty("parentId")]
+    public string ParentId { get; set; }
+
+    [JsonProperty("parentPath")]
+    public string ParentPath { get; set; }
 
     [JsonProperty("categoryPath")]
     public string CategoryPath { get; set; }
 
-    [JsonProperty("isDeletable")]
-    public bool IsDeletable { get; set; }
+    [JsonProperty("createdAt")]
+    public DateTime? CreatedAt { get; set; }
+
+    [JsonProperty("modifiedAt")]
+    public DateTime? ModifiedAt { get; set; }
+
+    [JsonProperty("isRemovable")]
+    public bool IsRemovable { get; set; }
 
     [JsonProperty("isDeleted")]
     public bool IsDeleted { get; set; }

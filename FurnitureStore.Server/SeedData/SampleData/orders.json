@@ -2,9 +2,10 @@
 	{
 		"id": "ord00001",
 		"orderId": "ord00001",
-		"orderDate": "2023-12-09T23:58:12.999316",
 		"yearMonth": "2023-12",
 		"customerType": "Retail",
+		"customerName": "Josheph Kim",
+		"phone": "0123456789",
 		"items": [
 			{
 				"productId": "prod00035",
@@ -54,22 +55,28 @@
 		},
 		"totalItems": 5,
 		"subtotal": 951440,
-		"discounts": 0,
+		"discountValue": 0,
 		"tax": 0,
 		"totalAmount": 951440,
-		"paymentMethod": "credit_card",
-		"status": "Paid",
+		"paymentDetails": {
+			"remainAmount": 0,
+			"paidAmount": 951440,
+			"paymentMethod": "credit_card",
+			"status": "paid"
+		},
+		"status": "paid",
 		"note": "",
 		"createdAt": "2023-12-04T23:58:12.999338",
-		"isDeleted": false,
+		"modifiedAt": "2023-12-04T23:58:12.999338",
 		"ttl": -1
 	},
 	{
 		"id": "ord00002",
 		"orderId": "ord00002",
-		"orderDate": "2023-12-12T23:58:12.999351",
 		"yearMonth": "2023-12",
 		"customerType": "Retail",
+		"customerName": "Josheph Kim",
+		"phone": "0123456789",
 		"items": [
 			{
 				"productId": "prod00029",
@@ -87,22 +94,28 @@
 		},
 		"totalItems": 1,
 		"subtotal": 303840,
-		"discounts": 0,
+		"discountValue": 0,
 		"tax": 0,
 		"totalAmount": 303840,
-		"paymentMethod": "credit_card",
-		"status": "Paid",
+		"paymentDetails": {
+			"remainAmount": 0,
+			"paidAmount": 303840,
+			"paymentMethod": "credit_card",
+			"status": "paid"
+		},
+		"status": "paid",
 		"note": "",
 		"createdAt": "2023-12-04T23:58:12.999359",
-		"isDeleted": false,
+		"modifiedAt": "2023-12-04T23:58:12.999359",
 		"ttl": -1
 	},
 	{
 		"id": "ord00003",
 		"orderId": "ord00003",
-		"orderDate": "2023-12-05T23:58:12.999378",
 		"yearMonth": "2023-12",
 		"customerType": "Retail",
+		"customerName": "Josheph Kim",
+		"phone": "0123456789",
 		"items": [
 			{
 				"productId": "prod00029",
@@ -136,22 +149,28 @@
 		},
 		"totalItems": 3,
 		"subtotal": 1095600,
-		"discounts": 0,
+		"discountValue": 0,
 		"tax": 0,
 		"totalAmount": 1095600,
-		"paymentMethod": "credit_card",
-		"status": "Paid",
+		"paymentDetails": {
+			"remainAmount": 0,
+			"paidAmount": 1095600,
+			"paymentMethod": "credit_card",
+			"status": "paid"
+		},
+		"status": "paid",
 		"note": "",
 		"createdAt": "2023-12-04T23:58:12.999387",
-		"isDeleted": false,
+		"modifiedAt": "2023-12-04T23:58:12.999387",
 		"ttl": -1
 	},
 	{
 		"id": "ord00004",
 		"orderId": "ord00004",
-		"orderDate": "2023-12-11T23:58:12.999397",
 		"yearMonth": "2023-12",
 		"customerType": "Retail",
+		"customerName": "Josheph Kim",
+		"phone": "0123456789",
 		"items": [
 			{
 				"productId": "prod00019",
@@ -169,22 +188,28 @@
 		},
 		"totalItems": 1,
 		"subtotal": 415840,
-		"discounts": 0,
+		"discountValue": 0,
 		"tax": 0,
 		"totalAmount": 415840,
-		"paymentMethod": "credit_card",
-		"status": "Paid",
+		"paymentDetails": {
+			"remainAmount": 0,
+			"paidAmount": 415840,
+			"paymentMethod": "credit_card",
+			"status": "paid"
+		},
+		"status": "paid",
 		"note": "",
 		"createdAt": "2023-12-04T23:58:12.999405",
-		"isDeleted": false,
+		"modifiedAt": "2023-12-04T23:58:12.999405",
 		"ttl": -1
 	},
 	{
 		"id": "ord00005",
 		"orderId": "ord00005",
-		"orderDate": "2023-12-08T23:58:12.999418",
 		"yearMonth": "2023-12",
 		"customerType": "Retail",
+		"customerName": "Josheph Kim",
+		"phone": "0123456789",
 		"items": [
 			{
 				"productId": "prod00022",
@@ -210,22 +235,28 @@
 		},
 		"totalItems": 2,
 		"subtotal": 164560,
-		"discounts": 0,
+		"discountValue": 0,
 		"tax": 0,
 		"totalAmount": 164560,
-		"paymentMethod": "credit_card",
-		"status": "Paid",
+		"paymentDetails": {
+			"remainAmount": 0,
+			"paidAmount": 164560,
+			"paymentMethod": "credit_card",
+			"status": "paid"
+		},
+		"status": "paid",
 		"note": "",
 		"createdAt": "2023-12-04T23:58:12.999426",
-		"isDeleted": false,
+		"modifiedAt": "2023-12-04T23:58:12.999426",
 		"ttl": -1
 	},
 	{
 		"id": "ord00006",
 		"orderId": "ord00006",
-		"orderDate": "2023-12-10T23:58:12.999451",
 		"yearMonth": "2023-12",
 		"customerType": "Retail",
+		"customerName": "Josheph Kim",
+		"phone": "0123456789",
 		"items": [
 			{
 				"productId": "prod00085",
@@ -275,22 +306,28 @@
 		},
 		"totalItems": 5,
 		"subtotal": 1156232,
-		"discounts": 0,
+		"discountValue": 0,
 		"tax": 0,
 		"totalAmount": 1156232,
-		"paymentMethod": "credit_card",
-		"status": "Paid",
+		"paymentDetails": {
+			"remainAmount": 0,
+			"paidAmount": 1156232,
+			"paymentMethod": "credit_card",
+			"status": "paid"
+		},
+		"status": "paid",
 		"note": "",
 		"createdAt": "2023-12-04T23:58:12.999459",
-		"isDeleted": false,
+		"modifiedAt": "2023-12-04T23:58:12.999459",
 		"ttl": -1
 	},
 	{
 		"id": "ord00007",
 		"orderId": "ord00007",
-		"orderDate": "2023-12-08T23:58:12.999472",
 		"yearMonth": "2023-12",
 		"customerType": "Retail",
+		"customerName": "Josheph Kim",
+		"phone": "0123456789",
 		"items": [
 			{
 				"productId": "prod00077",
@@ -316,22 +353,28 @@
 		},
 		"totalItems": 2,
 		"subtotal": 143840,
-		"discounts": 0,
+		"discountValue": 0,
 		"tax": 0,
 		"totalAmount": 143840,
-		"paymentMethod": "credit_card",
-		"status": "Paid",
+		"paymentDetails": {
+			"remainAmount": 0,
+			"paidAmount": 143840,
+			"paymentMethod": "credit_card",
+			"status": "paid"
+		},
+		"status": "paid",
 		"note": "",
 		"createdAt": "2023-12-04T23:58:12.999480",
-		"isDeleted": false,
+		"modifiedAt": "2023-12-04T23:58:12.999480",
 		"ttl": -1
 	},
 	{
 		"id": "ord00008",
 		"orderId": "ord00008",
-		"orderDate": "2023-12-14T23:58:12.999499",
 		"yearMonth": "2023-12",
 		"customerType": "Retail",
+		"customerName": "Josheph Kim",
+		"phone": "0123456789",
 		"items": [
 			{
 				"productId": "prod00021",
@@ -373,22 +416,28 @@
 		},
 		"totalItems": 4,
 		"subtotal": 410880,
-		"discounts": 0,
+		"discountValue": 0,
 		"tax": 0,
 		"totalAmount": 410880,
-		"paymentMethod": "credit_card",
-		"status": "Paid",
+		"paymentDetails": {
+			"remainAmount": 0,
+			"paidAmount": 410880,
+			"paymentMethod": "credit_card",
+			"status": "paid"
+		},
+		"status": "paid",
 		"note": "",
 		"createdAt": "2023-12-04T23:58:12.999507",
-		"isDeleted": false,
+		"modifiedAt": "2023-12-04T23:58:12.999507",
 		"ttl": -1
 	},
 	{
 		"id": "ord00009",
 		"orderId": "ord00009",
-		"orderDate": "2023-12-08T23:58:12.999529",
 		"yearMonth": "2023-12",
 		"customerType": "Retail",
+		"customerName": "Josheph Kim",
+		"phone": "0123456789",
 		"items": [
 			{
 				"productId": "prod00058",
@@ -430,22 +479,28 @@
 		},
 		"totalItems": 4,
 		"subtotal": 1135440,
-		"discounts": 0,
+		"discountValue": 0,
 		"tax": 0,
 		"totalAmount": 1135440,
-		"paymentMethod": "credit_card",
-		"status": "Paid",
+		"paymentDetails": {
+			"remainAmount": 0,
+			"paidAmount": 1135440,
+			"paymentMethod": "credit_card",
+			"status": "paid"
+		},
+		"status": "paid",
 		"note": "",
 		"createdAt": "2023-12-04T23:58:12.999538",
-		"isDeleted": false,
+		"modifiedAt": "2023-12-04T23:58:12.999538",
 		"ttl": -1
 	},
 	{
 		"id": "ord00010",
 		"orderId": "ord00010",
-		"orderDate": "2023-12-05T23:58:12.999551",
 		"yearMonth": "2023-12",
 		"customerType": "Retail",
+		"customerName": "Josheph Kim",
+		"phone": "0123456789",
 		"items": [
 			{
 				"productId": "prod00045",
@@ -471,22 +526,28 @@
 		},
 		"totalItems": 2,
 		"subtotal": 503120,
-		"discounts": 0,
+		"discountValue": 0,
 		"tax": 0,
 		"totalAmount": 503120,
-		"paymentMethod": "credit_card",
-		"status": "Paid",
+		"paymentDetails": {
+			"remainAmount": 0,
+			"paidAmount": 503120,
+			"paymentMethod": "credit_card",
+			"status": "paid"
+		},
+		"status": "paid",
 		"note": "",
 		"createdAt": "2023-12-04T23:58:12.999559",
-		"isDeleted": false,
+		"modifiedAt": "2023-12-04T23:58:12.999559",
 		"ttl": -1
 	},
 	{
 		"id": "ord00011",
 		"orderId": "ord00011",
-		"orderDate": "2023-12-13T23:58:12.999578",
 		"yearMonth": "2023-12",
 		"customerType": "Retail",
+		"customerName": "Josheph Kim",
+		"phone": "0123456789",
 		"items": [
 			{
 				"productId": "prod00086",
@@ -528,22 +589,28 @@
 		},
 		"totalItems": 4,
 		"subtotal": 994640,
-		"discounts": 0,
+		"discountValue": 0,
 		"tax": 0,
 		"totalAmount": 994640,
-		"paymentMethod": "credit_card",
-		"status": "Paid",
+		"paymentDetails": {
+			"remainAmount": 0,
+			"paidAmount": 994640,
+			"paymentMethod": "credit_card",
+			"status": "paid"
+		},
+		"status": "paid",
 		"note": "",
 		"createdAt": "2023-12-04T23:58:12.999586",
-		"isDeleted": false,
+		"modifiedAt": "2023-12-04T23:58:12.999586",
 		"ttl": -1
 	},
 	{
 		"id": "ord00012",
 		"orderId": "ord00012",
-		"orderDate": "2023-12-06T23:58:12.999605",
 		"yearMonth": "2023-12",
 		"customerType": "Retail",
+		"customerName": "Josheph Kim",
+		"phone": "0123456789",
 		"items": [
 			{
 				"productId": "prod00067",
@@ -577,22 +644,28 @@
 		},
 		"totalItems": 3,
 		"subtotal": 192160,
-		"discounts": 0,
+		"discountValue": 0,
 		"tax": 0,
 		"totalAmount": 192160,
-		"paymentMethod": "credit_card",
-		"status": "Paid",
+		"paymentDetails": {
+			"remainAmount": 0,
+			"paidAmount": 192160,
+			"paymentMethod": "credit_card",
+			"status": "paid"
+		},
+		"status": "paid",
 		"note": "",
 		"createdAt": "2023-12-04T23:58:12.999612",
-		"isDeleted": false,
+		"modifiedAt": "2023-12-04T23:58:12.999612",
 		"ttl": -1
 	},
 	{
 		"id": "ord00013",
 		"orderId": "ord00013",
-		"orderDate": "2023-12-09T23:58:12.999623",
 		"yearMonth": "2023-12",
 		"customerType": "Retail",
+		"customerName": "Josheph Kim",
+		"phone": "0123456789",
 		"items": [
 			{
 				"productId": "prod00029",
@@ -610,22 +683,28 @@
 		},
 		"totalItems": 1,
 		"subtotal": 303840,
-		"discounts": 0,
+		"discountValue": 0,
 		"tax": 0,
 		"totalAmount": 303840,
-		"paymentMethod": "credit_card",
-		"status": "Paid",
+		"paymentDetails": {
+			"remainAmount": 0,
+			"paidAmount": 303840,
+			"paymentMethod": "credit_card",
+			"status": "paid"
+		},
+		"status": "paid",
 		"note": "",
 		"createdAt": "2023-12-04T23:58:12.999631",
-		"isDeleted": false,
+		"modifiedAt": "2023-12-04T23:58:12.999631",
 		"ttl": -1
 	},
 	{
 		"id": "ord00014",
 		"orderId": "ord00014",
-		"orderDate": "2023-12-11T23:58:12.999651",
 		"yearMonth": "2023-12",
 		"customerType": "Retail",
+		"customerName": "Josheph Kim",
+		"phone": "0123456789",
 		"items": [
 			{
 				"productId": "prod00007",
@@ -675,22 +754,28 @@
 		},
 		"totalItems": 5,
 		"subtotal": 1076240,
-		"discounts": 0,
+		"discountValue": 0,
 		"tax": 0,
 		"totalAmount": 1076240,
-		"paymentMethod": "credit_card",
-		"status": "Paid",
+		"paymentDetails": {
+			"remainAmount": 0,
+			"paidAmount": 1076240,
+			"paymentMethod": "credit_card",
+			"status": "paid"
+		},
+		"status": "paid",
 		"note": "",
 		"createdAt": "2023-12-04T23:58:12.999659",
-		"isDeleted": false,
+		"modifiedAt": "2023-12-04T23:58:12.999659",
 		"ttl": -1
 	},
 	{
 		"id": "ord00015",
 		"orderId": "ord00015",
-		"orderDate": "2023-12-13T23:58:12.999676",
 		"yearMonth": "2023-12",
 		"customerType": "Retail",
+		"customerName": "Josheph Kim",
+		"phone": "0123456789",
 		"items": [
 			{
 				"productId": "prod00038",
@@ -724,22 +809,28 @@
 		},
 		"totalItems": 3,
 		"subtotal": 863600,
-		"discounts": 0,
+		"discountValue": 0,
 		"tax": 0,
 		"totalAmount": 863600,
-		"paymentMethod": "credit_card",
-		"status": "Paid",
+		"paymentDetails": {
+			"remainAmount": 0,
+			"paidAmount": 863600,
+			"paymentMethod": "credit_card",
+			"status": "paid"
+		},
+		"status": "paid",
 		"note": "",
 		"createdAt": "2023-12-04T23:58:12.999684",
-		"isDeleted": false,
+		"modifiedAt": "2023-12-04T23:58:12.999684",
 		"ttl": -1
 	},
 	{
 		"id": "ord00016",
 		"orderId": "ord00016",
-		"orderDate": "2023-12-13T23:58:12.999697",
 		"yearMonth": "2023-12",
 		"customerType": "Retail",
+		"customerName": "Josheph Kim",
+		"phone": "0123456789",
 		"items": [
 			{
 				"productId": "prod00058",
@@ -765,22 +856,28 @@
 		},
 		"totalItems": 2,
 		"subtotal": 367680,
-		"discounts": 0,
+		"discountValue": 0,
 		"tax": 0,
 		"totalAmount": 367680,
-		"paymentMethod": "credit_card",
-		"status": "Paid",
+		"paymentDetails": {
+			"remainAmount": 0,
+			"paidAmount": 367680,
+			"paymentMethod": "credit_card",
+			"status": "paid"
+		},
+		"status": "paid",
 		"note": "",
 		"createdAt": "2023-12-04T23:58:12.999705",
-		"isDeleted": false,
+		"modifiedAt": "2023-12-04T23:58:12.999705",
 		"ttl": -1
 	},
 	{
 		"id": "ord00017",
 		"orderId": "ord00017",
-		"orderDate": "2023-12-06T23:58:12.999727",
 		"yearMonth": "2023-12",
 		"customerType": "Retail",
+		"customerName": "Josheph Kim",
+		"phone": "0123456789",
 		"items": [
 			{
 				"productId": "prod00065",
@@ -830,14 +927,19 @@
 		},
 		"totalItems": 5,
 		"subtotal": 1163440,
-		"discounts": 0,
+		"discountValue": 0,
 		"tax": 0,
 		"totalAmount": 1163440,
-		"paymentMethod": "credit_card",
-		"status": "Paid",
+		"paymentDetails": {
+			"remainAmount": 0,
+			"paidAmount": 1163440,
+			"paymentMethod": "credit_card",
+			"status": "paid"
+		},
+		"status": "paid",
 		"note": "",
 		"createdAt": "2023-12-04T23:58:12.999735",
-		"isDeleted": false,
+		"modifiedAt": "2023-12-04T23:58:12.999735",
 		"ttl": -1
 	}
 ]

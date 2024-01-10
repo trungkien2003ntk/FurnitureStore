@@ -1,6 +1,6 @@
 ﻿using FurnitureStore.Server.Models.Documents;
 
-namespace FurnitureStore.Server.IRepositories;
+namespace FurnitureStore.Server.Repositories.Interfaces;
 
 public interface IStaffRepository
 {

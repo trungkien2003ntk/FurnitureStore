@@ -1,4 +1,4 @@
-using FurnitureStore.Server.IRepositories;
+using FurnitureStore.Server.Repositories.Interfaces;
 using FurnitureStore.Server.Repository;
 using FurnitureStore.Server.SeedData;
 using FurnitureStore.Server.Utils;
@@ -107,9 +107,10 @@ async Task<bool> EnsureContainersAreCreatedAsync(Database database)
     var containersToCreate = new[]
     {
         ("orders", "/yearMonth"),
-        ("categories", "/parent"),
+        ("categories", "/parentPath"),
         ("staffs", "/staffId"),
-        ("products", "/sku")
+        ("products", "/sku"),
+        ("variations", "/variationId")
     };
 
     foreach (var (containerName, partitionKeyPath) in containersToCreate)
