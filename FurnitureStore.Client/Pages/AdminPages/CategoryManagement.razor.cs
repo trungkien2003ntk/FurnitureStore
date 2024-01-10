@@ -7,25 +7,25 @@ namespace FurnitureStore.Client.Pages.AdminPages
     public partial class CategoryManagement
     {
         [Inject]
-        IProductService productService { get; set; } = null!;
-        public IEnumerable<ProductDTO> productList { get; set; } =new List<ProductDTO>();
+        ICategoryService categoryService { get; set; } = null!;
+        public IEnumerable<CategoryDTO> categorieListLV1 { get; set; } =new List<CategoryDTO>();
+        public IEnumerable<CategoryDTO> categorieListLV2 { get; set; } = new List<CategoryDTO>();
+        public IEnumerable<CategoryDTO> categorieListLV3 { get; set; } = new List<CategoryDTO>();
+        private string selectedCategoryId;
+
 
         private bool isHiddenPopup { get; set; } = true;
-        private string labelContent = "";
 
         protected override async Task OnInitializedAsync()
         {
-            await GetProductList();
-            foreach (var item in productList)
-            {
-                labelContent = item.Name;
-            }
+            await GetCategoryByLevel1();
+                
             await base.OnInitializedAsync();
         }
 
-        public async Task GetProductList()
+        public async Task GetCategoryByLevel1()
         {
-            productList = await productService.GetAllProduct();
+            categorieListLV1 = await categoryService.GetCategoryByLevel(1);
         }
 
         public void AddCategoryLV1()
@@ -47,6 +47,13 @@ namespace FurnitureStore.Client.Pages.AdminPages
         public void CancelAddUpdateCategoryPopup()
         {
             isHiddenPopup = true;
+        }
+        //Select a category item
+        private void SelectCategory(string Id)
+        {
+            selectedCategoryId = Id;
+
+            Console.WriteLine($"Selected Category ID: {selectedCategoryId}");
         }
     }
 }

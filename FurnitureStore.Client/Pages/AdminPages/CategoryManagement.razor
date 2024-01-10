@@ -162,12 +162,12 @@
                             <div class="card-body">
                                 <div class="grid-margin stretch-card d-flex align-items-center">
                                     <div class="col-lg-3 grid-margin stretch-card d-flex align-items-center">
-                                        <h4 class="card-title">@labelContent</h4>
+                                        <h4 class="card-title">Level 1</h4>
                                     </div>
                                     <div class="col-lg-9 grid-margin stretch-card d-flex align-items-center justify-content-end">
-                                        <h4 class="page-title">Soft by</h4>
+                                        <h4 class="page-title">Sort by</h4>
                                         <div class="dropdown" style="margin-left: 12px;">
-                                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuOutlineButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Soft by </button>
+                                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuOutlineButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Sort by </button>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuOutlineButton2">
                                                 <h6 class="dropdown-header">Level1</h6>
                                                 <a class="dropdown-item" href="#">Action</a>
@@ -187,42 +187,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>beds00001</td>
-                                            <td class="category-col-2">Anderson Canopy Bed Anderson Canopy Bed Anderson Canopy Bed</td>
-                                        </tr>
-                                        <tr>
-                                            <td>beds00001</td>
-                                            <td class="category-col-2">Anderson Canopy Bed Anderson Canopy Bed Anderson Canopy Bed</td>
-                                        </tr>
-                                        <tr>
-                                            <td>beds00001</td>
-                                            <td class="category-col-2">Anderson Canopy Bed Anderson Canopy Bed Anderson Canopy Bed</td>
-                                        </tr>
-                                        <tr>
-                                            <td>beds00001</td>
-                                            <td class="category-col-2">Anderson Canopy Bed Anderson Canopy Bed Anderson Canopy Bed</td>
-                                        </tr>
-                                        <tr>
-                                            <td>beds00001</td>
-                                            <td class="category-col-2">Anderson Canopy Bed Anderson Canopy Bed Anderson Canopy Bed</td>
-                                        </tr>
-                                        <tr>
-                                            <td>beds00001</td>
-                                            <td class="category-col-2">Anderson Canopy Bed Anderson Canopy Bed Anderson Canopy Bed</td>
-                                        </tr>
-                                        <tr>
-                                            <td>beds00001</td>
-                                            <td class="category-col-2">Anderson Canopy Bed Anderson Canopy Bed Anderson Canopy Bed</td>
-                                        </tr>
-                                        <tr>
-                                            <td>beds00001</td>
-                                            <td class="category-col-2">Anderson Canopy Bed Anderson Canopy Bed Anderson Canopy Bed</td>
-                                        </tr>
-                                        <tr>
-                                            <td>beds00001</td>
-                                            <td class="category-col-2">Anderson Canopy Bed Anderson Canopy Bed Anderson Canopy Bed</td>
-                                        </tr>
+                                        @foreach(var item in categorieListLV1)
+                                        {
+                                            <tr @onclick="(() => SelectCategory(item.Id))">
+                                                <td>@item.CategoryId</td>
+                                                <td class="category-col-2">@item.Name</td>
+                                            </tr>
+                                        }
                                     </tbody>
                                 </table>
                             </div>
@@ -236,9 +207,9 @@
                                         <h4 class="card-title">Level 2</h4>
                                     </div>
                                     <div class="col-lg-9 grid-margin stretch-card d-flex align-items-center justify-content-end">
-                                        <h4 class="page-title">Soft by</h4>
+                                        <h4 class="page-title">Sort by</h4>
                                         <div class="dropdown" style="margin-left: 12px;">
-                                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuOutlineButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Soft by </button>
+                                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuOutlineButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Sort by </button>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuOutlineButton2">
                                                 <h6 class="dropdown-header">Level1</h6>
                                                 <a class="dropdown-item" href="#">Action</a>
@@ -307,9 +278,9 @@
                                         <h4 class="card-title">Level 3</h4>
                                     </div>
                                     <div class="col-lg-9 grid-margin stretch-card d-flex align-items-center justify-content-end">
-                                        <h4 class="page-title">Soft by</h4>
+                                        <h4 class="page-title">Sort by</h4>
                                         <div class="dropdown" style="margin-left: 12px;">
-                                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuOutlineButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Soft by </button>
+                                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuOutlineButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Sort by </button>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuOutlineButton2">
                                                 <h6 class="dropdown-header">Level1</h6>
                                                 <a class="dropdown-item" href="#">Action</a>
