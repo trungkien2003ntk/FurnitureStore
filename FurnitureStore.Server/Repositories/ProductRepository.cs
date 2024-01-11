@@ -61,11 +61,16 @@ namespace FurnitureStore.Server.Repositories
 
                 productDocs = productDocs.Where(p =>
                 {
-                    var paths = p.CategoryPath!.Split('/');
-
-                    return paths.Any(path => categoryPaths.Contains($"/{path}")) ||
-                           paths.Skip(1).Any(path => categoryPaths.Contains($"/{paths.First()}/{path}")) ||
-                           paths.Skip(2).Any(path => categoryPaths.Contains($"/{paths.First()}/{paths.Skip(1).First()}/{path}"));
+                    var paths = p.CategoryPath.Split('/').Skip(1).ToList(); // Skip the first empty string from split
+                    for (int i = 0; i < paths.Count; i++)
+                    {
+                        var pathToCheck = string.Join("/", paths.Take(i + 1));
+                        if (categoryPaths.Contains($"/{pathToCheck}"))
+                        {
+                            return true;
+                        }
+                    }
+                    return false;
                 });
             }
 
@@ -168,8 +173,24 @@ namespace FurnitureStore.Server.Repositories
         {
             var productDoc = _mapper.Map<ProductDocument>(productDTO);
 
-            await AddProductDocumentAsync(productDoc);
 
+            productDoc.Status = DocumentStatusUtils.GetInventoryStatus(
+                productDoc.Stock,
+                productDoc.MinStock
+            );
+
+            productDoc.IsRemovable = true;
+            productDoc.IsDeleted = false;
+            productDoc.ModifiedAt = DateTime.UtcNow;
+
+
+
+
+
+            await _productContainer.UpsertItemAsync(
+                    item: productDoc,
+                    partitionKey: new PartitionKey(productDoc.Sku)
+                );
             _logger.LogInformation($"Product and inventory with id {productDoc.Id} added");
         }
 
@@ -212,7 +233,7 @@ namespace FurnitureStore.Server.Repositories
             productDoc.Description ??= "";
             productDoc.Sku ??= productId;
 
-            productDoc.MinStock ??= 0;
+            productDoc.MinStock ??= 3;
             productDoc.Status = DocumentStatusUtils.GetInventoryStatus(
                 productDoc.Stock,
                 productDoc.MinStock
@@ -225,6 +246,9 @@ namespace FurnitureStore.Server.Repositories
         {
             try
             {
+                item.CreatedAt = DateTime.UtcNow;
+                item.ModifiedAt = item.CreatedAt;
+
                 var response = await _productContainer.UpsertItemAsync(
                     item: item,
                     partitionKey: new PartitionKey(item.Sku)
