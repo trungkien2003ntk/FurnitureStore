@@ -293,6 +293,50 @@
                                                     </div>
                                                 </td>
                                             </tr>
+                                            @if (isClicked)
+                                            {
+                                                @foreach (var product2 in productVariantList)
+                                                {
+                                                    @if (product.Id != product2.Id)
+                                                    {
+                                                        <tr>
+                                                            <td>@product2.ProductId</td>
+                                                            <td class="product-col-2">
+                                                                @product2.Name
+                                                            </td>
+                                                            <td>@product2.VariationDetail.Value</td>
+                                                            <td>@product2.Stock</td>
+                                                            <td>@product2.Grams</td>
+                                                            <td>@($"{product2.Dimensions.Height}x{product.Dimensions.Width}x{product.Dimensions.Depth}")</td>
+                                                            <td>@product2.PurchasePrice</td>
+                                                            <td>@product2.SalePrice</td>
+                                                            @if (product2.Status == "In Stock")
+                                                            {
+                                                                <td><label class="badge badge-success">In Stock</label></td>
+                                                            }
+                                                            else if (product.Status == "Low Stock")
+                                                            {
+                                                                <td><label class="badge badge-warning">Low Stock</label></td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td><label class="badge badge-danger">Out of Stock</label></td>
+                                                            }
+                                                            <td>
+                                                                <div class="d-flex gap-1">
+                                                                    <button class="update-btn-product-table" @onclick="() => UpdateProduct(product.Id)">
+                                                                        <span class="mdi mdi-pencil-box"></span>
+                                                                    </button>
+                                                                    <button class="delete-btn-product-table" @onclick="() => DeleteProduct(product.Id)">
+                                                                        <span class="mdi mdi mdi-delete"></span>
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                }
+                                            }
+                                            isClicked = false;
                                         }
                                     </tbody>
                                 </table>
