@@ -1,5 +1,6 @@
 using FurnitureStore.Client.IServices.Customer;
 using FurnitureStore.Shared;
+using FurnitureStore.Shared.DTOs;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using static System.Net.WebRequestMethods;
@@ -16,7 +17,8 @@ namespace FurnitureStore.Client.Services.Customer
         }
         public async Task<IEnumerable<ProductDTO>> GetLatestProducts()
         {
-            string apiUrl = "https://localhost:7007/api/Products/";
+        
+            string apiUrl = "https://localhost:7007/api/Products?pageSize=35&pageNumber=1";
             var response = await _httpClient.GetAsync(new Uri(apiUrl));
             if (response.IsSuccessStatusCode)
             {

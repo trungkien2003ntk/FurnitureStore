@@ -1,7 +1,9 @@
-using FurnitureStore.Server.IRepositories;
-using FurnitureStore.Server.Repository;
+using FurnitureStore.Server.Models.BindingModels;
+using FurnitureStore.Server.Repositories;
+using FurnitureStore.Server.Repositories.Interfaces;
 using FurnitureStore.Server.SeedData;
 using FurnitureStore.Server.Utils;
+using FurnitureStore.Server.Validators.BindingModels;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,10 +36,17 @@ builder.Services.AddSingleton((provider) =>
     return new CosmosClient(endpointUri, primaryKey, cosmosClientOptions); 
 });
 
+
+// add repositories
 builder.Services.AddTransient<IProductRepository, ProductRepository>();
 builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
 builder.Services.AddTransient<IOrderRepository, OrderRepository>();
 builder.Services.AddTransient<IStaffRepository, StaffRepository>();
+
+// add validators
+builder.Services.AddTransient<IValidator<QueryParameters>, QueryParametersValidator>();
+
+
 builder.Services.AddTransient<DataSeeder>();
 builder.Services.AddControllers();
 
@@ -114,9 +123,10 @@ async Task<bool> EnsureContainersAreCreatedAsync(Database database)
     var containersToCreate = new[]
     {
         ("orders", "/yearMonth"),
-        ("categories", "/parent"),
+        ("categories", "/parentPath"),
         ("staffs", "/staffId"),
-        ("products", "/sku")
+        ("products", "/sku"),
+        ("variations", "/variationId")
     };
 
     foreach (var (containerName, partitionKeyPath) in containersToCreate)

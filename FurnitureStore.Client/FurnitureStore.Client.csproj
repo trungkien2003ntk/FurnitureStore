@@ -13,10 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\images\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\FurnitureStore.Shared\FurnitureStore.Shared.csproj" />
   </ItemGroup>
 

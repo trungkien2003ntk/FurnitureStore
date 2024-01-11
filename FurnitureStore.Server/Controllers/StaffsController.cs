@@ -1,25 +1,20 @@
-﻿using FurnitureStore.Server.IRepositories;
+﻿using FurnitureStore.Server.Repositories.Interfaces;
 
 namespace FurnitureStore.Server.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class StaffsController : ControllerBase
+public class StaffsController(
+    ILogger<StaffsController> logger,
+    IStaffRepository staffRepository
+) : ControllerBase
 {
-    private readonly ILogger<StaffsController> _logger;
-    private readonly IStaffRepository _staffRepository;
-
-    public StaffsController(ILogger<StaffsController> logger, IStaffRepository staffRepository)
-    {
-        _logger = logger;
-        _staffRepository = staffRepository;
-    }
 
     // GET: api/<StaffsController>
     [HttpGet]
     public async Task<ActionResult<IEnumerable<StaffDTO>>> GetStaffDTOsAsync()
     {
-        var staffs = await _staffRepository.GetStaffDTOsAsync();
+        var staffs = await staffRepository.GetStaffDTOsAsync();
 
         if (staffs == null || !staffs.Any())
         {
@@ -32,7 +27,7 @@ public class StaffsController : ControllerBase
     [HttpGet("newId")]
     public async Task<ActionResult<string>> GetNewStaffIdAsync()
     {
-        string newId = await _staffRepository.GetNewStaffIdAsync();
+        string newId = await staffRepository.GetNewStaffIdAsync();
 
         return Ok(newId);
     }
@@ -41,7 +36,7 @@ public class StaffsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<StaffDTO>> GetStaffDTOByIdAsync(string id)
     {
-        var staff = await _staffRepository.GetStaffDTOByIdAsync(id);
+        var staff = await staffRepository.GetStaffDTOByIdAsync(id);
 
         if (staff == null)
         {
@@ -51,19 +46,31 @@ public class StaffsController : ControllerBase
         return Ok(staff);
     }
 
-    // POST api/<StaffsController>
+    [HttpGet("{username}/{password}")]
+    public async Task<ActionResult<StaffDTO>> LoginStaff(string username, string password)
+    {
+        var staff = await staffRepository.LoginStaff(username, password);
+
+        if (staff == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(staff);
+    }
+
     [HttpPost]
     public async Task<ActionResult> CreateStaffAsync([FromBody] StaffDTO staffDTO)
     {
         try
         {
-            await _staffRepository.AddStaffDTOAsync(staffDTO);
+            await staffRepository.AddStaffDTOAsync(staffDTO);
 
             return Ok("Staff created successfully.");
         }
         catch (Exception ex)
         {
-            _logger.LogInformation($"Error message: {ex.Message}");
+            logger.LogInformation($"Error message: {ex.Message}");
             return StatusCode(500, $"An error occurred while creating the staff. StaffId: {staffDTO.StaffId}");
         }
     }
@@ -74,13 +81,13 @@ public class StaffsController : ControllerBase
     {
         try
         {
-            await _staffRepository.UpdateStaffAsync(staffDTO);
+            await staffRepository.UpdateStaffAsync(staffDTO);
 
             return Ok("Staff updated successfully.");
         }
         catch (Exception ex)
         {
-            _logger.LogInformation($"Error message: {ex.Message}");
+            logger.LogInformation($"Error message: {ex.Message}");
             return StatusCode(500, $"An error occurred while creating the staff. StaffId: {staffDTO.StaffId}");
         }
     }
@@ -91,13 +98,13 @@ public class StaffsController : ControllerBase
     {
         try
         {
-            await _staffRepository.DeleteStaffAsync(id);
+            await staffRepository.DeleteStaffAsync(id);
 
             return Ok("Staff updated successfully.");
         }
         catch (Exception ex)
         {
-            _logger.LogInformation($"Error message: {ex.Message}");
+            logger.LogInformation($"Error message: {ex.Message}");
             return StatusCode(500, $"An error occurred while creating the staff. StaffId: {id}");
         }
     }

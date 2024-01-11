@@ -2,11 +2,12 @@ function storeIdProductIntoCookie(id,quantity) {
     // check if cart has items?
     var myShoppingCart = getCookie("shopping_Cart");
     
-    if (myShoppingCart =="") {
-        // if not, create new cart
+
+    if (myShoppingCart == "") {
+        
         var myArray = {
-            [id]: [quantity]
-        }
+            [id]: quantity,
+        };
         setCookie("shopping_Cart", myArray);
     }
     else {

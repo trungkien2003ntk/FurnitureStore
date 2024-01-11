@@ -4,6 +4,7 @@
 @using FurnitureStore.Client.Services.Customer
 @using FurnitureStore.Client.Shared.Customer
 @using FurnitureStore.Shared
+@using FurnitureStore.Shared.DTOs
 @inject IProductService ProductServiceDI
 @inject NavigationManager navManager
 
@@ -59,7 +60,43 @@
 								@foreach (var productItem in latestProducts)
 								{
 									<div class="col-lg-3 col-md-6 mb-4">
-									<div class="card" @onclick="@(e => productClick(productItem.ProductId))">
+									@if (@productItem.VariationDetail.Id !=null)
+									{
+										<div class="card" @onclick="@(e => productClickByVariation(@productItem.VariationDetail.Id))">
+
+											<div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
+												 data-mdb-ripple-color="light">
+												<img src="@productItem.FeaturedImage"
+													 class="w-100" />
+												<a href="#!">
+													<div class="mask">
+														<div class="d-flex justify-content-start align-items-end h-100">
+															<h5>
+																<span class="badge bg-dark ms-2">NEW</span>
+															</h5>
+														</div>
+													</div>
+													<div class="hover-overlay">
+														<div class="mask"
+															 style="
+																background-color: rgba(251, 251, 251, 0.15);
+																		"></div>
+													</div>
+												</a>
+											</div>
+											<div class="card-body">
+												<a href="" class="text-reset">
+													<h5 class="card-title mb-2"> @productItem.Name</h5>
+												</a>
+
+												<h6 class="mb-3 price">$@productItem.RegularPrice</h6>
+											</div>
+										</div>
+									}
+									else
+									{
+										<div class="card" @onclick="@(e => productClick(@productItem.ProductId))">
+									
 											<div
 												class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
 												data-mdb-ripple-color="light"
@@ -94,6 +131,7 @@
 											<h6 class="mb-3 price">$@productItem.RegularPrice</h6>
 											</div>
 										</div>
+									}
 									</div>
 								}
 							}
@@ -205,11 +243,18 @@
 	protected override async Task OnInitializedAsync()
 	{
 		latestProducts = await ProductServiceDI.GetLatestProducts();
+		Console.WriteLine(latestProducts);
 	}
-	 void productClick(string idProduct)
+	void productClick(string idProduct)
 	{
 		navManager.NavigateTo("/product/detail" + "/" + idProduct);
 	}
-	
+	void productClickByVariation(string variationId)
+	{
+		
+			
+		
+	}
+
 }
 
