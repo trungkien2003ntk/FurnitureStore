@@ -151,6 +151,10 @@ public class ProductsController(
 
             return NoContent();
         }
+        catch(DocumentNotFoundException ex)
+        {
+            return BadRequest(ex.Message);
+        }
         catch (Exception ex)
         {
             logger.LogError(
