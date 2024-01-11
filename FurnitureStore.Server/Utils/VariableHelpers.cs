@@ -1,4 +1,7 @@
-﻿namespace FurnitureStore.Server.Utils
+﻿using System.Globalization;
+using System.Text.RegularExpressions;
+
+namespace FurnitureStore.Server.Utils
 {
     public class VariableHelpers
     {
@@ -20,6 +23,12 @@
         public static int RoundToThoudsand(double value)
         {
             return (int)(Math.Floor(value / 1000) * 1000);
+        }
+
+        public static string ToCamelCase(string str)
+        {
+            TextInfo txtInfo = new CultureInfo("en-us", false).TextInfo;
+            return txtInfo.ToTitleCase(str).Replace('_', ' ').Replace(" ", String.Empty);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using FurnitureStore.Server.Models.BindingModels;
+﻿using FurnitureStore.Server.Exceptions;
+using FurnitureStore.Server.Models.BindingModels;
 using FurnitureStore.Server.Models.BindingModels.FilterModels;
 using FurnitureStore.Server.Models.Documents;
 using FurnitureStore.Server.Repositories.Interfaces;
@@ -14,6 +15,7 @@ public class ProductsController(
     IValidator<QueryParameters> queryParametersValidator
 ) : ControllerBase
 {
+
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProductsAsync(QueryParameters queryParameters, ProductFilterModel filter)
     {
@@ -24,74 +26,37 @@ public class ProductsController(
             return BadRequest(queryParamResult.Errors);
         }
 
-        var result = await productRepository.GetProductDTOsAsync(queryParameters, filter);
-
-        if (VariableHelpers.IsNull(result))
+        try
         {
-            logger.LogInformation($"No product found!");
-            return NotFound();
+            var result = await productRepository.GetProductDTOsAsync(queryParameters, filter);
+            var totalCount = productRepository.TotalCount;
+
+            if (VariableHelpers.IsNull(result))
+            {
+                logger.LogInformation($"No product found!");
+                return NotFound();
+            }
+
+
+            logger.LogInformation($"Returned all products!");
+            return Ok(new
+            {
+                data = result,
+                metadata = new
+                {
+                    count = totalCount
+                }
+            });
         }
-
-        logger.LogInformation($"Returned all products!");
-        return Ok(result);
-    }
-
-
-    [HttpGet("variation/{variationId}")]
-    public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProductDTOsByVariationId(string variationId)
-    {
-        var products = await productRepository.GetProductDTOsByVariationIdAsync(variationId);
-
-        if (products == null || !products.Any()) 
+        catch (InvalidSortByPropertyException ex)
         {
-            return NotFound();
+            return BadRequest(ex.Message);
         }
-
-        return Ok(products);
     }
 
-    [HttpGet("category/{categoryId}")]
-    public async Task<ActionResult<IEnumerable<ProductDocument>>> GetProductsInCategoryAsync(string categoryId)
-    {
-        var products = await productRepository.GetProductDocumentsInCategoryAsync(categoryId);
-
-        if (products == null || !products.Any())
-        {
-            logger.LogInformation($"No product found in category id {categoryId}!");
-            return NotFound();
-        }
-
-        logger.LogInformation($"Returned all products in category id {categoryId}!");
-        return Ok(products);
-    }
-
-
-    [HttpGet("sku/{sku}")]
-    public async Task<ActionResult<ProductDTO>> GetProductBySkuAsync(string sku)
-    {
-        var product = await productRepository.GetProductDTOBySkuAsync(sku);
-
-        if (product == null)
-        {
-            logger.LogInformation($"Product with sku {sku} Not Found");
-            return NotFound();
-        }
-
-        logger.LogInformation($"Product with sku {sku} Found");
-
-        return Ok(product);
-    }
-
-    [HttpGet("newId")]
-    public async Task<ActionResult<string>> GetNewProductIdAsync()
-    {
-        string newId = await productRepository.GetNewProductIdAsync();
-
-        return Ok(newId);
-    }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<ProductDTO>> GetProductByIdAsync(string id)
+    public async Task<ActionResult<ProductDTO>> GetProductDTOByIdAsync(string id)
     {
         var product = await productRepository.GetProductDTOByIdAsync(id);
 
@@ -106,6 +71,7 @@ public class ProductsController(
         return Ok(product);
     }
 
+
     [HttpPost]
     public async Task<ActionResult> CreateProductAsync([FromBody] ProductDTO productDTO)
     {
@@ -116,16 +82,33 @@ public class ProductsController(
 
         try
         {
-            await productRepository.AddProductDTOAsync(productDTO);
+            var createdProductDTO = await productRepository.AddProductDTOAsync(productDTO);
 
-            return Ok("Product created successfully.");
+
+            if (createdProductDTO == null)
+            {
+                return StatusCode(500, "Failed to create product, please try again");
+            }
+
+
+            return CreatedAtAction(
+                   nameof(GetProductDTOByIdAsync), // method
+                   new { id = createdProductDTO.ProductId }, // param in method
+                   createdProductDTO // values returning after the route
+               );
         }
         catch (Exception ex)
         {
-            logger.LogInformation($"Error message: {ex.Message}");
-            return StatusCode(500, $"An error occurred while creating the product. ProductId: {productDTO.ProductId}");
+            logger.LogError(
+                    $"Create product failed. \n" +
+                    $"Error message: {ex.Message}");
+
+            return StatusCode(500,
+                 $"An error occurred while creating the product. \n" +
+                 $"Error message: {ex.Message}");
         }
     }
+
 
     [HttpPut("{id}")]
     public async Task<ActionResult> UpdateProductAsync(string id, [FromBody] ProductDTO productDTO)
@@ -135,16 +118,28 @@ public class ProductsController(
             return BadRequest("Product data is required.");
         }
 
+        if (id!= productDTO.Id)
+        {
+            return BadRequest("Specified id don't match with the DTO");
+        }
+
         try
         {
             await productRepository.UpdateProductDTOAsync(productDTO);
 
-            return Ok("Product updated successfully.");
+            return NoContent();
         }
         catch (Exception ex)
         {
-            logger.LogInformation($"Error message: {ex.Message}");
-            return StatusCode(500, $"An error occurred while updating the product. ProductId: {productDTO.ProductId}");
+            logger.LogError(
+                    $"Updating product failed. " +
+                    $"\nProduct Id: {id}. " +
+                    $"\nError message: {ex.Message}");
+
+            return StatusCode(500,
+                $"An error occurred while updating the product. \n" +
+                $"Product Id: {id}\n" +
+                $"Error message: {ex.Message}");
         }
     }
 
@@ -155,12 +150,19 @@ public class ProductsController(
         {
             await productRepository.DeleteProductDTOAsync(id);
 
-            return Ok("Product deleted successfully");
+            return NoContent();
         }
         catch (Exception ex)
         {
-            logger.LogInformation($"Error message: {ex.Message}");
-            return StatusCode(500, $"An error occurred while deleting the product. Product Id: {id}");
+            logger.LogError(
+                    $"Delete product failed. \n" +
+                    $"Product Id: {id}. \n" +
+                    $"Error message: {ex.Message}");
+
+            return StatusCode(500,
+                $"An error occurred while deleting the product. \n" +
+                $"Product Id: {id}\n" +
+                $"Error message: {ex.Message}");
         }
     }
 }

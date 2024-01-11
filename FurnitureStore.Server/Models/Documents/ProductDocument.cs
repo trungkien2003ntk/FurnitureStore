@@ -5,37 +5,37 @@ namespace FurnitureStore.Server.Models.Documents
     public class ProductDocument
     {
         [JsonProperty("id")]
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         [JsonProperty("productId")]
-        public string ProductId { get; set; }
+        public string? ProductId { get; set; }
 
         [JsonProperty("sku")]
-        public string Sku { get; set; }
+        public string? Sku { get; set; }
 
         [JsonProperty("name")]
-        public string Name { get; set; }
+        public string Name { get; set; } = "";
 
         [JsonProperty("description")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [JsonProperty("categoryId")]
-        public string CategoryId { get; set; }
+        public string? CategoryId { get; set; }
 
         [JsonProperty("categoryPath")]
-        public string CategoryPath { get; set; }
+        public string? CategoryPath { get; set; }
 
         [JsonProperty("categoryName")]
-        public string CategoryName { get; set; }
+        public string? CategoryName { get; set; }
 
         [JsonProperty("stock")]
         public int Stock { get; set; }
 
         [JsonProperty("minStock")]
-        public int MinStock { get; set; }
+        public int? MinStock { get; set; }
 
         [JsonProperty("status")]
-        public string Status { get; set; }
+        public string? Status { get; set; }
 
         [JsonProperty("regularPrice")]
         public int RegularPrice { get; set; }
@@ -47,16 +47,16 @@ namespace FurnitureStore.Server.Models.Documents
         public int PurchasePrice { get; set; }
 
         [JsonProperty("variationDetail")]
-        public VariationDetail VariationDetail { get; set; } = new VariationDetail();
+        public VariationDetail VariationDetail { get; set; } = new();
 
         [JsonProperty("grams")]
         public int Grams { get; set; }
 
         [JsonProperty("dimensions")]
-        public Dimensions Dimensions { get; set; } = new Dimensions();
+        public Dimensions Dimensions { get; set; } = new();
 
         [JsonProperty("featuredImage")]
-        public string FeaturedImage { get; set; }
+        public string? FeaturedImage { get; set; }
 
         [JsonProperty("imagesUrl")]
         public List<string> ImagesUrl { get; set; } = [];
@@ -68,10 +68,10 @@ namespace FurnitureStore.Server.Models.Documents
         public List<ProductOption> OptionalDetails { get; set; } = [];
 
         [JsonProperty("isDeleted")]
-        public bool IsDeleted { get; set; }
+        public bool? IsDeleted { get; set; }
 
         [JsonProperty("isRemovable")]
-        public bool IsRemovable { get; set; }
+        public bool? IsRemovable { get; set; }
 
         [JsonProperty("createdAt")]
         public DateTime? CreatedAt { get; set; }

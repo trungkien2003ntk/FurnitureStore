@@ -6,17 +6,11 @@ namespace FurnitureStore.Server.Repositories.Interfaces;
 
 public interface IProductRepository
 {
-    Task AddProductDocumentAsync(ProductDocument product);
-    Task AddProductDTOAsync(ProductDTO productDTO);
-    Task UpdateProductDTOAsync(ProductDTO productDTO);
+    int TotalCount { get; }
 
-    Task<string> GetNewProductIdAsync();
-    Task<IEnumerable<ProductDocument>> GetProductDocumentsAsync();
     Task<IEnumerable<ProductDTO>> GetProductDTOsAsync(QueryParameters queryParameters, ProductFilterModel filter);
-    Task<IEnumerable<ProductDTO>> GetProductDTOsByVariationIdAsync(string variationId);
-    Task<IEnumerable<ProductDocument>> GetProductDocumentsInCategoryAsync(string categoryId);
-    //Task<IEnumerable<ProductDTO>> GetProductDTOsInCategoryAsync(string categoryName);
-    Task<ProductDTO?> GetProductDTOBySkuAsync(string sku);
     Task<ProductDTO?> GetProductDTOByIdAsync(string id);
+    Task<ProductDTO?> AddProductDTOAsync(ProductDTO productDTO);
+    Task UpdateProductDTOAsync(ProductDTO productDTO);
     Task DeleteProductDTOAsync(string id);
 }
