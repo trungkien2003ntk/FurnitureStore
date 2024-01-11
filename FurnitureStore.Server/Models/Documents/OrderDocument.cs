@@ -17,8 +17,8 @@
         [JsonProperty("customerName")]
         public string CustomerName { get; set; }
 
-        [JsonProperty("phone")]
-        public string Phone { get; set; }
+        [JsonProperty("customerEmail")]
+        public string CustomerEmail { get; set; }
 
         [JsonProperty("items")]
         public List<OrderItem> Items { get; set; }

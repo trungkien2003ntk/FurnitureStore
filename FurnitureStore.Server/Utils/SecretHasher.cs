@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace BookstoreWebAPI.Utils
+namespace FurnitureStore.Server.Utils
 {
     public static class SecretHasher
     {

@@ -1,4 +1,8 @@
-﻿using FurnitureStore.Server.Repositories.Interfaces;
+﻿using FurnitureStore.Server.Exceptions;
+using FurnitureStore.Server.Models.BindingModels;
+using FurnitureStore.Server.Models.BindingModels.FilterModels;
+using FurnitureStore.Server.Repositories.Interfaces;
+using FurnitureStore.Shared.DTOs;
 
 namespace FurnitureStore.Server.Controllers;
 
@@ -13,37 +17,41 @@ public class OrdersController(
     private readonly ILogger<OrdersController> _logger = logger;
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<OrderDTO>>> GetOrderDTOsAsync()
+    public async Task<ActionResult<IEnumerable<OrderResponse>>> GetOrderDTOsAsync(QueryParameters queryParameters, OrderFilterModel filter)
     {
-        var orders = await _orderRepository.GetOrderDTOsAsync();
+        var orders = await _orderRepository.GetOrderDTOsAsync(queryParameters, filter);
+        var totalCount = _orderRepository.TotalCount;
 
         if (orders == null || !orders.Any())
         {
             return NotFound();
         }
 
-        return Ok(orders);
-    }
-
-    [HttpGet("newId")]
-    public async Task<ActionResult<string>> GetNewOrderIdAsync()
-    {
-        string newId = await _orderRepository.GetNewOrderIdAsync();
-
-        return Ok(newId);
+        return Ok(new OrderResponse()
+        {
+            Data = orders.ToList(),
+            Metadata = new Metadata() { Count = totalCount }
+        });
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<OrderDTO>> GetOrderDTOByIdAsync(string id)
     {
-        var order = await _orderRepository.GetOrderDTOByIdAsync(id);
-
-        if (order == null)
+        try
         {
-            return NotFound();
-        }
+            var order = await _orderRepository.GetOrderDTOByIdAsync(id);
 
-        return Ok(order);
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(order);
+        }
+        catch(DocumentNotFoundException ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpPost]
@@ -51,46 +59,60 @@ public class OrdersController(
     {
         try
         {
-            await _orderRepository.AddOrderDTOAsync(orderDTO);
+            var createdOrderDTO = await _orderRepository.AddOrderDTOAsync(orderDTO);
 
-            return Ok("Order created successfully.");
+            if (createdOrderDTO == null)
+            {
+                return StatusCode(500, "Failed to create order, please try again");
+            }
+
+            return CreatedAtAction(
+                nameof(GetOrderDTOByIdAsync),
+                new {id = createdOrderDTO.Id},
+                createdOrderDTO);
         }
         catch (Exception ex)
         {
-            _logger.LogInformation($"Error message: {ex.Message}");
-            return StatusCode(500, $"An error occurred while creating the order. OrderId: {orderDTO.OrderId}");
+            logger.LogError(
+                $"Create order failed. \n" +
+                $"Error message: {ex.Message}");
+
+            return StatusCode(500,
+                $"An error occurred while creating the order. \n" +
+                $"Error message: {ex.Message}");
         }
     }
 
-    [HttpPut]
-    public async Task<ActionResult> UpdateOrderAsync([FromBody] OrderDTO orderDTO)
+    [HttpPut("{id}")]
+    public async Task<ActionResult> UpdateOrderAsync(string id, [FromBody] OrderDTO orderDTO)
     {
+        if (id != orderDTO.OrderId)
+        {
+            return BadRequest("Specified id don't match with the DTO.");
+        }
+
+        if (orderDTO == null)
+        {
+            return BadRequest("OrderDTO data is needed");
+        }
+
         try
         {
             await _orderRepository.UpdateOrderAsync(orderDTO);
 
-            return Ok("Order updated successfully.");
+            return NoContent();
         }
         catch (Exception ex)
         {
-            _logger.LogInformation($"Error message: {ex.Message}");
-            return StatusCode(500, $"An error occurred while creating the order. OrderId: {orderDTO.OrderId}");
-        }
-    }
+            logger.LogError(
+                $"Update Order failed. \n" +
+                $"Order Id: {id}. \n" +
+                $"Error message: {ex.Message}");
 
-    [HttpDelete("{id}")]
-    public async Task<ActionResult> DeleteOrderAsync(string id)
-    {
-        try
-        {
-            await _orderRepository.DeleteOrderAsync(id);
-
-            return Ok("Order updated successfully.");
-        }
-        catch (Exception ex)
-        {
-            _logger.LogInformation($"Error message: {ex.Message}");
-            return StatusCode(500, $"An error occurred while creating the order. OrderId: {id}");
+            return StatusCode(500,
+                $"An error occurred while updating the Order. \n" +
+                $"Order Id: {id}\n" +
+                $"Error message: {ex.Message}");
         }
     }
 }

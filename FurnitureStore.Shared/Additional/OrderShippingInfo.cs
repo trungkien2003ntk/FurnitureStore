@@ -5,6 +5,9 @@ public class OrderShippingInfo
     [JsonProperty("address")]
     public string Address { get; set; }
 
+    [JsonProperty("phone")]
+    public string Phone { get; set; }
+
     [JsonProperty("shippingPrice")]
     public int ShippingPrice { get; set; }
 

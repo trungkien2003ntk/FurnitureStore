@@ -62,7 +62,8 @@ public class CategoryRepository : ICategoryRepository
 
     public async Task<CategoryDTO> GetCategoryDTOByIdAsync(string id)
     {
-        var categoryDoc = await GetCategoryDocumentByIdAsync(id) ?? throw new Exception(NotiCategoryNotFound);
+        var categoryDoc = await GetCategoryDocumentByIdAsync(id) 
+            ?? throw new DocumentNotFoundException(NotiCategoryNotFound);
 
         var categoryDTO = _mapper.Map<CategoryDTO>(categoryDoc);
 

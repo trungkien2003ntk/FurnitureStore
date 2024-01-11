@@ -47,14 +47,18 @@ namespace FurnitureStore.Server.Repositories
             if (!VariableHelpers.IsNull(filter.CategoryIds))
             {
                 var tasks = filter.CategoryIds!.Select(async cateId => {
-                    var category = await _categoryRepository.GetCategoryDTOByIdAsync(cateId);
-
-                    if (category != null)
+                    try
                     {
+                        var category = await _categoryRepository.GetCategoryDTOByIdAsync(cateId);
+                        
+                        
                         return category.CategoryPath;
-                    }
 
-                    return null;
+                    }
+                    catch (DocumentNotFoundException)
+                    {
+                        return null;
+                    }
                 });
 
                 var categoryPaths = await Task.WhenAll(tasks);
@@ -157,9 +161,9 @@ namespace FurnitureStore.Server.Repositories
 
             var createdProductDoc = await AddProductDocumentAsync(productDoc);
 
-            if (!VariableHelpers.IsNull(createdProductDoc)) 
+            if (createdProductDoc != null) 
             {
-                _memoryCache.Set(cacheProductNewIdName, IdUtils.IncreaseId(productDoc.Id));
+                _memoryCache.Set(cacheProductNewIdName, IdUtils.IncreaseId(createdProductDoc.Id));
 
                 _logger.LogInformation($"Product and inventory with id {productDoc.Id} added");
                 
