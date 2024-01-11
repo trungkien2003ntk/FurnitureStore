@@ -66,7 +66,6 @@ namespace FurnitureStore.Client.Services
             return null!;
         }
 
-        public async Task<IEnumerable<CategoryDTO>> GetCategoryDTOsByParent(string parent)
         public async Task<IEnumerable<CategoryDTO>> GetCategoryDTOsByParentIdAsync(string parentId)
         {
             string apiUrl = $"{GlobalConfig.CATEGORY_BASE_URL}?parentId={parentId}";

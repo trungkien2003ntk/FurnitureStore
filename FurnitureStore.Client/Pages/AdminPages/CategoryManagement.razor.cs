@@ -117,7 +117,7 @@ namespace FurnitureStore.Client.Pages.AdminPages
             selectedCategoryId2 = "";
             selectedCategoryId3 = "";
             path = path.Remove(0, 1);
-            categoryListLV2 = await categoryService.GetCategoryDTOsByParent(path) ?? new List<CategoryDTO>();
+            categoryListLV2 = await categoryService.GetCategoryDTOsByParentIdAsync(Id) ?? new List<CategoryDTO>();
         }
 
         private async Task SelectCategory2(string Id, string path)
@@ -212,7 +212,7 @@ namespace FurnitureStore.Client.Pages.AdminPages
         #region Helper
         public async Task GetCategoryByLevel1()
         {
-            categoryListLV1 = await categoryService.GetCategoryDTOsByLevel(1);
+            categoryListLV1 = await categoryService.GetCategoryDTOsByLevelAsync(1);
         }
         #endregion
     }

@@ -29,7 +29,7 @@ public class CategoriesController(
                 .ToList();
         }
 
-        if (!string.IsNullOrEmpty(parent))
+        if (!categories.Any())
         {
             return NotFound();
         }

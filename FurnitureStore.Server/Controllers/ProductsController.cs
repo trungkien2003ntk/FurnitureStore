@@ -47,40 +47,6 @@ public class ProductsController(
     }
 
 
-        if (products == null || !products.Any())
-        {
-            logger.LogInformation($"No product found in category id {categoryId}!");
-            return NotFound();
-        }
-
-        logger.LogInformation($"Returned all products in category id {categoryId}!");
-        return Ok(products);
-    }
-
-    [HttpGet("sku/{sku}")]
-    public async Task<ActionResult<ProductDTO>> GetProductBySkuAsync(string sku)
-    {
-        var product = await productRepository.GetProductDTOBySkuAsync(sku);
-
-        if (product == null)
-        {
-            logger.LogInformation($"Product with sku {sku} Not Found");
-            return NotFound();
-        }
-
-        logger.LogInformation($"Product with sku {sku} Found");
-
-        return Ok(product);
-    }
-
-    [HttpGet("newId")]
-    public async Task<ActionResult<string>> GetNewProductIdAsync()
-    {
-        string newId = await productRepository.GetNewProductIdAsync();
-
-        return Ok(newId);
-    }
-
     [HttpGet("{id}")]
     public async Task<ActionResult<ProductDTO>> GetProductDTOByIdAsync(string id)
     {
@@ -144,7 +110,7 @@ public class ProductsController(
             return BadRequest("Product data is required.");
         }
 
-        if (id!= productDTO.Id)
+        if (id != productDTO.Id)
         {
             return BadRequest("Specified id don't match with the DTO");
         }
