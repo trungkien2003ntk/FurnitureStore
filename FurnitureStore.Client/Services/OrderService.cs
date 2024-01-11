@@ -1,6 +1,8 @@
 ﻿using FurnitureStore.Client.IServices;
 using FurnitureStore.Shared.DTOs;
+using FurnitureStore.Shared.Responses;
 using Newtonsoft.Json;
+using System.Net;
 using System.Text;
 
 namespace FurnitureStore.Client.Services
@@ -14,7 +16,7 @@ namespace FurnitureStore.Client.Services
             _httpClient = httpClient;
         }
 
-        public async Task<OrderDTO> AddOrderAsync(OrderDTO orderDTO)
+        public async Task<OrderDTO?> AddOrderAsync(OrderDTO orderDTO)
         {
             string apiUrl = GlobalConfig.ORDER_BASE_URL;
 
@@ -24,35 +26,34 @@ namespace FurnitureStore.Client.Services
 
             if (response.IsSuccessStatusCode)
             {
-                return orderDTO;
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var returnedOrderDTO = JsonConvert.DeserializeObject<OrderDTO>(responseContent);
+                return returnedOrderDTO;
+            }
+            else if (response.StatusCode == HttpStatusCode.InternalServerError)
+            {
+                return null;
             }
 
-            return null!;
+            return null;
         }
 
-        public async Task<bool> DeleteOrderAsync(string orderId)
+        public async Task<OrderResponse?> GetOrderResponseAsync(string? status = null)
         {
-            string apiUrl = $"{GlobalConfig.ORDER_BASE_URL}/{orderId}";
-            var response = await _httpClient.DeleteAsync(new Uri(apiUrl)).ConfigureAwait(false);
-
-            return response.IsSuccessStatusCode;
-        }
-
-        public async Task<IEnumerable<OrderDTO>> GetAllOrdersAsync()
-        {
-            string apiUrl = GlobalConfig.ORDER_BASE_URL;
+            string apiUrl = GlobalConfig.ORDER_BASE_URL + $"{(status == null? $"?status={status}" : "")}";
 
             var response = await _httpClient.GetAsync(new Uri(apiUrl));
             if (response.IsSuccessStatusCode)
             {
                 string jsonResponse = await response.Content.ReadAsStringAsync();
-                var orders = JsonConvert.DeserializeObject<List<OrderDTO>>(jsonResponse);
-                return orders!;
+                var orderResponse= JsonConvert.DeserializeObject<OrderResponse>(jsonResponse);
+                return orderResponse;
             }
-            return null!;
+
+            return null;
         }
 
-        public async Task<OrderDTO> GetOrderByIdAsync(string orderId)
+        public async Task<OrderDTO?> GetOrderByIdAsync(string orderId)
         {
             string apiUrl = $"{GlobalConfig.ORDER_BASE_URL}/{orderId}";
 
@@ -63,7 +64,7 @@ namespace FurnitureStore.Client.Services
                 return JsonConvert.DeserializeObject<OrderDTO>(jsonResponse!)!;
             }
 
-            return null!;
+            return null;
         }
 
         public async Task<bool> UpdateOrderAsync(string orderId, OrderDTO orderDTO)

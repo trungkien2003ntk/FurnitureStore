@@ -18,12 +18,13 @@ namespace FurnitureStore.Server.Repositories
         private readonly IMapper _mapper;
         private readonly Container _productContainer;
         private readonly Container _categoryContainer;
+        private readonly ICategoryRepository _categoryRepository;
         private CategoryDocument? _defaultCategoryDoc;
 
 
         public int TotalCount { get; private set; } = 0;
 
-        public ProductRepository(CosmosClient cosmosClient, ILogger<CategoryRepository> logger, IMemoryCache memoryCache, IMapper mapper)
+        public ProductRepository(CosmosClient cosmosClient, ILogger<CategoryRepository> logger, IMemoryCache memoryCache, IMapper mapper, ICategoryRepository categoryRepository)
         {
             _logger = logger;
             _memoryCache = memoryCache;
@@ -32,6 +33,7 @@ namespace FurnitureStore.Server.Repositories
 
             _productContainer = cosmosClient.GetContainer(databaseName, "products");
             _categoryContainer = cosmosClient.GetContainer(databaseName, "categories");
+            _categoryRepository = categoryRepository;
         }
 
         public async Task<IEnumerable<ProductDTO>> GetProductDTOsAsync(QueryParameters queryParameters, ProductFilterModel filter)
@@ -44,9 +46,37 @@ namespace FurnitureStore.Server.Repositories
 
             if (!VariableHelpers.IsNull(filter.CategoryIds))
             {
-                productDocs = productDocs.Where(p => filter.CategoryIds!.Contains(p.CategoryId));
-            }
+                var tasks = filter.CategoryIds!.Select(async cateId => {
+                    try
+                    {
+                        var category = await _categoryRepository.GetCategoryDTOByIdAsync(cateId);
+                        
+                        
+                        return category.CategoryPath;
 
+                    }
+                    catch (DocumentNotFoundException)
+                    {
+                        return null;
+                    }
+                });
+
+                var categoryPaths = await Task.WhenAll(tasks);
+
+                productDocs = productDocs.Where(p =>
+                {
+                    var paths = p.CategoryPath.Split('/').Skip(1).ToList(); // Skip the first empty string from split
+                    for (int i = 0; i < paths.Count; i++)
+                    {
+                        var pathToCheck = string.Join("/", paths.Take(i + 1));
+                        if (categoryPaths.Contains($"/{pathToCheck}"))
+                        {
+                            return true;
+                        }
+                    }
+                    return false;
+                });
+            }
 
             if (!VariableHelpers.IsNull(filter.VariationId))
             {
@@ -131,9 +161,9 @@ namespace FurnitureStore.Server.Repositories
 
             var createdProductDoc = await AddProductDocumentAsync(productDoc);
 
-            if (!VariableHelpers.IsNull(createdProductDoc)) 
+            if (createdProductDoc != null) 
             {
-                _memoryCache.Set(cacheProductNewIdName, IdUtils.IncreaseId(productDoc.Id));
+                _memoryCache.Set(cacheProductNewIdName, IdUtils.IncreaseId(createdProductDoc.Id));
 
                 _logger.LogInformation($"Product and inventory with id {productDoc.Id} added");
                 
@@ -147,8 +177,24 @@ namespace FurnitureStore.Server.Repositories
         {
             var productDoc = _mapper.Map<ProductDocument>(productDTO);
 
-            await AddProductDocumentAsync(productDoc);
 
+            productDoc.Status = DocumentStatusUtils.GetInventoryStatus(
+                productDoc.Stock,
+                productDoc.MinStock
+            );
+
+            productDoc.IsRemovable = true;
+            productDoc.IsDeleted = false;
+            productDoc.ModifiedAt = DateTime.UtcNow;
+
+
+
+
+
+            await _productContainer.UpsertItemAsync(
+                    item: productDoc,
+                    partitionKey: new PartitionKey(productDoc.Sku)
+                );
             _logger.LogInformation($"Product and inventory with id {productDoc.Id} added");
         }
 
@@ -191,7 +237,7 @@ namespace FurnitureStore.Server.Repositories
             productDoc.Description ??= "";
             productDoc.Sku ??= productId;
 
-            productDoc.MinStock ??= 0;
+            productDoc.MinStock ??= 3;
             productDoc.Status = DocumentStatusUtils.GetInventoryStatus(
                 productDoc.Stock,
                 productDoc.MinStock
@@ -204,6 +250,9 @@ namespace FurnitureStore.Server.Repositories
         {
             try
             {
+                item.CreatedAt = DateTime.UtcNow;
+                item.ModifiedAt = item.CreatedAt;
+
                 var response = await _productContainer.UpsertItemAsync(
                     item: item,
                     partitionKey: new PartitionKey(item.Sku)

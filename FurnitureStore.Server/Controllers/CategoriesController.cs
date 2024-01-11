@@ -33,14 +33,16 @@ public class CategoriesController(
     [HttpGet("{id}")]
     public async Task<ActionResult<CategoryDTO>> GetCategoryDTOByIdAsync(string id)
     {
-        var category = await categoryRepository.GetCategoryDTOByIdAsync(id);
+        try
+        {
+            var category = await categoryRepository.GetCategoryDTOByIdAsync(id);
 
-        if (category == null)
+            return Ok(category);
+        }
+        catch(DocumentNotFoundException)
         {
             return NotFound();
         }
-
-        return Ok(category);
     }
 
     [HttpPost]
@@ -52,7 +54,7 @@ public class CategoriesController(
 
             if (createdCategoryDTO == null)
             {
-                return StatusCode(500, "Failed to create product, please try again");
+                return StatusCode(500, "Failed to create category, please try again");
             }
 
             return CreatedAtAction(
@@ -120,7 +122,7 @@ public class CategoriesController(
         {
             await categoryRepository.DeleteCategoryAsync(id);
 
-            return Ok("Category deleted successfully.");
+            return NoContent();
         }
         catch (DocumentRemovalException ex)
         {
