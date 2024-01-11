@@ -3,6 +3,7 @@ using FurnitureStore.Server.Models.BindingModels;
 using FurnitureStore.Server.Models.BindingModels.FilterModels;
 using FurnitureStore.Server.Models.Documents;
 using FurnitureStore.Server.Repositories.Interfaces;
+using FurnitureStore.Server.Services;
 using FurnitureStore.Server.Utils;
 using Microsoft.Azure.Cosmos.Core.Collections;
 using System.Runtime.CompilerServices;
@@ -20,11 +21,19 @@ namespace FurnitureStore.Server.Repositories
         private readonly Container _categoryContainer;
         private readonly ICategoryRepository _categoryRepository;
         private CategoryDocument? _defaultCategoryDoc;
+        private readonly AzureSearchClientService _searchService;
 
 
         public int TotalCount { get; private set; } = 0;
 
-        public ProductRepository(CosmosClient cosmosClient, ILogger<CategoryRepository> logger, IMemoryCache memoryCache, IMapper mapper, ICategoryRepository categoryRepository)
+        public ProductRepository(
+            CosmosClient cosmosClient,
+            ILogger<CategoryRepository> logger,
+            IMemoryCache memoryCache,
+            IMapper mapper,
+            ICategoryRepository categoryRepository,
+            AzureSearchServiceFactory searchServiceFactory
+        )
         {
             _logger = logger;
             _memoryCache = memoryCache;
@@ -34,15 +43,30 @@ namespace FurnitureStore.Server.Repositories
             _productContainer = cosmosClient.GetContainer(databaseName, "products");
             _categoryContainer = cosmosClient.GetContainer(databaseName, "categories");
             _categoryRepository = categoryRepository;
+
+            _searchService = searchServiceFactory.Create("products");
         }
 
         public async Task<IEnumerable<ProductDTO>> GetProductDTOsAsync(QueryParameters queryParameters, ProductFilterModel filter)
         {
-            
-            var queryDef = CosmosDbUtils.BuildQuery(queryParameters, filter, isRemovableDocument: true);
-            var productDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<ProductDocument>(_productContainer, queryDef);
+            IEnumerable<ProductDocument> productDocs = [];
 
-            List<ProductDocument> filteredProducts = [];
+            if (!string.IsNullOrEmpty(filter.Query))
+            {
+                var options = AzureSearchUtils.BuildOptions(queryParameters, filter);
+                var searchResult = await _searchService.SearchAsync<ProductDocument>(filter.Query, options);
+                TotalCount = searchResult.TotalCount;
+
+                productDocs = searchResult.Results;
+
+            }
+            else
+            {
+                var queryDef = CosmosDbUtils.BuildQuery(queryParameters, filter, isRemovableDocument: true);
+                productDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<ProductDocument>(_productContainer, queryDef);
+            }
+
+
 
             if (!VariableHelpers.IsNull(filter.CategoryIds))
             {
@@ -78,6 +102,16 @@ namespace FurnitureStore.Server.Repositories
                 });
             }
 
+            if (!VariableHelpers.IsNull(filter.PriceRangeStrings))
+            {
+                var priceRanges = filter.PriceRanges!;
+                productDocs = productDocs.Where(p =>
+                    priceRanges.Any(range => (p.SalePrice >= range.MinPrice) && (p.SalePrice <= range.MaxPrice))
+                ).ToList();
+            }
+
+            List<ProductDocument> filteredProducts = [];
+
             if (!VariableHelpers.IsNull(filter.VariationId))
             {
                 productDocs = productDocs.Where(p => filter.VariationId == p.VariationDetail.Id);
@@ -86,29 +120,39 @@ namespace FurnitureStore.Server.Repositories
             }
             else
             {
-                // Group the products by variationDetails.id
-                var groupedProducts = productDocs
-                    .Where(p => p.VariationDetail?.Id != null)
-                    .GroupBy(p => p.VariationDetail.Id);
+                // Create a dictionary to store the product with the lowest salePrice for each variationId
+                var lowestPriceVariationProducts = productDocs
+                    .Where(p => p.VariationDetail.Id != null)
+                    .GroupBy(p => p.VariationDetail.Id!)
+                    .ToDictionary(
+                        group => group.Key,
+                        group => group.OrderBy(p => p.SalePrice).First()
+                    );
 
-                // Select the product with the lowest salePrice from each group
-                foreach (var group in groupedProducts)
+                // Iterate over productDocs in the original order
+                foreach (var product in productDocs)
                 {
-                    var productWithLowestPrice = group.OrderBy(p => p.SalePrice).First();
-                    filteredProducts.Add(productWithLowestPrice);
+                    if (product.VariationDetail?.Id == null)
+                    {
+                        // If variationId is null, add the product to filteredProducts
+                        filteredProducts.Add(product);
+                    }
+                    else if (lowestPriceVariationProducts.TryGetValue(product.VariationDetail.Id, out var lowestPriceProduct))
+                    {
+                        // If this product is the one with the lowest salePrice for its variationId, add it to filteredProducts
+                        if (product == lowestPriceProduct)
+                        {
+                            filteredProducts.Add(product);
+                        }
+                    }
                 }
-
-                // Include products where variationDetails.id is null
-                filteredProducts.AddRange(productDocs.Where(p => p.VariationDetail?.Id == null));
             }
             
-
-
             TotalCount = filteredProducts.Count;
 
             
 
-            if (!string.IsNullOrEmpty(queryParameters.SortBy))
+            if (!string.IsNullOrEmpty(queryParameters.SortBy) && string.IsNullOrEmpty(filter.Query))
             {
                 var propertyName = VariableHelpers.ToCamelCase(queryParameters.SortBy);
                 var property = typeof(ProductDocument).GetProperty(propertyName);

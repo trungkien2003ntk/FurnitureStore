@@ -2,8 +2,11 @@ using FurnitureStore.Server.Models.BindingModels;
 using FurnitureStore.Server.Repositories;
 using FurnitureStore.Server.Repositories.Interfaces;
 using FurnitureStore.Server.SeedData;
+using FurnitureStore.Server.Services;
 using FurnitureStore.Server.Utils;
 using FurnitureStore.Server.Validators.BindingModels;
+using Microsoft.AspNetCore.Diagnostics;
+using static System.Net.Mime.MediaTypeNames;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +15,10 @@ builder.Logging.AddConsole();
 
 builder.Services.AddMemoryCache();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
-
+builder.Services.AddControllersWithViews(options =>
+{
+    options.SuppressAsyncSuffixInActionNames = false;
+});
 var configuration = builder.Configuration;
 
 // CosmosClient dependency injection
@@ -35,9 +41,18 @@ builder.Services.AddSingleton((provider) =>
 
     return new CosmosClient(endpointUri, primaryKey, cosmosClientOptions); 
 });
-builder.Services.AddControllersWithViews(options =>
+
+builder.Services.AddTransient<AzureSearchServiceFactory>();
+
+builder.Services.AddCors(options =>
 {
-    options.SuppressAsyncSuffixInActionNames = false;
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyOrigin() // or AllowAnyOrigin()
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowAnyOrigin();
+    });
 });
 
 // add repositories
@@ -69,11 +84,9 @@ using (var scope = scopeFactory.CreateScope())
     // Get the Database Name
     var databaseName = cosmosClient.ClientOptions.ApplicationName;
 
-    // Autoscale throughput settings
-    ThroughputProperties autoscaleThroughputProperties = ThroughputProperties.CreateAutoscaleThroughput(1000);
 
     //Create the database with autoscale enabled
-    var response = await cosmosClient.CreateDatabaseIfNotExistsAsync(databaseName, throughputProperties: autoscaleThroughputProperties);
+    var response = await cosmosClient.CreateDatabaseIfNotExistsAsync(databaseName);
 
     // Logging
     if (response.StatusCode == HttpStatusCode.Created)
@@ -98,12 +111,49 @@ using (var scope = scopeFactory.CreateScope())
     }
 }
 
+
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
 }
+else
+{
+    app.UseExceptionHandler(exceptionHandlerApp =>
+    {
+        exceptionHandlerApp.Run(async context =>
+        {
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+
+            // using static System.Net.Mime.MediaTypeNames;
+            context.Response.ContentType = Text.Plain;
+
+            await context.Response.WriteAsync("An exception was thrown.");
+
+            var exceptionHandlerPathFeature =
+                context.Features.Get<IExceptionHandlerPathFeature>();
+
+            if (exceptionHandlerPathFeature?.Error is FileNotFoundException)
+            {
+                await context.Response.WriteAsync(" The file was not found.");
+            }
+
+            if (exceptionHandlerPathFeature?.Path == "/")
+            {
+                await context.Response.WriteAsync(" Page: Home.");
+            }
+        });
+    });
+
+    app.UseHsts();
+}
+
+app.UseCors();
 
 app.UseHttpsRedirection();
 
