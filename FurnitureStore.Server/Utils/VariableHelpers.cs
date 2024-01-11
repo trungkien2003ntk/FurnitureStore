@@ -27,8 +27,7 @@ namespace FurnitureStore.Server.Utils
 
         public static string ToCamelCase(string str)
         {
-            TextInfo txtInfo = new CultureInfo("en-us", false).TextInfo;
-            return txtInfo.ToTitleCase(str).Replace('_', ' ').Replace(" ", String.Empty);
+            return char.ToUpper(str[0]) + str.Substring(1);
         }
     }
 }
