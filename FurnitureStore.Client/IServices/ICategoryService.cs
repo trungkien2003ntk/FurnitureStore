@@ -7,7 +7,6 @@ namespace FurnitureStore.Client.IServices
     {
         Task<IEnumerable<CategoryResponse>> GetAllCategoryResponsesWithNestedResult();
         Task<CategoryDTO> GetCategoryDTOsById(string id);
-        Task<IEnumerable<CategoryResponse>> GetAllCategoryResponses();
         Task<CategoryDTO> AddCategoryAsync(CategoryDTO categoryDTO);
         Task<bool> DeleteCategoryDTOAsync(string categoryId);
         Task<bool> UpdateCategoryDTOAsync(string categoryId, CategoryDTO categoryDTO);

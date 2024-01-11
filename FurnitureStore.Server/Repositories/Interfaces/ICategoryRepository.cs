@@ -9,11 +9,8 @@ public interface ICategoryRepository
     Task<CategoryDTO> GetCategoryDTOByIdAsync(string id);
     Task<CategoryDTO?> AddCategoryDTOAsync(CategoryDTO categoryDTO);
     Task UpdateCategoryAsync(CategoryDTO item);
-    Task AddCategoryDTOAsync(CategoryDTO item);
     Task<IEnumerable<CategoryDTO>> GetCategoryDTOsByLevelAsync(int level);
     Task<IEnumerable<CategoryDTO>> GetCategoryDTOsByParentAsync(string? parent);
-    Task<IEnumerable<CategoryResponse>> GetCategoryResponsesAsync();
-    Task<CategoryDTO> GetCategoryDTOByIdAsync(string id);
     Task<IEnumerable<CategoryDTO>> GetCategoryDTOsAsync();
     Task DeleteCategoryAsync(string id);
 }

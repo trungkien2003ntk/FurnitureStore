@@ -25,7 +25,7 @@ namespace FurnitureStore.Client.Pages.AdminPages
         protected override async Task OnInitializedAsync()
         {
             //Get pagination
-            var productResponse = await productService.GetProductDTOsByCategoryIdAndPageSizeAndPageNumberAsync();
+            var productResponse = await productService.GetProductDTOsAsync(null, null, null, null);
             if (productResponse != null)
             {
                 productList = productResponse.Data;
@@ -59,7 +59,7 @@ namespace FurnitureStore.Client.Pages.AdminPages
 
         private async Task UpdatePagination()
         {
-            var productResponse = await productService.GetProductDTOsByCategoryIdAndPageSizeAndPageNumberAsync(categoryIdList, pageSize, pageNumber);
+            var productResponse = await productService.GetProductDTOsAsync(categoryIdList,null, pageSize, pageNumber);
             if (productResponse != null)
             {
                 productList = productResponse.Data;

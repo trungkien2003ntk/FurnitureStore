@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FurnitureStore.Server", "Fu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FurnitureStore.Shared", "FurnitureStore.Shared\FurnitureStore.Shared.csproj", "{73A906CB-2C43-4C09-AD4A-73E61CD9B7E3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FunctionAppChangeFeed", "FunctionAppChangeFeed\FunctionAppChangeFeed.csproj", "{036D7820-D488-4E1E-909A-3C42D6845C93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CosmosChangeFeedFunction", "CosmosChangeFeedFunction\CosmosChangeFeedFunction.csproj", "{D1FD55A3-A2B9-42E1-83FD-D202495B1320}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{73A906CB-2C43-4C09-AD4A-73E61CD9B7E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73A906CB-2C43-4C09-AD4A-73E61CD9B7E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73A906CB-2C43-4C09-AD4A-73E61CD9B7E3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{036D7820-D488-4E1E-909A-3C42D6845C93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{036D7820-D488-4E1E-909A-3C42D6845C93}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{036D7820-D488-4E1E-909A-3C42D6845C93}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{036D7820-D488-4E1E-909A-3C42D6845C93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1FD55A3-A2B9-42E1-83FD-D202495B1320}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1FD55A3-A2B9-42E1-83FD-D202495B1320}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1FD55A3-A2B9-42E1-83FD-D202495B1320}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1FD55A3-A2B9-42E1-83FD-D202495B1320}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
