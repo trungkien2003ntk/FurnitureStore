@@ -14,6 +14,22 @@ namespace FurnitureStore.Client.Services
             _httpClient = httpClient;
         }
 
+        public async Task<CategoryDTO> AddCategoryAsync(CategoryDTO categoryDTO)
+        {
+            string apiUrl = GlobalConfig.CATEGORY_BASE_URL;
+
+            var json = JsonConvert.SerializeObject(categoryDTO);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync(new Uri(apiUrl), content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return categoryDTO;
+            }
+
+            return null!;
+        }
+
         public async Task<bool> DeleteCategoryDTOAsync(string categoryId)
         {
             string apiUrl = $"{GlobalConfig.CATEGORY_BASE_URL}/{categoryId}";

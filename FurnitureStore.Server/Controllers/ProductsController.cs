@@ -1,6 +1,5 @@
 ﻿using FurnitureStore.Server.Models.BindingModels;
 using FurnitureStore.Server.Models.BindingModels.FilterModels;
-using FurnitureStore.Server.Models.Documents;
 using FurnitureStore.Server.Repositories.Interfaces;
 using FurnitureStore.Server.Utils;
 
