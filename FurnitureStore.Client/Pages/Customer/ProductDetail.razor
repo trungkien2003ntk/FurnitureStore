@@ -20,12 +20,13 @@
 			<div class="detail-product_contain grid">
 				<div class="detail-img-section">
 					<div class="list-product-general">
+						@foreach (var imgList in product.ImagesUrl)
+						{
 						<div class="list-product-item">
-							<img src="https://rhomeco.com/cdn/shop/files/a64ae288cf97c9e173c18c7657771df0.png?v=1691004487&width=1200" alt="">
+								<img src="@imgList" alt="">
 						</div>
-						<div class="list-product-item">
-							<img src="https://rhomeco.com/cdn/shop/files/a64ae288cf97c9e173c18c7657771df0.png?v=1691004487&width=1200" alt="">
-						</div>
+						}
+
 					</div>
 					<div class="display-img">
 						<div>
@@ -54,13 +55,13 @@
 					<div class="detail-descript-block detail-product__quantity">
 						<label for="">Quantity</label>
 						<div class="cart-product-updown">
-							<button class="cart-product-updown-link">-</button>
-							<input class="cart-product-quantity" type="text" placeholder="1">
-							<button class="cart-product-updown-link">+</button>
+							<button class="cart-product-updown-link" @onclick="decreaseQuantityBtn">-</button>
+							<input class="cart-product-quantity" type="" value="@quantity" @onchange="changeQuantityInput">
+							<button class="cart-product-updown-link" @onclick="increaseQuantityBtn">+</button>
 						</div>
 					</div>
 					<div class="detail-descript-block">
-						<a class="app-btn" href="">Add to cart</a>
+						<a class="app-btn" @onclick="@(e => addToCart(product.ProductId))">Add to cart</a>
 						<a class="app-btn app-btn--payment" href="">Buy with VN Pay</a>
 					</div>
 					<div class="detail-descript-block detail-product__description">
@@ -436,9 +437,40 @@
 	[Parameter]
 	public string ? ProductId { get; set; }
 	private ProductDTO ?product;
+	// hình màu giá 
+	private int quantity = 1;
 	protected override async Task OnInitializedAsync()
 	{
 		if(ProductId !=null)
 			product =await ProductServiceDI.GetProductById(ProductId);
+	}
+	private void increaseQuantityBtn()
+	{
+		++quantity;
+	}
+	private void decreaseQuantityBtn()
+	{
+		if(quantity>1)
+			--quantity;
+	}
+	private void changeQuantityInput(ChangeEventArgs e)
+	{
+		string temp= e.Value.ToString().Trim();
+		if (temp.Length != 0)
+		{
+			int kq;
+			if( int.TryParse(e.Value.ToString(), out kq))
+			{
+				quantity = kq;
+				return;
+			}
+		}
+		--quantity;
+		quantity++;
+
+	}
+	privtae void addToCart(int productId)
+	{
+		
 	}
 }
