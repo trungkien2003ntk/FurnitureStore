@@ -4,7 +4,9 @@ namespace FurnitureStore.Client.IServices
 {
     public interface ICategoryService
     {
-        Task<IEnumerable<CategoryDTO>> GetCategoryDTOsByLevel(int level);
-        Task<IEnumerable<CategoryDTO>> GetCategoryDTOsByParentId(string parentId);
+        Task<bool> DeleteCategoryDTOAsync(string categoryId);
+        Task<bool> UpdateCategoryDTOAsync(string categoryId, CategoryDTO categoryDTO);
+        Task<IEnumerable<CategoryDTO>> GetCategoryDTOsByLevelAsync(int level);
+        Task<IEnumerable<CategoryDTO>> GetCategoryDTOsByParentIdAsync(string parentId);
     }
 }

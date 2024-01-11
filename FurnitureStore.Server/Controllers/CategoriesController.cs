@@ -101,7 +101,7 @@ public class CategoriesController(
         {
             await categoryRepository.DeleteCategoryAsync(id);
 
-            return Ok("Category updated successfully.");
+            return Ok("Category deleted successfully.");
         }
         catch (Exception ex)
         {
