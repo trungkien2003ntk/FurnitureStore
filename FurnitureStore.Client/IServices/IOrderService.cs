@@ -8,6 +8,6 @@ namespace FurnitureStore.Client.IServices
         Task<bool> DeleteOrderAsync(string orderId);
         Task<IEnumerable<OrderDTO>> GetAllOrdersAsync();
         Task<OrderDTO> GetOrderByIdAsync(string orderId);
-        Task<bool> UpdateOrderAsync(string orderId,  OrderDTO orderDTO);
+        Task<bool> UpdateOrderAsync(string orderId, OrderDTO orderDTO);
     }
 }
