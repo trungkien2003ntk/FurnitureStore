@@ -91,5 +91,19 @@ namespace FurnitureStore.Client.Services
 
             return response.IsSuccessStatusCode;
         }
+
+        public async Task<CategoryDTO> GetCategoryDTOByIdAsync(string categoryId)
+        {
+            string apiUrl = $"{GlobalConfig.CATEGORY_BASE_URL}/{categoryId}";
+
+            var response = await _httpClient.GetAsync(new Uri(apiUrl));
+            if (response.IsSuccessStatusCode)
+            {
+                string? jsonResponse = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<CategoryDTO>(jsonResponse!)!;
+            }
+
+            return null!;
+        }
     }
 }
