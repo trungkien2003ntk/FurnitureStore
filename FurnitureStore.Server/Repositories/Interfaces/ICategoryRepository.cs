@@ -1,10 +1,13 @@
-﻿using FurnitureStore.Server.Models.Documents;
+﻿using FurnitureStore.Server.Models.BindingModels.FilterModels;
+using FurnitureStore.Server.Models.BindingModels;
 
 namespace FurnitureStore.Server.Repositories.Interfaces;
 
 public interface ICategoryRepository
 {
-    Task AddCategoryDocumentAsync(CategoryDocument item);
+    Task<IEnumerable<CategoryResponse>> GetCategoryResponsesAsync(QueryParameters queryParameters, CategoryFilterModel filter);
+    Task<CategoryDTO> GetCategoryDTOByIdAsync(string id);
+    Task<CategoryDTO?> AddCategoryDTOAsync(CategoryDTO categoryDTO);
     Task UpdateCategoryAsync(CategoryDTO item);
     Task AddCategoryDTOAsync(CategoryDTO item);
     Task<IEnumerable<CategoryDTO>> GetCategoryDTOsByLevelAsync(int level);
@@ -13,6 +16,4 @@ public interface ICategoryRepository
     Task<CategoryDTO> GetCategoryDTOByIdAsync(string id);
     Task<IEnumerable<CategoryDTO>> GetCategoryDTOsAsync();
     Task DeleteCategoryAsync(string id);
-    Task<string> GetNewCategoryIdAsync();
-    Task<IEnumerable<CategoryDetailDocument>> GetFullInformationOfAllCategories();
 }

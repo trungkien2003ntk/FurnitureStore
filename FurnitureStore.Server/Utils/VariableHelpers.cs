@@ -10,9 +10,14 @@ namespace FurnitureStore.Server.Utils
             return valueToCheck == null || !valueToCheck.Any();
         }
 
-        public static bool IsNull<T>(T valueToCheck)
+        public static bool IsNull<T>(T? valueToCheck)
         {
             return valueToCheck == null;
+        }
+
+        public static bool IsNull(string? valueToCheck)
+        {
+            return string.IsNullOrEmpty(valueToCheck);
         }
 
         public static bool BeAValidDate(DateTime? date)

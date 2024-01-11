@@ -1,4 +1,8 @@
-﻿using FurnitureStore.Server.Repositories.Interfaces;
+﻿using FurnitureStore.Server.Exceptions;
+using FurnitureStore.Server.Models.BindingModels;
+using FurnitureStore.Server.Models.BindingModels.FilterModels;
+using FurnitureStore.Server.Repositories.Interfaces;
+using System.Runtime.InteropServices;
 
 namespace FurnitureStore.Server.Controllers;
 
@@ -12,22 +16,11 @@ public class CategoriesController(
 
     // GET: api/<CategoriesController>
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetCategoriesAsync(int level, string? parentId)
+    public async Task<ActionResult<IEnumerable<CategoryResponse>>> GetCategoriesAsync(QueryParameters queryParameters, CategoryFilterModel filter)
     {
-        List<CategoryDTO> categories = (await categoryRepository.GetCategoryDTOsAsync()).ToList();
-        if (level != 0)
-        {
-            categories = categories
-                .Where(c => c.Level == level)
-                .ToList();
-        }
+        IEnumerable<CategoryResponse> categories = [];
 
-        if (!string.IsNullOrEmpty(parentId))
-        {
-            categories = categories
-                .Where(c => c.ParentId == parentId)
-                .ToList();
-        }
+        categories = await categoryRepository.GetCategoryResponsesAsync(queryParameters, filter);
 
         if (!categories.Any())
         {
@@ -37,15 +30,6 @@ public class CategoriesController(
         return Ok(categories);
     }
 
-    [HttpGet("newId")]
-    public async Task<ActionResult<string>> GetNewCategoryIdAsync()
-    {
-        string newId = await categoryRepository.GetNewCategoryIdAsync();
-
-        return Ok(newId);
-    }
-
-    // GET api/<CategoriesController>/5
     [HttpGet("{id}")]
     public async Task<ActionResult<CategoryDTO>> GetCategoryDTOByIdAsync(string id)
     {
@@ -59,41 +43,76 @@ public class CategoriesController(
         return Ok(category);
     }
 
-    // POST api/<CategoriesController>
     [HttpPost]
     public async Task<ActionResult> CreateCategoryAsync([FromBody] CategoryDTO categoryDTO)
     {
         try
         {
-            await categoryRepository.AddCategoryDTOAsync(categoryDTO);
+            var createdCategoryDTO = await categoryRepository.AddCategoryDTOAsync(categoryDTO);
 
-            return Ok("Category created successfully.");
+            if (createdCategoryDTO == null)
+            {
+                return StatusCode(500, "Failed to create product, please try again");
+            }
+
+            return CreatedAtAction(
+                nameof(GetCategoryDTOByIdAsync),
+                new { id = createdCategoryDTO.Id },
+                createdCategoryDTO);
+        }
+        catch (DuplicateDocumentException ex)
+        {
+            return BadRequest(ex.Message);
         }
         catch (Exception ex)
         {
-            logger.LogInformation($"Error message: {ex.Message}");
-            return StatusCode(500, $"An error occurred while creating the category. CategoryId: {categoryDTO.CategoryId}");
+            logger.LogError(
+                    $"Create category failed. \n" +
+                    $"Error message: {ex.Message}");
+
+            return StatusCode(500,
+                $"An error occurred while creating the category. \n" +
+                $"Error message: {ex.Message}");
         }
     }
 
-    // PUT api/<CategoriesController>/5
     [HttpPut("{id}")]
     public async Task<ActionResult> UpdateCategoryAsync(string id, [FromBody] CategoryDTO categoryDTO)
     {
+        if (id != categoryDTO.CategoryId)
+        {
+            return BadRequest("Specified id don't match with the DTO.");
+        }
+
+        if (categoryDTO == null)
+        {
+            return BadRequest("CategoryDTO data is needed");
+        }
+
         try
         {
             await categoryRepository.UpdateCategoryAsync(categoryDTO);
 
-            return Ok("Category updated successfully.");
+            return NoContent();
+        }
+        catch(DuplicateDocumentException ex)
+        {
+            return BadRequest(ex.Message);
         }
         catch (Exception ex)
         {
-            logger.LogInformation($"Error message: {ex.Message}");
-            return StatusCode(500, $"An error occurred while creating the category. CategoryId: {categoryDTO.CategoryId}");
+            logger.LogError(
+                    $"Update category failed. " +
+                    $"\nCategory Id: {id}. " +
+                    $"\nError message: {ex.Message}");
+
+            return StatusCode(500,
+                $"An error occurred while updating the category. \n" +
+                $"Category Id: {id}\n" +
+                $"Error message: {ex.Message}");
         }
     }
 
-    // DELETE api/<CategoriesController>/5
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteCategoryAsync(string id)
     {
@@ -102,6 +121,10 @@ public class CategoriesController(
             await categoryRepository.DeleteCategoryAsync(id);
 
             return Ok("Category deleted successfully.");
+        }
+        catch (DocumentRemovalException ex)
+        {
+            return StatusCode(403, ex.Message);
         }
         catch (Exception ex)
         {

@@ -5,6 +5,7 @@ namespace FurnitureStore.Client.IServices
 {
     public interface ICategoryService
     {
+        Task<IEnumerable<CategoryResponse>> GetAllCategoryResponsesWithNestedResult();
         Task<CategoryDTO> GetCategoryDTOsById(string id);
         Task<IEnumerable<CategoryResponse>> GetAllCategoryResponses();
         Task<CategoryDTO> AddCategoryAsync(CategoryDTO categoryDTO);
