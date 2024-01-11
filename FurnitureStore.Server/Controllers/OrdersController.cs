@@ -47,13 +47,13 @@ public class OrdersController(
     }
 
     [HttpPost]
-    public async Task<ActionResult> CreateOrderAsync([FromBody] OrderDTO orderDTO)
+    public async Task<ActionResult<OrderDTO>> CreateOrderAsync([FromBody] OrderDTO orderDTO)
     {
         try
         {
             await _orderRepository.AddOrderDTOAsync(orderDTO);
 
-            return Ok("Order created successfully.");
+            return Ok(orderDTO);
         }
         catch (Exception ex)
         {

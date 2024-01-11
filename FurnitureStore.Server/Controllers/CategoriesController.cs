@@ -12,23 +12,10 @@ public class CategoriesController(
 
     // GET: api/<CategoriesController>
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetCategoriesAsync(int level, string? parentId)
+    public async Task<ActionResult<IEnumerable<CategoryResponse>>> GetCategoriesAsync()
     {
-        List<CategoryDTO> categories = (await categoryRepository.GetCategoryDTOsAsync()).ToList();
-        if (level != 0)
-        {
-            categories = categories
-                .Where(c => c.Level == level)
-                .ToList();
-        }
-
-        if (!string.IsNullOrEmpty(parentId))
-        {
-            categories = categories
-                .Where(c => c.ParentId == parentId)
-                .ToList();
-        }
-
+        var categories = await categoryRepository.GetCategoryResponsesAsync();
+        
         if (!categories.Any())
         {
             return NotFound();

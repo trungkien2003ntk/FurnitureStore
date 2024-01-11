@@ -36,15 +36,77 @@ namespace FurnitureStore.Server.Repositories
 
         public async Task<IEnumerable<ProductDTO>> GetProductDTOsAsync(QueryParameters queryParameters, ProductFilterModel filter)
         {
+            
             var queryDef = CosmosDbUtils.BuildQuery(queryParameters, filter, isRemovableDocument: true);
-
-            queryParameters.PageSize = -1;
-            var getAllQueryDef = CosmosDbUtils.BuildQuery(queryParameters, filter, isRemovableDocument: true);
-
             var productDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<ProductDocument>(_productContainer, queryDef);
-            TotalCount = (await CosmosDbUtils.GetDocumentsByQueryDefinition<ProductDocument>(_productContainer, getAllQueryDef)).Count();
 
-            var productDTOs = productDocs.Select(productDoc =>
+            List<ProductDocument> filteredProducts = [];
+
+            if (!VariableHelpers.IsNull(filter.CategoryIds))
+            {
+                productDocs = productDocs.Where(p => filter.CategoryIds!.Contains(p.CategoryId));
+            }
+
+
+            if (!VariableHelpers.IsNull(filter.VariationId))
+            {
+                productDocs = productDocs.Where(p => filter.VariationId == p.VariationDetail.Id);
+
+                filteredProducts.AddRange(productDocs);
+            }
+            else
+            {
+                // Group the products by variationDetails.id
+                var groupedProducts = productDocs
+                    .Where(p => p.VariationDetail?.Id != null)
+                    .GroupBy(p => p.VariationDetail.Id);
+
+                // Select the product with the lowest salePrice from each group
+                foreach (var group in groupedProducts)
+                {
+                    var productWithLowestPrice = group.OrderBy(p => p.SalePrice).First();
+                    filteredProducts.Add(productWithLowestPrice);
+                }
+
+                // Include products where variationDetails.id is null
+                filteredProducts.AddRange(productDocs.Where(p => p.VariationDetail?.Id == null));
+            }
+            
+
+
+            TotalCount = filteredProducts.Count;
+
+            
+
+            if (!string.IsNullOrEmpty(queryParameters.SortBy))
+            {
+                var propertyName = VariableHelpers.ToCamelCase(queryParameters.SortBy);
+                var property = typeof(ProductDocument).GetProperty(propertyName);
+                if (property != null)
+                {
+                    if (queryParameters.OrderBy?.ToLower() == "desc")
+                    {
+                        filteredProducts = filteredProducts.OrderByDescending(p => property.GetValue(p, null)).ToList();
+                    }
+                    else
+                    {
+                        filteredProducts = filteredProducts.OrderBy(p => property.GetValue(p, null)).ToList();
+                    }
+                }
+                else
+                {
+                    throw new InvalidSortByPropertyException(queryParameters.SortBy);
+                }
+            }
+
+            // pagination
+            if (queryParameters.PageSize.HasValue && queryParameters.PageSize != -1)
+            {
+                int skip = (queryParameters.PageNumber.GetValueOrDefault(1) - 1) * queryParameters.PageSize.Value;
+                filteredProducts = filteredProducts.Skip(skip).Take(queryParameters.PageSize.Value).ToList();
+            }
+
+            var productDTOs = filteredProducts.Select(productDoc =>
             {
                 return _mapper.Map<ProductDTO>(productDoc);
             }).ToList();

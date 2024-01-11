@@ -68,9 +68,18 @@ public class CosmosDbUtils
     {
         var query = new StringBuilder($"{defaultSelect} FROM c WHERE ISDEFINED(c.id) ");
 
-        AppendProductFilter(query, filter);
+        //AppendProductFilter(query, filter);
         AppendDeleteFilter(query, isRemovableDocument);
-        AppendQueryParameters(query, queryParams);
+
+        QueryParameters queryParamsToGetAll = new()
+        {
+            PageNumber = 1,
+            PageSize = -1,
+            OrderBy = queryParams.OrderBy,
+            SortBy = queryParams.SortBy
+        };
+
+        AppendQueryParameters(query, queryParamsToGetAll);
 
         QueryDefinition queryDef = BuildQueryDef(query);
 
@@ -89,6 +98,11 @@ public class CosmosDbUtils
         if (!VariableHelpers.IsNull(filter.VariationId))
         {
             query.Append($" AND (NOT IS_NULL(c.variationDetail.id) AND STRINGEQUALS(c.variationDetail.id, '{filter.VariationId}'))");
+        }
+        else
+        {
+            // if variationDetails.id is null, we'll include it in the result, otherwise, just include the one with min SalePrice
+            query.Append(" AND (c.variationDetails.id = null OR c.salePrice = (SELECT VALUE MIN(p.salePrice) FROM p WHERE p.variationDetails.id = c.variationDetails.id))");
         }
 
         //AppendIsActiveFilter(query, filter.IsActive);
