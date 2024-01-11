@@ -60,7 +60,7 @@ namespace FurnitureStore.Client.Services
             if (response.IsSuccessStatusCode)
             {
                 string? jsonResponse = await response.Content.ReadAsStringAsync();
-                return (JsonConvert.DeserializeObject<OrderDTO>(jsonResponse!))!;
+                return JsonConvert.DeserializeObject<OrderDTO>(jsonResponse!)!;
             }
 
             return null!;
