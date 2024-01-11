@@ -1,4 +1,5 @@
 ﻿using FurnitureStore.Shared.DTOs;
+using FurnitureStore.Shared.Responses;
 
 namespace FurnitureStore.Client.IServices
 {
