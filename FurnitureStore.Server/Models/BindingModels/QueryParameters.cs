@@ -3,10 +3,10 @@
     public class QueryParameters
     {
         [FromQuery(Name = "pageSize")]
-        public int PageSize { get; set; } = -1;
+        public int? PageSize { get; set; } = -1;
 
         [FromQuery(Name = "pageNumber")]
-        public int PageNumber { get; set; } = 1;
+        public int? PageNumber { get; set; } = 1;
 
         [FromQuery(Name = "sortBy")]
         public string SortBy { get; set; } = "id";

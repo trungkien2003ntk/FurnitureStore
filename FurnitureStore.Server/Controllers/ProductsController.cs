@@ -1,4 +1,5 @@
-﻿using FurnitureStore.Server.Models.BindingModels;
+﻿using FurnitureStore.Server.Exceptions;
+using FurnitureStore.Server.Models.BindingModels;
 using FurnitureStore.Server.Models.BindingModels.FilterModels;
 using FurnitureStore.Server.Models.Documents;
 using FurnitureStore.Server.Repositories.Interfaces;
@@ -25,25 +26,32 @@ public class ProductsController(
             return BadRequest(queryParamResult.Errors);
         }
 
-        var result = await productRepository.GetProductDTOsAsync(queryParameters, filter);
-        var totalCount = productRepository.TotalCount;
-
-        if (VariableHelpers.IsNull(result))
+        try
         {
-            logger.LogInformation($"No product found!");
-            return NotFound();
-        }
+            var result = await productRepository.GetProductDTOsAsync(queryParameters, filter);
+            var totalCount = productRepository.TotalCount;
 
-
-        logger.LogInformation($"Returned all products!");
-        return Ok(new
-        {
-            data = result,
-            metadata = new
+            if (VariableHelpers.IsNull(result))
             {
-                count = totalCount
+                logger.LogInformation($"No product found!");
+                return NotFound();
             }
-        });
+
+
+            logger.LogInformation($"Returned all products!");
+            return Ok(new
+            {
+                data = result,
+                metadata = new
+                {
+                    count = totalCount
+                }
+            });
+        }
+        catch (InvalidSortByPropertyException ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
 
