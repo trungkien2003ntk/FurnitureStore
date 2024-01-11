@@ -6,6 +6,7 @@ namespace FurnitureStore.Client.Pages.AdminPages
 {
     public partial class CategoryManagement
     {
+        #region Properties
         [Inject]
         ICategoryService categoryService { get; set; } = null!;
         public IEnumerable<CategoryDTO> categoryListLV1 { get; set; } =new List<CategoryDTO>();
@@ -24,19 +25,18 @@ namespace FurnitureStore.Client.Pages.AdminPages
         private string AddUpdateCategoryForm { get; set; } = "";
         private string CategoryNameInput { get; set; } = "";
         private string LevelLabel { get; set; } = "";
+        #endregion
 
+        #region Initialized
         protected override async Task OnInitializedAsync()
         {
             await GetCategoryByLevel1();
                 
             await base.OnInitializedAsync();
         }
+        #endregion
 
-        public async Task GetCategoryByLevel1()
-        {
-            categoryListLV1 = await categoryService.GetCategoryDTOsByLevel(1);
-        }
-
+        #region Button Click
         public void AddCategoryLV1()
         {
             CategoryNameInput = "";
@@ -79,32 +79,7 @@ namespace FurnitureStore.Client.Pages.AdminPages
         {
             isHiddenNotification = true;
         }
-        //Select a category item
-        private async Task SelectCategory(string Id, string path)
-        {
-            selectedCategoryId = Id;
-            currentCategoryId = Id;
-            selectedCategoryPath = path;
-            selectedCategoryId2 = "";
-            selectedCategoryId3 = "";
-            path = path.Remove(0, 1);
-            categoryListLV2 = await categoryService.GetCategoryDTOsByParent(path) ?? new List<CategoryDTO>();
-        }
 
-        private async Task SelectCategory2(string Id, string path)
-        {
-            selectedCategoryId2 = Id;
-            currentCategoryId = Id;
-            selectedCategoryPath2 = path;
-            selectedCategoryId3 = "";
-        }
-
-        private async Task SelectCategory3(string Id, string path)
-        {
-            //do sth
-        }
-
-        //Update category
         private async Task UpdateSelectedCategory()
         {
             if (currentCategoryId != "")
@@ -131,15 +106,77 @@ namespace FurnitureStore.Client.Pages.AdminPages
                 isHiddenNotification = false;
             }
         }
+        #endregion
 
-        //Delete category
+        #region OnSelected Category
+        private async Task SelectCategory(string Id, string path)
+        {
+            selectedCategoryId = Id;
+            currentCategoryId = Id;
+            selectedCategoryPath = path;
+            selectedCategoryId2 = "";
+            selectedCategoryId3 = "";
+            path = path.Remove(0, 1);
+            categoryListLV2 = await categoryService.GetCategoryDTOsByParent(path) ?? new List<CategoryDTO>();
+        }
+
+        private async Task SelectCategory2(string Id, string path)
+        {
+            selectedCategoryId2 = Id;
+            currentCategoryId = Id;
+            selectedCategoryPath2 = path;
+            selectedCategoryId3 = "";
+        }
+
+        private async Task SelectCategory3(string Id, string path)
+        {
+            //do sth
+        }
+        #endregion
+
+        #region Sort category
+        private string SortNameCategoryLV1 { get; set; } = "Sort by";
+        private string SortNameCategoryLV2 { get; set; } = "Sort by";
+        private string SortNameCategoryLV3 { get; set; } = "Sort by";
+        private void SortByIdCategoryLV1()
+        {
+            categoryListLV1=categoryListLV1.OrderBy(x => x.Id).ToList();
+            SortNameCategoryLV1 = "ID";
+        }
+        private void SortByNameCategoryLV1()
+        {
+            categoryListLV1 = categoryListLV1.OrderBy(x => x.Text).ToList();
+            SortNameCategoryLV1 = "Name";
+        }
+        private void SortByIdCategoryLV2()
+        {
+            categoryListLV2 = categoryListLV2.OrderBy(x => x.Id).ToList();
+            SortNameCategoryLV2 = "ID";
+        }
+        private void SortByNameCategoryLV2()
+        {
+            categoryListLV2 = categoryListLV2.OrderBy(x => x.Text).ToList();
+            SortNameCategoryLV2 = "Name";
+        }
+        private void SortByIdCategoryLV3()
+        {
+            categoryListLV3 = categoryListLV3.OrderBy(x => x.Id).ToList();
+            SortNameCategoryLV3 = "ID";
+        }
+        private void SortByNameCategoryLV3()
+        {
+            categoryListLV3 = categoryListLV3.OrderBy(x => x.Text).ToList();
+            SortNameCategoryLV3 = "Name";
+        }
+
+        #endregion
+
+        #region Category Management
         private void DeleteSelectedCategory()
         {
 
         }
 
-
-        //Save change
         public async Task SaveChangeButton()
         {
             if(CategoryNameInput != "")
@@ -165,10 +202,18 @@ namespace FurnitureStore.Client.Pages.AdminPages
                     category.Level = 3;
                 }
                 if (AddUpdateCategoryForm == "Add category form")
-                {
+                { 
                     isHiddenPopup = true;
                 }
             }
         }
+        #endregion
+
+        #region Helper
+        public async Task GetCategoryByLevel1()
+        {
+            categoryListLV1 = await categoryService.GetCategoryDTOsByLevel(1);
+        }
+        #endregion
     }
 }
