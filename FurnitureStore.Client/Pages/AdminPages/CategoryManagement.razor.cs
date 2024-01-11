@@ -21,9 +21,11 @@ namespace FurnitureStore.Client.Pages.AdminPages
 
         private bool isHiddenPopup { get; set; } = true; 
         private bool isHiddenNotification { get; set; } = true;
+        private bool isDeleteNotification { get; set; } = true;
         private string AddUpdateCategoryForm { get; set; } = "";
         private string CategoryNameInput { get; set; } = "";
         private string LevelLabel { get; set; } = "";
+        private string NotificationDetail { get; set; } = "";
         #endregion
 
         #region Initialized
@@ -52,7 +54,10 @@ namespace FurnitureStore.Client.Pages.AdminPages
                 AddUpdateCategoryForm = "Add category form";
                 LevelLabel = "Level 2";
             }
-            else { isHiddenNotification = false; }
+            else { 
+                isHiddenNotification = false;
+                NotificationDetail = "You must choose category parent before add new childen";
+            }
         }
         public void AddCategoryLV3()
         {
@@ -63,7 +68,11 @@ namespace FurnitureStore.Client.Pages.AdminPages
                 AddUpdateCategoryForm = "Add category form";
                 LevelLabel = "Level 3";
             }
-            else { isHiddenNotification = false; }
+            else
+            {
+                isHiddenNotification = false;
+                NotificationDetail = "You must choose category parent before add new childen";
+            }
         }
         public void CloseAddUpdateCategoryPopup()
         {
@@ -79,6 +88,28 @@ namespace FurnitureStore.Client.Pages.AdminPages
             isHiddenNotification = true;
         }
 
+        public void CloseDeleteNotification()
+        {
+            isDeleteNotification = true;
+        }
+
+        public void NoButton()
+        {
+            isDeleteNotification = true;
+        }
+        private void DeleteSelectedCategory()
+        {
+            if(currentCategoryId != "")
+            {
+                isDeleteNotification = false;
+            }
+            else
+            {
+                isHiddenNotification = false;
+                NotificationDetail = "You must choose category before delete";
+
+            }
+        }
         private async Task UpdateSelectedCategory()
         {
             if (currentCategoryId != "")
@@ -103,8 +134,11 @@ namespace FurnitureStore.Client.Pages.AdminPages
             else
             {
                 isHiddenNotification = false;
+                NotificationDetail = "You must choose category before update";
+
             }
         }
+
         #endregion
 
         #region OnSelected Category
@@ -170,9 +204,34 @@ namespace FurnitureStore.Client.Pages.AdminPages
         #endregion
 
         #region Category Management
-        private void DeleteSelectedCategory()
-        {
+        
 
+        private async Task YesButton()
+        {
+            if (currentCategoryId != "")
+            {
+                var categoryChildrenList = await categoryService.GetCategoryDTOsByParentIdAsync(currentCategoryId) ?? new List<CategoryDTO>();
+                if(!categoryChildrenList.Any())
+                {
+                    var result = await categoryService.DeleteCategoryDTOAsync(currentCategoryId);
+                    isDeleteNotification = true;
+                    isHiddenNotification = false;
+                    if (result)
+                    {
+                        NotificationDetail = "Delete category successfully";
+                    }
+                    else
+                    {
+                        NotificationDetail = "Error to delete category";
+                    }
+                }
+                else
+                {
+                    isDeleteNotification = true;
+                    isHiddenNotification = false;
+                    NotificationDetail = "You must delete children category before delete this";
+                }
+            }
         }
 
         public async Task SaveChangeButton()
@@ -201,9 +260,10 @@ namespace FurnitureStore.Client.Pages.AdminPages
                         category.ParentId = selectedCategoryId2;
                         category.Level = 3;
                     }
-                    var result = await categoryService.AddCategory(category);
-                    if (result != null)
+                    var result = await categoryService.AddCategoryAsync(category);
+                    if (result !=null)
                     {
+                        await GetCategoryByLevel1();
                         isHiddenPopup = true;
                     }
                 }

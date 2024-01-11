@@ -175,7 +175,7 @@
                                     <tbody>
                                         @foreach(var item in categoryListLV1)
                                         {
-                                            <tr @onclick="(() => SelectCategory(item.Id))"
+                                            <tr @onclick="(() => SelectCategory(item.Id!))"
                                                 style="@((item.Id == selectedCategoryId) ? "background-color: #f0f1f6;" : "")">
                                                 <td>@item.CategoryId</td>
                                                 <td class="category-col-2">@item.Text</td>
@@ -214,7 +214,7 @@
                                     <tbody>
                                         @foreach (var item in categoryListLV2)
                                         {
-                                            <tr @onclick="(() => SelectCategory2(item.Id))"
+                                            <tr @onclick="(() => SelectCategory2(item.Id!))"
                                                 style="@((item.Id == selectedCategoryId2) ? "background-color: #f0f1f6;" : "")">
                                                 <td>@item.CategoryId</td>
                                                 <td class="category-col-2">@item.Text</td>
@@ -253,7 +253,7 @@
                                     <tbody>
                                         @foreach (var item in categoryListLV3)
                                         {
-                                            <tr @onclick="(() => SelectCategory3(item.Id))"
+                                            <tr @onclick="(() => SelectCategory3(item.Id!))"
                                                 style="@((item.Id == selectedCategoryId3) ? "background-color: #f0f1f6;" : "")">
                                                 <td>@item.CategoryId</td>
                                                 <td class="category-col-2">@item.Text</td>
@@ -316,12 +316,41 @@
             </div>
             <div class="model-category-main">
                 <div class="row" style="margin-bottom: 1rem;">
-                    <div class="model_main_div_children">
-                        <label class="model_main_label" style="color: black;">You must choose category parent before add new childen</label>
+                    <div class="model_main_div_children d-flex align-content-center justify-content-center">
+                        <label class="model_main_label" style="color: black;">@NotificationDetail</label>
                     </div>
                 </div>
                 <div class="model_main_div_children d-flex align-items-center justify-content-center gap-4">
                     <button type="button" class="btn btn-outline-red btn-fw" @onclick="CancelNotification">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="model" hidden="@isDeleteNotification">
+        <div class="add-category-form">
+            <div class="model_header d-flex align-items-center">
+                <div class="col-lg-9">
+                    <label class="model_header_title">Delete Notification</label>
+                </div>
+                <div class="col-lg-3 d-flex justify-content-end">
+                    <button class="model_close_btn_size align-self-center" @onclick="CloseDeleteNotification">
+                        <span class="mdi mdi-close"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="model-category-main">
+                <div class="row d-flex align-content-center justify-content-center" style="margin-bottom: 1rem;">
+                    <div class="model_main_div_children d-flex align-items-center justify-content-center">
+                        <label class="model_main_label" style="color: black;">Do you want to delete this category?</label>
+                    </div>
+                </div>
+                <div class="model_main_div_children d-flex align-items-center justify-content-center gap-4">
+                    <button type="button" class="btn btn-outline-red btn-fw" @onclick="YesButton">
+                        Yes
+                    </button>
+                    <button type="button" class="btn btn-outline-red btn-fw" @onclick="NoButton">
+                        No
+                    </button>
                 </div>
             </div>
         </div>

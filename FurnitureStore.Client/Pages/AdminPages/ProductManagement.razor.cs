@@ -23,7 +23,7 @@ namespace FurnitureStore.Client.Pages.AdminPages
 
         public async Task GetProductList()
         {
-            productList = await productService.GetAllProduct();
+            //productList = await productService.GetAllProduct();
         }
         private void ShowAddUpdateProductPopup()
         {
