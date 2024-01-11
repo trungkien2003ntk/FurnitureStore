@@ -10,17 +10,25 @@ namespace FurnitureStore.Client.Pages.AdminPages
     {
         [Inject]
         IProductService productService { get; set; } = null!;
+        [Inject]
+        ICategoryService categoryService { get; set; } = null!;
         public IEnumerable<ProductDTO> productList { get; set; } = new List<ProductDTO>();
+        public IEnumerable<CategoryDTO> categoryListLV1 { get; set; } = new List<CategoryDTO>();
+        public IEnumerable<CategoryDTO> categoryListLV2 { get; set; } = new List<CategoryDTO>();
+        public IEnumerable<CategoryDTO> categoryListLV3 { get; set; } = new List<CategoryDTO>();
         private bool isHidden { get; set; } = true;
         private bool isHiddenVariant { get; set; } = true;
         private bool isChecked { get; set; } = false;
+        private string SelectedCategoryLV1Text { get; set; } = "Choose Category";
+        private string SelectedCategoryLV2Text { get; set; } = "Choose Category";
+        private string SelectedCategoryLV3Text { get; set; } = "Choose Category";
         int productCount = 0;
         int pageSize = 15;
         int pageNumber = 0;
         int selectedPageNumber = 1;
+        string currentCategoryId;
         List<int> pageNumberList = new List<int>();
-        List<string> categoryIdList = null;
-
+        List<string> categoryIdList = new List<string>();
 
         protected override async Task OnInitializedAsync()
         {
@@ -38,10 +46,22 @@ namespace FurnitureStore.Client.Pages.AdminPages
             HandlePageNumber(productCount, pageSize);
             pageNumber = 1;
             await UpdatePagination();
+
+            //Get category dropdown
+            var categoryLV1Respons = await categoryService.GetCategoryDTOsByLevelAsync(1);
+            if (categoryLV1Respons != null)
+            {
+                categoryListLV1 = categoryLV1Respons.Select(response => response.Category).ToList();
+            }
+            else
+            {
+                categoryListLV1 = new List<CategoryDTO>();
+            }
         }
 
         private void HandlePageNumber(int pageCount, int pageSize)
         {
+            pageNumberList.Clear();
             if (pageCount > 0)
             {
                 pageNumber = (pageCount / pageSize);
@@ -59,11 +79,28 @@ namespace FurnitureStore.Client.Pages.AdminPages
 
         private async Task UpdatePagination()
         {
-            var productResponse = await productService.GetProductDTOsAsync(categoryIdList,null, pageSize, pageNumber);
-            if (productResponse != null)
+            categoryIdList.Clear();
+            if (currentCategoryId != null)
             {
-                productList = productResponse.Data;
+                categoryIdList.Add(currentCategoryId);
             }
+            if (categoryIdList.Count > 0)
+            {
+                var productResponse = await productService.GetProductDTOsAsync(categoryIdList, null, pageSize, pageNumber);
+                if (productResponse != null)
+                {
+                    productList = productResponse.Data;
+                }
+            }
+            else
+            {
+                var productResponse = await productService.GetProductDTOsAsync(null, null, pageSize, pageNumber);
+                if (productResponse != null)
+                {
+                    productList = productResponse.Data;
+                }
+            }
+            
         }
 
         private void ShowAddUpdateProductPopup()
@@ -129,6 +166,87 @@ namespace FurnitureStore.Client.Pages.AdminPages
             }
             
         }
+        #region Select category
+        public async Task SelectLV1Category(string Id, string Text)
+        {
+            SelectedCategoryLV1Text = Text;
+            currentCategoryId = Id;
+            var categoryResponse = await categoryService.GetCategoryDTOsByParentIdAsync(Id);
+            if (categoryResponse != null)
+            {
+                categoryListLV2 = categoryResponse.Select(response => response.Category).ToList();
+            }
+            else
+            {
+                categoryListLV2 = new List<CategoryDTO>();
+            }
+            categoryListLV3 = new List<CategoryDTO>();
+            List<string> currCategoryId = new List<string>();
+            currCategoryId.Add(Id);
+            var productResponse = await productService.GetProductDTOsAsync(currCategoryId, null, null, null);
+            if(productResponse != null)
+            {
+                productList = productResponse.Data;
+            }
+            else
+            {
+                productList = new List<ProductDTO>();
+            }
+            productCount = productList.Count();
+            HandlePageNumber(productCount, pageSize);
+            await UpdatePagination();
+        }
+
+        public async Task SelectLV2Category(string Id, string Text)
+        {
+            SelectedCategoryLV2Text = Text;
+            currentCategoryId = Id;
+            var categoryResponse = await categoryService.GetCategoryDTOsByParentIdAsync(Id);
+            if (categoryResponse != null)
+            {
+                categoryListLV3 = categoryResponse.Select(response => response.Category).ToList();
+            }
+            else
+            {
+                categoryListLV3 = new List<CategoryDTO>();
+            }
+            List<string> currCategoryId = new List<string>();
+            currCategoryId.Add(Id);
+            var productResponse = await productService.GetProductDTOsAsync(currCategoryId, null, null, null);
+            if (productResponse != null)
+            {
+                productList = productResponse.Data;
+            }
+            else
+            {
+                productList = new List<ProductDTO>();
+            }
+            productCount = productList.Count();
+            HandlePageNumber(productCount, pageSize);
+            await UpdatePagination();
+        }
+        public async Task SelectLV3Category(string Id, string Text)
+        {
+            SelectedCategoryLV3Text = Text;
+            currentCategoryId = Id;
+            List<string> currCategoryId = new List<string>();
+            currCategoryId.Add(Id);
+            var productResponse = await productService.GetProductDTOsAsync(currCategoryId, null, null, null);
+            if (productResponse != null)
+            {
+                productList = productResponse.Data;
+            }
+            else
+            {
+                productList = new List<ProductDTO>();
+            }
+            productCount = productList.Count();
+            HandlePageNumber(productCount, pageSize);
+            await UpdatePagination();
+        }
+        #endregion
+
+
         //update product button
         public void UpdateProduct(string Id)
         {
