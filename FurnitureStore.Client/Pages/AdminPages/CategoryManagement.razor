@@ -175,7 +175,7 @@
                                     <tbody>
                                         @foreach(var item in categoryListLV1)
                                         {
-                                            <tr @onclick="(() => SelectCategory(item.Id, item.CategoryPath))"
+                                            <tr @onclick="(() => SelectCategory(item.Id))"
                                                 style="@((item.Id == selectedCategoryId) ? "background-color: #f0f1f6;" : "")">
                                                 <td>@item.CategoryId</td>
                                                 <td class="category-col-2">@item.Text</td>
@@ -214,7 +214,7 @@
                                     <tbody>
                                         @foreach (var item in categoryListLV2)
                                         {
-                                            <tr @onclick="(() => SelectCategory2(item.Id, item.CategoryPath))"
+                                            <tr @onclick="(() => SelectCategory2(item.Id))"
                                                 style="@((item.Id == selectedCategoryId2) ? "background-color: #f0f1f6;" : "")">
                                                 <td>@item.CategoryId</td>
                                                 <td class="category-col-2">@item.Text</td>
@@ -251,46 +251,14 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>beds00001</td>
-                                            <td class="category-col-2">Anderson Canopy Bed Anderson Canopy Bed Anderson Canopy Bed</td>
-                                        </tr>
-                                        <tr>
-                                            <td>beds00001</td>
-                                            <td class="category-col-2">Anderson Canopy Bed Anderson Canopy Bed Anderson Canopy Bed</td>
-                                        </tr>
-                                        <tr>
-                                            <td>beds00001</td>
-                                            <td class="category-col-2">Anderson Canopy Bed Anderson Canopy Bed Anderson Canopy Bed</td>
-                                        </tr>
-                                        <tr>
-                                            <td>beds00001</td>
-                                            <td class="category-col-2">Anderson Canopy Bed Anderson Canopy Bed Anderson Canopy Bed</td>
-                                        </tr>
-                                        <tr>
-                                            <td>beds00001</td>
-                                            <td class="category-col-2">Anderson Canopy Bed Anderson Canopy Bed Anderson Canopy Bed</td>
-                                        </tr>
-                                        <tr>
-                                            <td>beds00001</td>
-                                            <td class="category-col-2">Anderson Canopy Bed Anderson Canopy Bed Anderson Canopy Bed</td>
-                                        </tr>
-                                        <tr>
-                                            <td>beds00001</td>
-                                            <td class="category-col-2">Anderson Canopy Bed Anderson Canopy Bed Anderson Canopy Bed</td>
-                                        </tr>
-                                        <tr>
-                                            <td>beds00001</td>
-                                            <td class="category-col-2">Anderson Canopy Bed Anderson Canopy Bed Anderson Canopy Bed</td>
-                                        </tr>
-                                        <tr>
-                                            <td>beds00001</td>
-                                            <td class="category-col-2">Anderson Canopy Bed Anderson Canopy Bed Anderson Canopy Bed</td>
-                                        </tr>
-                                        <tr>
-                                            <td>beds00001</td>
-                                            <td class="category-col-2">Anderson Canopy Bed Anderson Canopy Bed Anderson Canopy Bed</td>
-                                        </tr>
+                                        @foreach (var item in categoryListLV3)
+                                        {
+                                            <tr @onclick="(() => SelectCategory3(item.Id))"
+                                                style="@((item.Id == selectedCategoryId3) ? "background-color: #f0f1f6;" : "")">
+                                                <td>@item.CategoryId</td>
+                                                <td class="category-col-2">@item.Text</td>
+                                            </tr>
+                                        }
                                     </tbody>
                                 </table>
                             </div>

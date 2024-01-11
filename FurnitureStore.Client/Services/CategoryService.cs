@@ -38,7 +38,7 @@ namespace FurnitureStore.Client.Services
 
         public async Task<CategoryDTO> GetCategoryDTOsById(string id)
         {
-            string apiUrl = $"{GlobalConfig.CATEGORY_BASE_URL}{id}";
+            string apiUrl = $"{GlobalConfig.CATEGORY_BASE_URL}/{id}";
 
             var response = await _httpClient.GetAsync(new Uri(apiUrl));
             if (response.IsSuccessStatusCode)

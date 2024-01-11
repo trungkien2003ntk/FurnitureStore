@@ -1,6 +1,7 @@
 ﻿using FurnitureStore.Client.IServices;
 using FurnitureStore.Shared.DTOs;
 using Microsoft.AspNetCore.Components;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace FurnitureStore.Client.Pages.AdminPages
 {
@@ -13,9 +14,7 @@ namespace FurnitureStore.Client.Pages.AdminPages
         public IEnumerable<CategoryDTO> categoryListLV2 { get; set; } = new List<CategoryDTO>();
         public IEnumerable<CategoryDTO> categoryListLV3 { get; set; } = new List<CategoryDTO>();
         private string selectedCategoryId="";
-        private string selectedCategoryPath="";
         private string selectedCategoryId2 = "";
-        private string selectedCategoryPath2 = "";
         private string selectedCategoryId3 = "";
         private string currentCategoryId = "";
 
@@ -109,28 +108,27 @@ namespace FurnitureStore.Client.Pages.AdminPages
         #endregion
 
         #region OnSelected Category
-        private async Task SelectCategory(string Id, string path)
+        private async Task SelectCategory(string Id)
         {
             selectedCategoryId = Id;
             currentCategoryId = Id;
-            selectedCategoryPath = path;
             selectedCategoryId2 = "";
             selectedCategoryId3 = "";
-            path = path.Remove(0, 1);
             categoryListLV2 = await categoryService.GetCategoryDTOsByParentIdAsync(Id) ?? new List<CategoryDTO>();
         }
 
-        private async Task SelectCategory2(string Id, string path)
+        private async Task SelectCategory2(string Id)
         {
             selectedCategoryId2 = Id;
             currentCategoryId = Id;
-            selectedCategoryPath2 = path;
             selectedCategoryId3 = "";
+            categoryListLV3 = await categoryService.GetCategoryDTOsByParentIdAsync(Id) ?? new List<CategoryDTO>();
         }
 
-        private async Task SelectCategory3(string Id, string path)
+        private void SelectCategory3(string Id)
         {
-            //do sth
+            selectedCategoryId3 = Id;
+            currentCategoryId = Id;
         }
         #endregion
 
@@ -181,29 +179,44 @@ namespace FurnitureStore.Client.Pages.AdminPages
         {
             if(CategoryNameInput != "")
             {
-                CategoryDTO category = new CategoryDTO
-                {
-                    Name = CategoryNameInput,
-                    Level = 0
-                };
-                if (LevelLabel == "Level 1")
-                {
-                    category.ParentId = "";
-                    category.Level = 1;
-                }
-                else if (LevelLabel == "Level 2")
-                {
-                    category.ParentId = selectedCategoryId;
-                    category.Level = 2;
-                }
-                else if (LevelLabel == "Level 3")
-                {
-                    category.ParentId = selectedCategoryId2;
-                    category.Level = 3;
-                }
                 if (AddUpdateCategoryForm == "Add category form")
-                { 
-                    isHiddenPopup = true;
+                {
+                    CategoryDTO category = new CategoryDTO
+                    {
+                        Text = CategoryNameInput,
+                        Level = 0
+                    };
+                    if (LevelLabel == "Level 1")
+                    {
+                        category.ParentId = "";
+                        category.Level = 1;
+                    }
+                    else if (LevelLabel == "Level 2")
+                    {
+                        category.ParentId = selectedCategoryId;
+                        category.Level = 2;
+                    }
+                    else if (LevelLabel == "Level 3")
+                    {
+                        category.ParentId = selectedCategoryId2;
+                        category.Level = 3;
+                    }
+                    var result = await categoryService.AddCategory(category);
+                    if (result != null)
+                    {
+                        isHiddenPopup = true;
+                    }
+                }
+                else if(AddUpdateCategoryForm == "Update category form")
+                {
+                    CategoryDTO category = await categoryService.GetCategoryDTOsById(currentCategoryId) ?? new CategoryDTO();
+                    category.Text= CategoryNameInput;
+                    var result = await categoryService.UpdateCategoryDTOAsync(category.CategoryId!, category);
+                    if (result)
+                    {
+                        await GetCategoryByLevel1();
+                        isHiddenPopup = true;
+                    }
                 }
             }
         }
