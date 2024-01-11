@@ -4,6 +4,7 @@
 @inject NavigationManager Navigation
 @inject IJSRuntime JavaScript
 @inject IProductService ProductServiceDI
+@inject NavigationManager navManager
 
 
 <div class="modal">
@@ -31,29 +32,31 @@
 					{
 						@for (int i =0; i<cartProducts.Count();i++)
 						{
-								<li class="cart-product-item">
+							int index = i;
+							<li class="cart-product-item">
 								<div class="cart-product-img">
 									<img class="cart-product-img-link"
 										 src="@cartProducts.ElementAt(i).FeaturedImage"
 									alt="" />
 								</div>
 								<div class="cart-product-detail">
-									<div class="cart-product-name">@cartProducts.ElementAt(i).Name</div>
+									<div class="cart-product-name" @onclick="@(e => productClick(cartProducts.ElementAt(index).ProductId))">@cartProducts.ElementAt(i).Name</div>
 									<div class="cart-product-color"> Blue Sky </div>
 									<div class="cart-product-updown">
-										<button class="cart-product-updown-link">-</button>
+										<button class="cart-product-updown-link" @onclick="@(e => decreaseQuantityBtn(cartProducts.ElementAt(index).ProductId, @cartQuantity[index]))">-</button>
 										
 											<input class="cart-product-quantity"
 											type="text"
-											value="@cartQuantity[i]" />
-											<button class="cart-product-updown-link">+</button>
+											value="@cartQuantity[i]"
+											   @onchange="@(e => changeQuantityInput(e,cartProducts.ElementAt(index).ProductId))" />
+										<button class="cart-product-updown-link" @onclick="@(e => increaseQuantityBtn(cartProducts.ElementAt(index).ProductId,@cartQuantity[index]))">+</button>
 										
 									</div>
 								</div>
 								<div class="cart-product-detail2">
 									<div class="cart-product-price">@cartProducts.ElementAt(i).RegularPrice</div>
 									<div class="cart-header">
-										<a class="cart-btn-delete" href="">
+										<a class="cart-btn-delete" href="" @onclick="@(e => removeItemFromCart(cartProducts.ElementAt(index).ProductId))">
 											<span class="material-symbols-outlined cart-btn-delete-icon">
 												close
 											</span>
@@ -96,20 +99,12 @@
 		await ShowCartChanged.InvokeAsync((false,"checkout"));
 	}
 	protected override async Task OnInitializedAsync()
-	{
-		await JavaScript.InvokeVoidAsync("storeIdProductIntoCookie", "prod00004", 4);
-		
-		Dictionary<string, int> maSP = new Dictionary<string, int>();
-		maSP.Add("prod00001", 1);
-		maSP.Add("prod00002", 2);
-		maSP.Add("prod00003", 3);
-		await JavaScript.InvokeAsync<Dictionary<string, int>>("setCookie", "shopping_Cart", maSP);
-
-		
+	{	
 		await getShoppingCartFromCookie();
 	}
 	private async Task getShoppingCartFromCookie()
 	{
+		cartProducts = Enumerable.Empty<ProductDTO>();
 		Dictionary<string, int> listProducts = await JavaScript.InvokeAsync<Dictionary<string, int>>("getProductsFromCookie");
 		if (listProducts.Count !=0)
 		{
@@ -120,5 +115,47 @@
 
 		}
 	}
-	
+	private async Task removeItemFromCart(string productId)
+	{
+		await JavaScript.InvokeAsync<string>("removeIdProductFromCookie", productId);
+		await getShoppingCartFromCookie();
+
+	}
+	private async Task increaseQuantityBtn(string productId, int quantity)
+	{
+
+		await JavaScript.InvokeVoidAsync("updateIdProductIntoCookie", productId, ++quantity);
+		await getShoppingCartFromCookie();
+
+	}
+	private async Task decreaseQuantityBtn(string productId, int quantity)
+	{
+		if (quantity > 1)
+		{
+			await JavaScript.InvokeVoidAsync("updateIdProductIntoCookie", productId, --quantity);
+			await getShoppingCartFromCookie();
+
+		}
+	}
+	private async Task changeQuantityInput(ChangeEventArgs e, string productId)
+	{
+		string temp = e.Value.ToString().Trim();
+		if (temp.Length != 0)
+		{
+			int kq;
+			if (int.TryParse(e.Value.ToString(), out kq) && kq > 0)
+			{
+				await JavaScript.InvokeVoidAsync("updateIdProductIntoCookie", productId, kq);
+				await getShoppingCartFromCookie();
+				return;
+			}
+		}
+		
+	}
+	void productClick(string idProduct)
+	{
+		navManager.NavigateTo("/product/detail" + "/" + idProduct);
+	}
+
+
 }

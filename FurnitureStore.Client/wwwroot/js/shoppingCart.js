@@ -1,8 +1,7 @@
 function storeIdProductIntoCookie(id,quantity) {
     // check if cart has items?
     var myShoppingCart = getCookie("shopping_Cart");
-    
-
+ 
     if (myShoppingCart == "") {
         
         var myArray = {
@@ -12,10 +11,43 @@ function storeIdProductIntoCookie(id,quantity) {
     }
     else {
         myShoppingCart = JSON.parse(myShoppingCart);
+        // kiểm tra xem idProduct đã tồn tại trong cart -> tăng số lượng
+        // Sử dụng Object.keys()
+        Object.keys(myShoppingCart).forEach(function (key) {
+            if (id === key) {
+                quantity = myShoppingCart[key] + quantity;
+            }
+        });
         myShoppingCart[id] = quantity;
         setCookie("shopping_Cart", myShoppingCart);
     }
 }
+function updateIdProductIntoCookie(id, quantity) {
+    // check if cart has items?
+    var myShoppingCart = getCookie("shopping_Cart");
+
+  
+        myShoppingCart = JSON.parse(myShoppingCart);
+        myShoppingCart[id] = quantity;
+        setCookie("shopping_Cart", myShoppingCart);
+    
+}
+function removeIdProductFromCookie(id) {
+    // check if cart has items?
+    var myShoppingCart = getCookie("shopping_Cart");
+    myShoppingCart = JSON.parse(myShoppingCart);
+
+    Object.keys(myShoppingCart).forEach(function (key) {
+        if (id === key) {
+            delete myShoppingCart[key];
+        }
+    });
+
+    setCookie("shopping_Cart", myShoppingCart);
+}
+
+
+
 function getProductsFromCookie() {
     return JSON.parse(getCookie("shopping_Cart"));
 

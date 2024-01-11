@@ -4,6 +4,8 @@
 @using FurnitureStore.Shared
 @using FurnitureStore.Shared.DTOs
 @inject IProductService ProductServiceDI
+@inject IJSRuntime JavaScript
+
 
 @layout MainLayout
 <div class="body-contain">
@@ -20,13 +22,28 @@
 			<div class="detail-product_contain grid">
 				<div class="detail-img-section">
 					<div class="list-product-general">
-						@foreach (var imgList in product.ImagesUrl)
+						
+						@if (variationList != null)
 						{
-						<div class="list-product-item">
-								<img src="@imgList" alt="">
-						</div>
+							@foreach (var item in variationList)
+							{
+								@foreach (var imgList in item.ImagesUrl)
+								{
+									<div class="list-product-item">
+										<img src="@imgList" alt="">
+									</div>
+								}
+							}
 						}
-
+						else
+						{
+							@foreach (var imgList in product.ImagesUrl)
+							{
+							<div class="list-product-item">
+									<img src="@imgList" alt="">
+							</div>
+							}
+						}
 					</div>
 					<div class="display-img">
 						<div>
@@ -52,6 +69,30 @@
 					<div class="detail-descript-block detail-product__price">
 						$@product.RegularPrice
 					</div>
+						@if (variationList != null)
+					{
+						<div class="detail-descript-block detail-product__price">
+							<label class="detail-color-img">Color | <span>@product.VariationDetail.Value</span></label>
+							<div class="color-option-container">
+
+								@for (int i = 0; i<variationList.Count();i++)
+								{
+									 int index = i;
+									<div class="color-option" @onclick="@(e => colorClick(index))">
+										<input type="radio" name="color">
+										<label	class="detail_color-img"
+										style="
+									background-image:url(@variationList.ElementAt(i).VariationDetail.ImageUrl);
+										"></label	backgroud>
+									</div>
+
+								}
+
+
+							</div>
+
+						</div>
+					}
 					<div class="detail-descript-block detail-product__quantity">
 						<label for="">Quantity</label>
 						<div class="cart-product-updown">
@@ -436,13 +477,20 @@
 @code {
 	[Parameter]
 	public string ? ProductId { get; set; }
+	private IEnumerable<ProductDTO>? variationList;
 	private ProductDTO ?product;
 	// hình màu giá 
 	private int quantity = 1;
 	protected override async Task OnInitializedAsync()
 	{
-		if(ProductId !=null)
-			product =await ProductServiceDI.GetProductById(ProductId);
+		if (ProductId != null)
+		{
+			product = await ProductServiceDI.GetProductById(ProductId);
+			if (product.VariationDetail.Id != null)
+				variationList = await ProductServiceDI.GetProductsByVariationId(product.VariationDetail.Id);
+
+		}
+
 	}
 	private void increaseQuantityBtn()
 	{
@@ -459,7 +507,7 @@
 		if (temp.Length != 0)
 		{
 			int kq;
-			if( int.TryParse(e.Value.ToString(), out kq))
+			if( int.TryParse(e.Value.ToString(), out kq) && kq>0)
 			{
 				quantity = kq;
 				return;
@@ -469,8 +517,12 @@
 		quantity++;
 
 	}
-	privtae void addToCart(int productId)
+	private async Task addToCart(string productId)
 	{
-		
+		await JavaScript.InvokeVoidAsync("storeIdProductIntoCookie", productId, quantity);
+	}
+	private void colorClick(int indexProduct)
+	{
+		product = variationList.ElementAt(indexProduct);
 	}
 }

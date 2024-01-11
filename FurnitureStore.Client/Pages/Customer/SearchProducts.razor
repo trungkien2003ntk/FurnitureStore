@@ -1,6 +1,8 @@
-@page "/search"
+@page "/search/{keyword}"
 @using FurnitureStore.Client.Layout.Customer
 @layout MainLayout
+
+
 <div class="body-contain">
 	<div class="path grid">
 		<a href="">Home</a>
@@ -350,6 +352,13 @@
 	</div>
 
 </div>
-@code {
 
+@code {
+	[Parameter]
+	public string? keyword { get; set; }
+	protected override async Task OnInitializedAsync()
+	{
+		
+	}
+	
 }

@@ -10,7 +10,7 @@
 			  <span class="navbar-toggler-icon"></span>
 			</button> -->
 			<form class="nav-form" action="">
-				<input class="header-search-text" type="search" placeholder="Search">
+				<input class="header-search-text" type="search" placeholder="Search" @onkeydown="@Enter" @bind="InputValue" @bind:event="oninput">
 				<button class="header-search-btn">
 					<span class="material-symbols-outlined">
 						search
@@ -93,10 +93,12 @@
 </header>
 
 @code {
+	private string? InputValue { get; set; }
+
 	private void UpdateShowCart(bool newShowCartValue, string navigatePage)
 	{
-			showCart = newShowCartValue;
-			if (navigatePage == "checkout")
+		showCart = newShowCartValue;
+		if (navigatePage == "checkout")
 			navManager.NavigateTo("/checkout", forceLoad: false);
 
 
@@ -106,10 +108,18 @@
 	{
 		showCart = true;
 	}
-	 void navigateHome()
+	void navigateHome()
 	{
 		navManager.NavigateTo("/", forceLoad: false);
 	}
+	public void Enter(KeyboardEventArgs e)
+	{
+		if (e.Code == "Enter" || e.Code == "NumpadEnter")
+		{
+			navManager.NavigateTo("/search" + "/" + InputValue);
 
+
+		}
+	}
 
 }
