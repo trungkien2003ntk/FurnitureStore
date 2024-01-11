@@ -8,6 +8,6 @@ namespace FurnitureStore.Client.IServices
         Task<ProductDTO> AddProductAsync(ProductDTO productDTO);
         Task<bool> UpdateProductAsync(string productId, ProductDTO productDTO);
         Task<bool> DeleteProductAsync(string productId);
-        Task<ProductResponse> GetProductDTOsByCategoryIdAndPageSizeAndPageNumberAsync(List<string>? categoryIds, int? pageSize, int? pageNumber);
+        Task<ProductResponse> GetProductDTOsByCategoryIdAndPageSizeAndPageNumberAsync(List<string>? categoryIds = null, int? pageSize = null, int? pageNumber = null);
     }
 }
