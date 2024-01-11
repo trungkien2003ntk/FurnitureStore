@@ -1,9 +1,23 @@
 [
 	{
-		"id": "staf00001",
-		"staffId": "staf00001",
-		"username": "admin",
-		"passwordTemp": "123456789abc",
-		"hashedAndSaltedPassword": "Hashed And Salted Password"
+		"id": "staf00000",
+		"staffId": "staf00000",
+		"name": "Nguyễn Trung Kiên",
+		"contact": {
+			"phone": "0866919343",
+			"email": "trungkien2003ntk@gmail.com"
+		},
+		"profileImage": "",
+		"role": "admin",
+		"address": "UIT, Linh Trung, Thủ Đức, Hồ Chí Minh",
+		"note": "This is for admin role",
+		"createdAt": "2024-01-02T09:09:47.1436654Z",
+		"modifiedAt": "2024-01-02T09:09:47.1436654Z",
+		"hashedAndSaltedPassword": "",
+		"defaultPassword": "123456",
+		"isActive": true,
+		"isRemovable": false,
+		"isDeleted": false,
+		"ttl": -1
 	}
 ]

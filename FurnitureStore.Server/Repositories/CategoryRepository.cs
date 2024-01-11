@@ -1,8 +1,8 @@
-﻿using FurnitureStore.Server.IRepositories;
-using FurnitureStore.Server.Models.Documents;
+﻿using FurnitureStore.Server.Models.Documents;
+using FurnitureStore.Server.Repositories.Interfaces;
 using FurnitureStore.Server.Utils;
 
-namespace FurnitureStore.Server.Repository;
+namespace FurnitureStore.Server.Repositories;
 
 public class CategoryRepository : ICategoryRepository
 {
@@ -21,7 +21,8 @@ public class CategoryRepository : ICategoryRepository
         ILogger<CategoryRepository> logger, 
         IMapper mapper, 
         IProductRepository productRepository, 
-        IMemoryCache memoryCache) 
+        IMemoryCache memoryCache
+    ) 
     {
         _logger = logger;
         _mapper = mapper;
@@ -38,9 +39,12 @@ public class CategoryRepository : ICategoryRepository
     {
         try
         {
+            item.CreatedAt = DateTime.UtcNow;
+            item.ModifiedAt = item.CreatedAt;
+
             var response = await _categoryContainer.UpsertItemAsync(
                 item: item,
-                partitionKey: new PartitionKey(item.Parent)
+                partitionKey: new PartitionKey(item.ParentPath)
             );
         }
         catch (Exception ex)
@@ -90,7 +94,7 @@ public class CategoryRepository : ICategoryRepository
 
         await _categoryContainer.UpsertItemAsync(
             item: categoryToUpdate,
-            partitionKey: new PartitionKey(categoryToUpdate.Parent)
+            partitionKey: new PartitionKey(categoryToUpdate.ParentPath)
         );
     }
 
@@ -99,7 +103,7 @@ public class CategoryRepository : ICategoryRepository
         var categoryDoc = await GetCategoryDocumentByIdAsync(categoryId) ?? throw new Exception(NotiCategoryNotFound);
 
         // Check if category is deletable
-        if (!categoryDoc.IsDeletable)
+        if (!categoryDoc.IsRemovable)
         {
             throw new Exception("Can't delete this category");
         }
@@ -161,5 +165,62 @@ public class CategoryRepository : ICategoryRepository
 
         _memoryCache.Set(CategoryIdCacheName, newId);
         return newId;
+    }
+
+    public async Task<IEnumerable<CategoryDTO>> GetCategoryDTOsByLevelAsync(int level)
+    {
+        var queryDef = new QueryDefinition(
+            query:
+                "SELECT * " +
+                "FROM categories c " +
+                "WHERE c.level = @level"
+        ).WithParameter("@level", level);
+
+        var categoryDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<CategoryDocument>(_categoryContainer, queryDef);
+        var categoryDTOs = categoryDocs.Select(categoryDoc =>
+        {
+            return _mapper.Map<CategoryDTO>(categoryDoc);
+        }).ToList();
+
+        return categoryDTOs;
+    }
+
+    public async Task<IEnumerable<CategoryDTO>> GetCategoryDTOsByParentAsync(string? parent)
+    {
+        var queryDef = new QueryDefinition(
+            query:
+                "SELECT * " +
+                "FROM categories c " +
+                "WHERE c.parent = @parent"
+        ).WithParameter("@parent", parent);
+
+        var categoryDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<CategoryDocument>(_categoryContainer, queryDef);
+        var categoryDTOs = categoryDocs.Select(categoryDoc =>
+        {
+            return _mapper.Map<CategoryDTO>(categoryDoc);
+        }).ToList();
+
+        return categoryDTOs;
+    }
+
+    public Task<IEnumerable<CategoryDetailDocument>> GetFullInformationOfAllCategories()
+    {
+
+        throw new NotImplementedException();
+
+        //var queryDef = new QueryDefinition(
+        //    query:
+        //        "SELECT * " +
+        //        "FROM categories c " +
+        //        "WHERE c.parent = @parent"
+        //).WithParameter("@parent", parent);
+
+        //var categoryDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<CategoryDocument>(_categoryContainer, queryDef);
+        //var categoryDTOs = categoryDocs.Select(categoryDoc =>
+        //{
+        //    return _mapper.Map<CategoryDTO>(categoryDoc);
+        //}).ToList();
+
+        //return categoryDTOs;
     }
 }

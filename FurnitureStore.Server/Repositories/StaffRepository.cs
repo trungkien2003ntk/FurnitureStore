@@ -1,8 +1,8 @@
-﻿using FurnitureStore.Server.IRepositories;
-using FurnitureStore.Server.Models.Documents;
+﻿using FurnitureStore.Server.Models.Documents;
+using FurnitureStore.Server.Repositories.Interfaces;
 using FurnitureStore.Server.Utils;
 
-namespace FurnitureStore.Server.Repository
+namespace FurnitureStore.Server.Repositories
 {
     public class StaffRepository : IStaffRepository
     {
@@ -22,6 +22,10 @@ namespace FurnitureStore.Server.Repository
 
         public async Task AddStaffDocumentAsync(StaffDocument item)
         {
+            item.CreatedAt = DateTime.UtcNow;
+            item.ModifiedAt = item.CreatedAt;
+
+
             await _staffContainer.UpsertItemAsync(
                 item: item,
                 partitionKey: new PartitionKey(item.StaffId)
@@ -123,6 +127,31 @@ namespace FurnitureStore.Server.Repository
             var staff = await CosmosDbUtils.GetDocumentByQueryDefinition<StaffDocument>(_staffContainer, queryDef);
 
             return staff;
+        }
+
+        public async Task<StaffDocument?> GetStaffByUsernameAndPassword(string username, string password)
+        {
+            var queryDef = new QueryDefinition(
+                query:
+                    "SELECT * " +
+                    "FROM staffs s " +
+                    "WHERE s.username = @username " +
+                    "AND s.password = @password"
+            ).WithParameter("@username", username)
+            .WithParameter("@password", password);
+
+            var staff = await CosmosDbUtils.GetDocumentByQueryDefinition<StaffDocument>(_staffContainer, queryDef);
+
+            return staff;
+        }
+
+        public async Task<StaffDTO> LoginStaff(string username, string password)
+        {
+            var staffDoc = await GetStaffByUsernameAndPassword(username, password);
+
+            var staffDTO = _mapper.Map<StaffDTO>(staffDoc);
+
+            return staffDTO;
         }
     }
 }

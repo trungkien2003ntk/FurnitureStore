@@ -1,30 +1,30 @@
-﻿namespace FurnitureStore.Server.Models.Documents;
+﻿namespace FurnitureStore.Shared.DTOs;
 
-public class StaffDocument
+public class StaffDTO
 {
     [JsonProperty("id")]
-    public string Id { get; set; }
+    public string? Id { get; set; }
 
     [JsonProperty("staffId")]
-    public string StaffId { get; set; }
+    public string? StaffId { get; set; }
 
     [JsonProperty("name")]
     public string Name { get; set; }
 
     [JsonProperty("contact")]
-    public Contact Contact { get; set; }
+    public Contact Contact { get; set; } = new();
 
     [JsonProperty("profileImage")]
-    public string ProfileImage { get; set; }
+    public string? ProfileImage { get; set; }
 
     [JsonProperty("role")]
-    public string Role { get; set; }
+    public string? Role { get; set; } = "admin";
 
     [JsonProperty("address")]
-    public string Address { get; set; }
+    public string? Address { get; set; }
 
     [JsonProperty("note")]
-    public string Note { get; set; }
+    public string? Note { get; set; }
 
     [JsonProperty("createdAt")]
     public DateTime? CreatedAt { get; set; }
@@ -33,20 +33,20 @@ public class StaffDocument
     public DateTime? ModifiedAt { get; set; }
 
     [JsonProperty("hashedAndSaltedPassword")]
-    public string HashedAndSaltedPassword { get; set; }
+    public string? HashedAndSaltedPassword { get; set; }
 
     [JsonProperty("defaultPassword")]
-    public string DefaultPassword { get; set; }
+    public string? DefaultPassword { get; set; }
 
     [JsonProperty("isActive")]
     public bool IsActive { get; set; }
 
     [JsonProperty("isRemovable")]
-    public bool IsRemovable { get; set; }
+    public bool? IsRemovable { get; set; }
 
     [JsonProperty("isDeleted")]
-    public bool IsDeleted { get; set; }
+    public bool? IsDeleted { get; set; }
 
     [JsonProperty("ttl")]
-    public int TTL { get; set; }
+    public int? TTL { get; set; }
 }
