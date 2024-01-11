@@ -8,7 +8,7 @@
         {
             return new AzureSearchClientService(
                 _configuration["AzureSearch:ServiceName"]!,
-                $"bookstore-{containerName.ToLower()}-cosmosdb-index",
+                $"{containerName.ToLower()}-cosmosdb-index",
                 _configuration["AzureSearch:QueryApiKey"]!,
                 logger
             );
