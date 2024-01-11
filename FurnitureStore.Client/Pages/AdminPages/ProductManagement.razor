@@ -276,8 +276,18 @@
                                                 <td>@($"{product.Dimensions.Height}x{product.Dimensions.Width}x{product.Dimensions.Depth}")</td>
                                                 <td>@product.PurchasePrice</td>
                                                 <td>@product.SalePrice</td>
-                                                
-                                                <td><label class="badge badge-success">In Stock</label></td>
+                                                @if (product.Status == "In Stock")
+                                                {
+                                                    <td><label class="badge badge-success">In Stock</label></td>
+                                                }
+                                                else if (product.Status == "Low Stock")
+                                                {
+                                                    <td><label class="badge badge-warning">Low Stock</label></td>
+                                                }
+                                                else
+                                                {
+                                                    <td><label class="badge badge-danger">Out of Stock</label></td>
+                                                }
                                                 <td>
                                                     <div class="d-flex gap-1">
                                                         <button class="update-btn-product-table" @onclick="() => UpdateProduct(product.Id)">
