@@ -39,9 +39,13 @@ namespace FurnitureStore.Client.Services
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<ProductResponse> GetProductDTOsByCategoryIdAndPageSizeAndPageNumber(string categoryId, int pageSize, int pageNumber)
+        public async Task<ProductResponse> GetProductDTOsByCategoryIdAndPageSizeAndPageNumberAsync(List<string>? categoryIds, int? pageSize, int? pageNumber)
         {
-            string apiUrl = $"{GlobalConfig.PRODUCT_BASE_URL}?categoryId={categoryId}&pageSize={pageSize}&pageNumber={pageNumber}";
+            string apiUrl =
+                $"{GlobalConfig.PRODUCT_BASE_URL}" +
+                $"?pageNumber={(pageNumber != null ? pageNumber : 1)}" +
+                $"{(categoryIds != null ? $"&categoryIds={string.Join(',', categoryIds)}" : "")}" +
+                $"{(pageSize != null ? $"&pageSize={pageSize}" : "")}";
 
             var response = await _httpClient.GetAsync(new Uri(apiUrl));
             if (response.IsSuccessStatusCode)
