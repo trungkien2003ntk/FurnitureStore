@@ -270,20 +270,20 @@
                                                 <td class="product-col-2">
                                                     @product.Name
                                                 </td>
-                                                <td></td>
+                                                <td>@product.VariationDetail.Value</td>
                                                 <td>@product.Stock</td>
                                                 <td>@product.Grams</td>
-                                                <td></td>
-                                                <td>349900</td>
-                                                <td>279920</td>
+                                                <td>@($"{product.Dimensions.Height}x{product.Dimensions.Width}x{product.Dimensions.Depth}")</td>
+                                                <td>@product.PurchasePrice</td>
+                                                <td>@product.SalePrice</td>
                                                 
                                                 <td><label class="badge badge-success">In Stock</label></td>
                                                 <td>
                                                     <div class="d-flex gap-1">
-                                                        <button class="update-btn-product-table">
+                                                        <button class="update-btn-product-table" @onclick="() => UpdateProduct(product.Id)">
                                                             <span class="mdi mdi-pencil-box"></span>
                                                         </button>
-                                                        <button class="delete-btn-product-table">
+                                                        <button class="delete-btn-product-table" @onclick="() => DeleteProduct(product.Id)">
                                                             <span class="mdi mdi mdi-delete"></span>
                                                         </button>
                                                     </div>

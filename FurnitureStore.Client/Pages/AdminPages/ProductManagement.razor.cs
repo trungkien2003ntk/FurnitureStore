@@ -129,6 +129,18 @@ namespace FurnitureStore.Client.Pages.AdminPages
             }
             
         }
+        //update product button
+        public void UpdateProduct(string Id)
+        {
+
+        }
+
+        //delete product button
+        public void DeleteProduct(string Id)
+        {
+
+        }
+
 
     }
 }
