@@ -14,7 +14,6 @@ public class CategoryRepository : ICategoryRepository
 
     private readonly ILogger<CategoryRepository> _logger;
     private readonly IMapper _mapper;
-    private readonly IProductRepository _productRepository;
     private readonly IMemoryCache _memoryCache;
     private readonly Container _categoryContainer;
     private readonly Container _productContainer;
@@ -23,13 +22,11 @@ public class CategoryRepository : ICategoryRepository
         CosmosClient cosmosClient, 
         ILogger<CategoryRepository> logger, 
         IMapper mapper, 
-        IProductRepository productRepository, 
         IMemoryCache memoryCache
     ) 
     {
         _logger = logger;
         _mapper = mapper;
-        _productRepository = productRepository;
         _memoryCache = memoryCache;
         var databaseName = cosmosClient.ClientOptions.ApplicationName;
         var containerName = "categories";

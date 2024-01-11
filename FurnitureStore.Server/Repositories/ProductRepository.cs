@@ -18,12 +18,13 @@ namespace FurnitureStore.Server.Repositories
         private readonly IMapper _mapper;
         private readonly Container _productContainer;
         private readonly Container _categoryContainer;
+        private readonly ICategoryRepository _categoryRepository;
         private CategoryDocument? _defaultCategoryDoc;
 
 
         public int TotalCount { get; private set; } = 0;
 
-        public ProductRepository(CosmosClient cosmosClient, ILogger<CategoryRepository> logger, IMemoryCache memoryCache, IMapper mapper)
+        public ProductRepository(CosmosClient cosmosClient, ILogger<CategoryRepository> logger, IMemoryCache memoryCache, IMapper mapper, ICategoryRepository categoryRepository)
         {
             _logger = logger;
             _memoryCache = memoryCache;
@@ -32,6 +33,7 @@ namespace FurnitureStore.Server.Repositories
 
             _productContainer = cosmosClient.GetContainer(databaseName, "products");
             _categoryContainer = cosmosClient.GetContainer(databaseName, "categories");
+            _categoryRepository = categoryRepository;
         }
 
         public async Task<IEnumerable<ProductDTO>> GetProductDTOsAsync(QueryParameters queryParameters, ProductFilterModel filter)
@@ -44,9 +46,28 @@ namespace FurnitureStore.Server.Repositories
 
             if (!VariableHelpers.IsNull(filter.CategoryIds))
             {
-                productDocs = productDocs.Where(p => filter.CategoryIds!.Contains(p.CategoryId));
-            }
+                var tasks = filter.CategoryIds!.Select(async cateId => {
+                    var category = await _categoryRepository.GetCategoryDTOByIdAsync(cateId);
 
+                    if (category != null)
+                    {
+                        return category.CategoryPath;
+                    }
+
+                    return null;
+                });
+
+                var categoryPaths = await Task.WhenAll(tasks);
+
+                productDocs = productDocs.Where(p =>
+                {
+                    var paths = p.CategoryPath!.Split('/');
+
+                    return paths.Any(path => categoryPaths.Contains($"/{path}")) ||
+                           paths.Skip(1).Any(path => categoryPaths.Contains($"/{paths.First()}/{path}")) ||
+                           paths.Skip(2).Any(path => categoryPaths.Contains($"/{paths.First()}/{paths.Skip(1).First()}/{path}"));
+                });
+            }
 
             if (!VariableHelpers.IsNull(filter.VariationId))
             {
