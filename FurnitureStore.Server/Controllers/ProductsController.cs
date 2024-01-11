@@ -54,6 +54,44 @@ public class ProductsController(
         }
     }
 
+    [HttpGet("category/{categoryId}")]
+    public async Task<ActionResult<IEnumerable<ProductDocument>>> GetProductsInCategoryAsync(string categoryId)
+    {
+        var products = await _productRepository.GetProductDocumentsInCategoryAsync(categoryId);
+
+        if (products == null || !products.Any())
+        {
+            _logger.LogInformation($"No product found in category id {categoryId}!");
+            return NotFound();
+        }
+
+        _logger.LogInformation($"Returned all products in category id {categoryId}!");
+        return Ok(products);
+    }
+
+    [HttpGet("sku/{sku}")]
+    public async Task<ActionResult<ProductDTO>> GetProductBySkuAsync(string sku)
+    {
+        var product = await _productRepository.GetProductDTOBySkuAsync(sku);
+
+        if (product == null)
+        {
+            _logger.LogInformation($"Product with sku {sku} Not Found");
+            return NotFound();
+        }
+
+        _logger.LogInformation($"Product with sku {sku} Found");
+
+        return Ok(product);
+    }
+
+    [HttpGet("newId")]
+    public async Task<ActionResult<string>> GetNewProductIdAsync()
+    {
+        string newId = await _productRepository.GetNewProductIdAsync();
+
+        return Ok(newId);
+    }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<ProductDTO>> GetProductDTOByIdAsync(string id)
