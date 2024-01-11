@@ -62,21 +62,43 @@ public class CategoryRepository : ICategoryRepository
         return categoryDTO;
     }
 
-    public async Task<IEnumerable<CategoryDTO>> GetCategoryDTOsAsync()
+    public async Task<IEnumerable<CategoryResponse>> GetCategoryResponsesAsync()
+    {
+        var level1CategoryDocs = await GetCategoryDocumentsByLevelAndParentId(1, "");
+        
+        List<CategoryResponse> level1Responses = (await GetCategoryResponses(level1CategoryDocs, 2)).ToList();
+
+        return level1Responses;
+    }
+
+    private async Task<IEnumerable<CategoryDocument>> GetCategoryDocumentsByLevelAndParentId(int level, string parentId)
     {
         var queryDef = new QueryDefinition(
-            query:
-                "SELECT * " +
-                "FROM c"
+            $"SELECT * FROM c WHERE c.level = {level} AND STRINGEQUALS(c.parentId, '{parentId}') AND c.isDeleted = false"
         );
+        return await CosmosDbUtils.GetDocumentsByQueryDefinition<CategoryDocument>(_categoryContainer, queryDef);
+    }
 
-        var categoryDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<CategoryDocument>(_categoryContainer, queryDef);
-        var categoryDTOs = categoryDocs.Select(categoryDoc =>
+    private async Task<IEnumerable<CategoryResponse>> GetCategoryResponses(IEnumerable<CategoryDocument> categoryDocs, int nextLevel)
+    {
+        List<CategoryResponse> responses = [];
+
+        foreach (var categoryDoc in categoryDocs)
         {
-            return _mapper.Map<CategoryDTO>(categoryDoc);
-        }).ToList();
+            var response = new CategoryResponse()
+            {
+                Category = _mapper.Map<CategoryDTO>(categoryDoc),
+                SubCategories = []
+            };
 
-        return categoryDTOs;
+            var nextLevelCategoryDocs = await GetCategoryDocumentsByLevelAndParentId(nextLevel, categoryDoc.Id);
+            if (nextLevelCategoryDocs.Any())
+            {
+                response.SubCategories = (await GetCategoryResponses(nextLevelCategoryDocs, nextLevel + 1)).ToList();
+            }
+            responses.Add(response);
+        }
+        return responses;
     }
 
     public async Task AddCategoryDTOAsync(CategoryDTO categoryDTO)
