@@ -17,14 +17,14 @@ public class OrderDTO
     [JsonProperty("customerName")]
     public string CustomerName { get; set; }
 
-    [JsonProperty("phone")]
-    public string Phone { get; set; }
+    [JsonProperty("customerEmail")]
+    public string CustomerEmail { get; set; }
 
     [JsonProperty("items")]
     public List<OrderItem> Items { get; set; } = [];
 
     [JsonProperty("shippingInfo")]
-    public OrderShippingInfo? ShippingInfo { get; set; }
+    public OrderShippingInfo ShippingInfo { get; set; }
 
     [JsonProperty("totalItems")]
     public int TotalItems { get; set; } = 0;

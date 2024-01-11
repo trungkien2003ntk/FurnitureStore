@@ -5,7 +5,7 @@
 		"yearMonth": "2023-12",
 		"customerType": "Retail",
 		"customerName": "Josheph Kim",
-		"phone": "0123456789",
+		"customerEmail": "customerJoshephKim@gmail.com",
 		"items": [
 			{
 				"productId": "prod00035",
@@ -50,6 +50,7 @@
 		],
 		"shippingInfo": {
 			"address": "Random Address",
+			"phone": "0123123123",
 			"shippingPrice": 0,
 			"shippingDate": "2023-12-10T23:58:12.999316"
 		},
@@ -64,7 +65,7 @@
 			"paymentMethod": "credit_card",
 			"status": "paid"
 		},
-		"status": "paid",
+		"status": "shipped",
 		"note": "",
 		"createdAt": "2023-12-04T23:58:12.999338",
 		"modifiedAt": "2023-12-04T23:58:12.999338",
@@ -76,7 +77,7 @@
 		"yearMonth": "2023-12",
 		"customerType": "Retail",
 		"customerName": "Josheph Kim",
-		"phone": "0123456789",
+		"customerEmail": "customerJoshephKim@gmail.com",
 		"items": [
 			{
 				"productId": "prod00029",
@@ -89,6 +90,7 @@
 		],
 		"shippingInfo": {
 			"address": "Random Address",
+			"phone": "0123123123",
 			"shippingPrice": 0,
 			"shippingDate": "2023-12-14T23:58:12.999351"
 		},
@@ -103,7 +105,7 @@
 			"paymentMethod": "credit_card",
 			"status": "paid"
 		},
-		"status": "paid",
+		"status": "shipped",
 		"note": "",
 		"createdAt": "2023-12-04T23:58:12.999359",
 		"modifiedAt": "2023-12-04T23:58:12.999359",
@@ -115,7 +117,7 @@
 		"yearMonth": "2023-12",
 		"customerType": "Retail",
 		"customerName": "Josheph Kim",
-		"phone": "0123456789",
+		"customerEmail": "customerJoshephKim@gmail.com",
 		"items": [
 			{
 				"productId": "prod00029",
@@ -144,6 +146,7 @@
 		],
 		"shippingInfo": {
 			"address": "Random Address",
+			"phone": "0123123123",
 			"shippingPrice": 0,
 			"shippingDate": "2023-12-10T23:58:12.999378"
 		},
@@ -158,7 +161,7 @@
 			"paymentMethod": "credit_card",
 			"status": "paid"
 		},
-		"status": "paid",
+		"status": "shipped",
 		"note": "",
 		"createdAt": "2023-12-04T23:58:12.999387",
 		"modifiedAt": "2023-12-04T23:58:12.999387",
@@ -170,7 +173,7 @@
 		"yearMonth": "2023-12",
 		"customerType": "Retail",
 		"customerName": "Josheph Kim",
-		"phone": "0123456789",
+		"customerEmail": "customerJoshephKim@gmail.com",
 		"items": [
 			{
 				"productId": "prod00019",
@@ -183,6 +186,7 @@
 		],
 		"shippingInfo": {
 			"address": "Random Address",
+			"phone": "0123123123",
 			"shippingPrice": 0,
 			"shippingDate": "2023-12-13T23:58:12.999397"
 		},
@@ -197,7 +201,7 @@
 			"paymentMethod": "credit_card",
 			"status": "paid"
 		},
-		"status": "paid",
+		"status": "shipped",
 		"note": "",
 		"createdAt": "2023-12-04T23:58:12.999405",
 		"modifiedAt": "2023-12-04T23:58:12.999405",
@@ -208,8 +212,8 @@
 		"orderId": "ord00005",
 		"yearMonth": "2023-12",
 		"customerType": "Retail",
-		"customerName": "Josheph Kim",
-		"phone": "0123456789",
+		"customerName": "Josheph Lady",
+		"customerEmail": "customerJoshephLady@gmail.com",
 		"items": [
 			{
 				"productId": "prod00022",
@@ -230,6 +234,7 @@
 		],
 		"shippingInfo": {
 			"address": "Random Address",
+			"phone": "0123123123",
 			"shippingPrice": 0,
 			"shippingDate": "2023-12-12T23:58:12.999418"
 		},
@@ -244,7 +249,7 @@
 			"paymentMethod": "credit_card",
 			"status": "paid"
 		},
-		"status": "paid",
+		"status": "shipped",
 		"note": "",
 		"createdAt": "2023-12-04T23:58:12.999426",
 		"modifiedAt": "2023-12-04T23:58:12.999426",
@@ -255,8 +260,8 @@
 		"orderId": "ord00006",
 		"yearMonth": "2023-12",
 		"customerType": "Retail",
-		"customerName": "Josheph Kim",
-		"phone": "0123456789",
+		"customerName": "Linda Ngo",
+		"customerEmail": "lindaldngo@gmail.com",
 		"items": [
 			{
 				"productId": "prod00085",
@@ -301,6 +306,7 @@
 		],
 		"shippingInfo": {
 			"address": "Random Address",
+			"phone": "0123123123",
 			"shippingPrice": 0,
 			"shippingDate": "2023-12-13T23:58:12.999451"
 		},
@@ -315,7 +321,7 @@
 			"paymentMethod": "credit_card",
 			"status": "paid"
 		},
-		"status": "paid",
+		"status": "shipped",
 		"note": "",
 		"createdAt": "2023-12-04T23:58:12.999459",
 		"modifiedAt": "2023-12-04T23:58:12.999459",
@@ -326,8 +332,8 @@
 		"orderId": "ord00007",
 		"yearMonth": "2023-12",
 		"customerType": "Retail",
-		"customerName": "Josheph Kim",
-		"phone": "0123456789",
+		"customerName": "John Kim",
+		"customerEmail": "johnKimjkbooker@gmail.com",
 		"items": [
 			{
 				"productId": "prod00077",
@@ -348,6 +354,7 @@
 		],
 		"shippingInfo": {
 			"address": "Random Address",
+			"phone": "0123123123",
 			"shippingPrice": 0,
 			"shippingDate": "2023-12-09T23:58:12.999472"
 		},
@@ -362,7 +369,7 @@
 			"paymentMethod": "credit_card",
 			"status": "paid"
 		},
-		"status": "paid",
+		"status": "shipped",
 		"note": "",
 		"createdAt": "2023-12-04T23:58:12.999480",
 		"modifiedAt": "2023-12-04T23:58:12.999480",
@@ -374,7 +381,7 @@
 		"yearMonth": "2023-12",
 		"customerType": "Retail",
 		"customerName": "Josheph Kim",
-		"phone": "0123456789",
+		"customerEmail": "customerJoshephKim@gmail.com",
 		"items": [
 			{
 				"productId": "prod00021",
@@ -411,6 +418,7 @@
 		],
 		"shippingInfo": {
 			"address": "Random Address",
+			"phone": "0123123123",
 			"shippingPrice": 0,
 			"shippingDate": "2023-12-16T23:58:12.999499"
 		},
@@ -425,7 +433,7 @@
 			"paymentMethod": "credit_card",
 			"status": "paid"
 		},
-		"status": "paid",
+		"status": "shipped",
 		"note": "",
 		"createdAt": "2023-12-04T23:58:12.999507",
 		"modifiedAt": "2023-12-04T23:58:12.999507",
@@ -437,7 +445,7 @@
 		"yearMonth": "2023-12",
 		"customerType": "Retail",
 		"customerName": "Josheph Kim",
-		"phone": "0123456789",
+		"customerEmail": "customerJoshephKim@gmail.com",
 		"items": [
 			{
 				"productId": "prod00058",
@@ -474,6 +482,7 @@
 		],
 		"shippingInfo": {
 			"address": "Random Address",
+			"phone": "0123123123",
 			"shippingPrice": 0,
 			"shippingDate": "2023-12-13T23:58:12.999529"
 		},
@@ -488,7 +497,7 @@
 			"paymentMethod": "credit_card",
 			"status": "paid"
 		},
-		"status": "paid",
+		"status": "shipped",
 		"note": "",
 		"createdAt": "2023-12-04T23:58:12.999538",
 		"modifiedAt": "2023-12-04T23:58:12.999538",
@@ -500,7 +509,7 @@
 		"yearMonth": "2023-12",
 		"customerType": "Retail",
 		"customerName": "Josheph Kim",
-		"phone": "0123456789",
+		"customerEmail": "customerJoshephKim@gmail.com",
 		"items": [
 			{
 				"productId": "prod00045",
@@ -521,6 +530,7 @@
 		],
 		"shippingInfo": {
 			"address": "Random Address",
+			"phone": "0123123123",
 			"shippingPrice": 0,
 			"shippingDate": "2023-12-08T23:58:12.999551"
 		},
@@ -535,7 +545,7 @@
 			"paymentMethod": "credit_card",
 			"status": "paid"
 		},
-		"status": "paid",
+		"status": "shipped",
 		"note": "",
 		"createdAt": "2023-12-04T23:58:12.999559",
 		"modifiedAt": "2023-12-04T23:58:12.999559",
@@ -547,7 +557,7 @@
 		"yearMonth": "2023-12",
 		"customerType": "Retail",
 		"customerName": "Josheph Kim",
-		"phone": "0123456789",
+		"customerEmail": "customerJoshephKim@gmail.com",
 		"items": [
 			{
 				"productId": "prod00086",
@@ -584,6 +594,7 @@
 		],
 		"shippingInfo": {
 			"address": "Random Address",
+			"phone": "0123123123",
 			"shippingPrice": 0,
 			"shippingDate": "2023-12-15T23:58:12.999578"
 		},
@@ -598,7 +609,7 @@
 			"paymentMethod": "credit_card",
 			"status": "paid"
 		},
-		"status": "paid",
+		"status": "shipped",
 		"note": "",
 		"createdAt": "2023-12-04T23:58:12.999586",
 		"modifiedAt": "2023-12-04T23:58:12.999586",
@@ -610,7 +621,7 @@
 		"yearMonth": "2023-12",
 		"customerType": "Retail",
 		"customerName": "Josheph Kim",
-		"phone": "0123456789",
+		"customerEmail": "customerJoshephKim@gmail.com",
 		"items": [
 			{
 				"productId": "prod00067",
@@ -639,6 +650,7 @@
 		],
 		"shippingInfo": {
 			"address": "Random Address",
+			"phone": "0123123123",
 			"shippingPrice": 0,
 			"shippingDate": "2023-12-09T23:58:12.999605"
 		},
@@ -653,7 +665,7 @@
 			"paymentMethod": "credit_card",
 			"status": "paid"
 		},
-		"status": "paid",
+		"status": "shipped",
 		"note": "",
 		"createdAt": "2023-12-04T23:58:12.999612",
 		"modifiedAt": "2023-12-04T23:58:12.999612",
@@ -665,7 +677,7 @@
 		"yearMonth": "2023-12",
 		"customerType": "Retail",
 		"customerName": "Josheph Kim",
-		"phone": "0123456789",
+		"customerEmail": "customerJoshephKim@gmail.com",
 		"items": [
 			{
 				"productId": "prod00029",
@@ -678,6 +690,7 @@
 		],
 		"shippingInfo": {
 			"address": "Random Address",
+			"phone": "0123123123",
 			"shippingPrice": 0,
 			"shippingDate": "2023-12-11T23:58:12.999623"
 		},
@@ -692,7 +705,7 @@
 			"paymentMethod": "credit_card",
 			"status": "paid"
 		},
-		"status": "paid",
+		"status": "shipped",
 		"note": "",
 		"createdAt": "2023-12-04T23:58:12.999631",
 		"modifiedAt": "2023-12-04T23:58:12.999631",
@@ -704,7 +717,7 @@
 		"yearMonth": "2023-12",
 		"customerType": "Retail",
 		"customerName": "Josheph Kim",
-		"phone": "0123456789",
+		"customerEmail": "customerJoshephKim@gmail.com",
 		"items": [
 			{
 				"productId": "prod00007",
@@ -749,6 +762,7 @@
 		],
 		"shippingInfo": {
 			"address": "Random Address",
+			"phone": "0123123123",
 			"shippingPrice": 0,
 			"shippingDate": "2023-12-15T23:58:12.999651"
 		},
@@ -763,7 +777,7 @@
 			"paymentMethod": "credit_card",
 			"status": "paid"
 		},
-		"status": "paid",
+		"status": "shipped",
 		"note": "",
 		"createdAt": "2023-12-04T23:58:12.999659",
 		"modifiedAt": "2023-12-04T23:58:12.999659",
@@ -775,7 +789,7 @@
 		"yearMonth": "2023-12",
 		"customerType": "Retail",
 		"customerName": "Josheph Kim",
-		"phone": "0123456789",
+		"customerEmail": "customerJoshephKim@gmail.com",
 		"items": [
 			{
 				"productId": "prod00038",
@@ -804,6 +818,7 @@
 		],
 		"shippingInfo": {
 			"address": "Random Address",
+			"phone": "0123123123",
 			"shippingPrice": 0,
 			"shippingDate": "2023-12-17T23:58:12.999676"
 		},
@@ -818,7 +833,7 @@
 			"paymentMethod": "credit_card",
 			"status": "paid"
 		},
-		"status": "paid",
+		"status": "shipped",
 		"note": "",
 		"createdAt": "2023-12-04T23:58:12.999684",
 		"modifiedAt": "2023-12-04T23:58:12.999684",
@@ -830,7 +845,7 @@
 		"yearMonth": "2023-12",
 		"customerType": "Retail",
 		"customerName": "Josheph Kim",
-		"phone": "0123456789",
+		"customerEmail": "customerJoshephKim@gmail.com",
 		"items": [
 			{
 				"productId": "prod00058",
@@ -851,6 +866,7 @@
 		],
 		"shippingInfo": {
 			"address": "Random Address",
+			"phone": "0123123123",
 			"shippingPrice": 0,
 			"shippingDate": "2023-12-17T23:58:12.999697"
 		},
@@ -865,7 +881,7 @@
 			"paymentMethod": "credit_card",
 			"status": "paid"
 		},
-		"status": "paid",
+		"status": "shipped",
 		"note": "",
 		"createdAt": "2023-12-04T23:58:12.999705",
 		"modifiedAt": "2023-12-04T23:58:12.999705",
@@ -877,7 +893,7 @@
 		"yearMonth": "2023-12",
 		"customerType": "Retail",
 		"customerName": "Josheph Kim",
-		"phone": "0123456789",
+		"customerEmail": "customerJoshephKim@gmail.com",
 		"items": [
 			{
 				"productId": "prod00065",
@@ -922,6 +938,7 @@
 		],
 		"shippingInfo": {
 			"address": "Random Address",
+			"phone": "0123123123",
 			"shippingPrice": 0,
 			"shippingDate": "2023-12-08T23:58:12.999727"
 		},
@@ -936,7 +953,7 @@
 			"paymentMethod": "credit_card",
 			"status": "paid"
 		},
-		"status": "paid",
+		"status": "shipped",
 		"note": "",
 		"createdAt": "2023-12-04T23:58:12.999735",
 		"modifiedAt": "2023-12-04T23:58:12.999735",

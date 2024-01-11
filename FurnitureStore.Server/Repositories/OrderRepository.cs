@@ -1,6 +1,10 @@
-﻿using FurnitureStore.Server.Models.Documents;
+﻿using FurnitureStore.Server.Models.BindingModels.FilterModels;
+using FurnitureStore.Server.Models.BindingModels;
+using FurnitureStore.Server.Models.Documents;
 using FurnitureStore.Server.Repositories.Interfaces;
 using FurnitureStore.Server.Utils;
+using FurnitureStore.Server.Exceptions;
+using FurnitureStore.Shared.Enums;
 
 namespace FurnitureStore.Server.Repositories
 {
@@ -12,8 +16,16 @@ namespace FurnitureStore.Server.Repositories
         private readonly Container _orderContainer;
         private readonly IMapper _mapper;
         private readonly IMemoryCache _memoryCache;
+        private readonly ILogger<OrderRepository> _logger;
 
-        public OrderRepository(CosmosClient cosmosClient, IMapper mapper, IMemoryCache memoryCache)
+        public int TotalCount { get; private set; }
+
+        public OrderRepository(
+            CosmosClient cosmosClient,
+            IMapper mapper,
+            IMemoryCache memoryCache,
+            ILogger<OrderRepository> logger
+        )
         {
             var databaseName = cosmosClient.ClientOptions.ApplicationName;
             var containerName = "orders";
@@ -21,31 +33,61 @@ namespace FurnitureStore.Server.Repositories
             _orderContainer = cosmosClient.GetContainer(databaseName, containerName);
             _mapper = mapper;
             _memoryCache = memoryCache;
+            _logger = logger;
         }
 
-        public async Task AddOrderDocumentAsync(OrderDocument item)
+        public async Task<IEnumerable<OrderDTO>?> GetOrderDTOsAsync(QueryParameters queryParameters, OrderFilterModel filter)
         {
-            item.CreatedAt = DateTime.UtcNow;
-            item.ModifiedAt = item.CreatedAt;
+            var queryDef = CosmosDbUtils.BuildQuery(queryParameters, filter, isRemovableDocument: false);
 
-            await _orderContainer.UpsertItemAsync(
-                item:item,
-                partitionKey: new PartitionKey(item.YearMonth)
-            );
+            var orderDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<OrderDocument>(_orderContainer, queryDef);
+
+            queryParameters.PageSize = -1;
+            var getAllQueryDef = CosmosDbUtils.BuildQuery(queryParameters, filter, isRemovableDocument: false);
+            var allOrderDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<OrderDocument>(_orderContainer, getAllQueryDef);
+            TotalCount = allOrderDocs.Count();
+
+            var orderDTOs = orderDocs.Select(orderDoc =>
+            {
+                return _mapper.Map<OrderDTO>(orderDoc);
+            }).ToList();
+
+            return orderDTOs;
         }
 
-        public async Task AddOrderDTOAsync(OrderDTO orderDTO)
+        public async Task<OrderDTO?> GetOrderDTOByIdAsync(string id)
+        {
+            var orderDoc = await GetOrderDocumentByIdAsync(id)
+                ?? throw new DocumentNotFoundException(NotiOrderNotFound);
+
+            var orderDTO = _mapper.Map<OrderDTO>(orderDoc);
+
+            return orderDTO;
+        }
+
+        public async Task<OrderDTO?> AddOrderDTOAsync(OrderDTO orderDTO)
         {
             var orderDoc = _mapper.Map<OrderDocument>(orderDTO);
 
-            await AddOrderDocumentAsync(orderDoc);
+            await PopulateDataToNewOrderDocument(orderDoc);
 
-            _memoryCache.Set(OrderIdCacheName, IdUtils.IncreaseId(orderDTO.Id));
+            var createdOrderDoc = await AddOrderDocumentAsync(orderDoc);
+
+            if (createdOrderDoc != null)
+            {
+                _memoryCache.Set(OrderIdCacheName, IdUtils.IncreaseId(createdOrderDoc.Id));
+
+                return _mapper.Map<OrderDTO>(createdOrderDoc);
+            }
+
+            return null;
         }
 
         public async Task UpdateOrderAsync(OrderDTO orderDTO)
         {
             var orderToUpdate = _mapper.Map<OrderDocument>(orderDTO);
+
+            orderToUpdate.ModifiedAt = DateTime.UtcNow;
 
             await _orderContainer.UpsertItemAsync(
                 item: orderToUpdate,
@@ -53,21 +95,59 @@ namespace FurnitureStore.Server.Repositories
             );
         }
 
-        public async Task<IEnumerable<OrderDTO>> GetOrderDTOsAsync()
+
+        private async Task<OrderDocument?> GetOrderDocumentByIdAsync(string id)
         {
             var queryDef = new QueryDefinition(
                 query:
                     "SELECT * " +
-                    "FROM so"
-            );
+                    "FROM so " +
+                    "WHERE so.id = @id"
+            ).WithParameter("@id", id);
 
-            var orderDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<OrderDocument>(_orderContainer, queryDef);
-            var orderDTOs = orderDocs.Select(orderDoc =>
+            var order = await CosmosDbUtils.GetDocumentByQueryDefinition<OrderDocument>(_orderContainer, queryDef);
+
+            return order;
+        }
+
+        private async Task PopulateDataToNewOrderDocument(OrderDocument orderDoc)
+        {
+            var newId = await GetNewOrderIdAsync();
+            orderDoc.Id = newId;
+            orderDoc.OrderId = newId;
+            orderDoc.CustomerType ??= "Retail";
+
+
+            orderDoc.Status ??= OrderStatus.created.ToString();
+            orderDoc.Note ??= "";
+            orderDoc.TTL = -1;
+        }
+
+        public async Task<OrderDocument?> AddOrderDocumentAsync(OrderDocument item)
+        {
+            try
             {
-                return _mapper.Map<OrderDTO>(orderDoc);
-            }).ToList();
+                item.CreatedAt = DateTime.UtcNow;
+                item.YearMonth = item.CreatedAt.Value.ToString("yyyy-MM");
+                item.ModifiedAt = item.CreatedAt;
 
-            return orderDTOs;
+
+                var response = await _orderContainer.UpsertItemAsync(
+                    item: item,
+                    partitionKey: new PartitionKey(item.YearMonth)
+                );
+
+                if (response.StatusCode == HttpStatusCode.Created)
+                {
+                    return response.Resource;
+                }
+            }
+            catch (CosmosException ex)
+            {
+                _logger.LogError($"Upsert Item failed, Exception message {ex.Message}");
+            }
+
+            return null;
         }
 
         public async Task<string> GetNewOrderIdAsync()
@@ -91,41 +171,6 @@ namespace FurnitureStore.Server.Repositories
 
             _memoryCache.Set(OrderIdCacheName, newId);
             return newId;
-        }
-
-        public async Task<OrderDTO> GetOrderDTOByIdAsync(string id)
-        {
-            var orderDoc = await GetOrderDocumentByIdAsync(id) ?? throw new Exception(NotiOrderNotFound);
-
-            var orderDTO = _mapper.Map<OrderDTO>(orderDoc);
-
-            return orderDTO;
-        }
-
-        public async Task DeleteOrderAsync(string id)
-        {
-            var orderDoc = await GetOrderDocumentByIdAsync(id) ?? throw new Exception(NotiOrderNotFound);
-
-            List<PatchOperation> patchOperations = new List<PatchOperation>()
-            {
-                PatchOperation.Replace("/isDeleted", true)
-            };
-
-            await _orderContainer.PatchItemAsync<OrderDocument>(id, new PartitionKey(orderDoc.YearMonth), patchOperations);
-        }
-
-        private async Task<OrderDocument?> GetOrderDocumentByIdAsync(string id)
-        {
-            var queryDef = new QueryDefinition(
-                query:
-                    "SELECT * " +
-                    "FROM so " +
-                    "WHERE so.id = @id"
-            ).WithParameter("@id", id);
-
-            var order = await CosmosDbUtils.GetDocumentByQueryDefinition<OrderDocument>(_orderContainer, queryDef);
-
-            return order;
         }
     }
 }

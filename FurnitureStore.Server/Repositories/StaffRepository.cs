@@ -1,10 +1,8 @@
-﻿using BookstoreWebAPI.Utils;
+﻿using FurnitureStore.Server.Utils;
 using FurnitureStore.Server.Exceptions;
 using FurnitureStore.Server.Models.BindingModels.PasswordModels;
 using FurnitureStore.Server.Models.Documents;
 using FurnitureStore.Server.Repositories.Interfaces;
-using FurnitureStore.Server.Utils;
-using FurnitureStore.Shared.DTOs;
 using System.Security.Authentication;
 
 namespace FurnitureStore.Server.Repositories

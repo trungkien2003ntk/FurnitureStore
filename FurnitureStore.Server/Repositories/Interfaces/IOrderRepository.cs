@@ -1,14 +1,13 @@
-﻿using FurnitureStore.Server.Models.Documents;
+﻿using FurnitureStore.Server.Models.BindingModels.FilterModels;
+using FurnitureStore.Server.Models.BindingModels;
 
 namespace FurnitureStore.Server.Repositories.Interfaces;
 
 public interface IOrderRepository
 {
-    Task AddOrderDocumentAsync(OrderDocument item);
-    Task AddOrderDTOAsync(OrderDTO orderDTO);
-    Task DeleteOrderAsync(string id);
-    Task<IEnumerable<OrderDTO>> GetOrderDTOsAsync();
-    Task<string> GetNewOrderIdAsync();
-    Task<OrderDTO> GetOrderDTOByIdAsync(string id);
+    int TotalCount { get; }
+    Task<IEnumerable<OrderDTO>?> GetOrderDTOsAsync(QueryParameters queryParameters, OrderFilterModel filter);
+    Task<OrderDTO?> GetOrderDTOByIdAsync(string id);
+    Task<OrderDTO?> AddOrderDTOAsync(OrderDTO orderDTO);
     Task UpdateOrderAsync(OrderDTO orderDTO);
 }
