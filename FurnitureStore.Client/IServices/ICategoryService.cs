@@ -9,6 +9,7 @@ namespace FurnitureStore.Client.IServices
         Task<CategoryDTO> AddCategoryAsync(CategoryDTO categoryDTO);
         Task<bool> DeleteCategoryDTOAsync(string categoryId);
         Task<bool> UpdateCategoryDTOAsync(string categoryId, CategoryDTO categoryDTO);
+        Task<CategoryDTO> GetCategoryDTOByIdAsync(string categoryId);
         Task<IEnumerable<CategoryDTO>> GetCategoryDTOsByLevelAsync(int level);
         Task<IEnumerable<CategoryDTO>> GetCategoryDTOsByParentIdAsync(string parentId);
     }
