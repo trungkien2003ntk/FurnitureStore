@@ -148,7 +148,16 @@ namespace FurnitureStore.Client.Pages.AdminPages
             currentCategoryId = Id;
             selectedCategoryId2 = "";
             selectedCategoryId3 = "";
-            categoryListLV2 = await categoryService.GetCategoryDTOsByParentIdAsync(Id) ?? new List<CategoryDTO>();
+            var categoryResponse = await categoryService.GetCategoryDTOsByParentIdAsync(Id);
+            if(categoryResponse != null)
+            {
+                categoryListLV2 = categoryResponse.Select(response => response.Category).ToList();
+            }
+            else
+            {
+                categoryListLV2 = new List<CategoryDTO>();
+            }
+            categoryListLV3= new List<CategoryDTO>();
         }
 
         private async Task SelectCategory2(string Id)
@@ -156,7 +165,15 @@ namespace FurnitureStore.Client.Pages.AdminPages
             selectedCategoryId2 = Id;
             currentCategoryId = Id;
             selectedCategoryId3 = "";
-            categoryListLV3 = await categoryService.GetCategoryDTOsByParentIdAsync(Id) ?? new List<CategoryDTO>();
+            var categoryResponse = await categoryService.GetCategoryDTOsByParentIdAsync(Id);
+            if (categoryResponse != null)
+            {
+                categoryListLV3 = categoryResponse.Select(response => response.Category).ToList();
+            }
+            else
+            {
+                categoryListLV3 = new List<CategoryDTO>();
+            }
         }
 
         private void SelectCategory3(string Id)
@@ -210,15 +227,31 @@ namespace FurnitureStore.Client.Pages.AdminPages
         {
             if (currentCategoryId != "")
             {
-                var categoryChildrenList = await categoryService.GetCategoryDTOsByParentIdAsync(currentCategoryId) ?? new List<CategoryDTO>();
-                if(!categoryChildrenList.Any())
+
+                var categoryChildrenList = await categoryService.GetCategoryDTOsByParentIdAsync(currentCategoryId);
+                if (categoryChildrenList == null)
                 {
+                    var category = await categoryService.GetCategoryDTOByIdAsync(currentCategoryId);
+                    int level = category.Level;
                     var result = await categoryService.DeleteCategoryDTOAsync(currentCategoryId);
                     isDeleteNotification = true;
                     isHiddenNotification = false;
                     if (result)
                     {
+                        if (level == 1)
+                        {
+                            await GetCategoryByLevel1();
+                        }
+                        else if (level == 2)
+                        {
+                            await GetCategoryLV2ByParentId(currentCategoryId);
+                        }
+                        else if (level == 3)
+                        {
+                            await GetCategoryLV3ByParentId(currentCategoryId);
+                        }
                         NotificationDetail = "Delete category successfully";
+
                     }
                     else
                     {
@@ -263,7 +296,18 @@ namespace FurnitureStore.Client.Pages.AdminPages
                     var result = await categoryService.AddCategoryAsync(category);
                     if (result !=null)
                     {
-                        await GetCategoryByLevel1();
+                        if (category.Level == 1)
+                        {
+                            await GetCategoryByLevel1();
+                        }
+                        else if (category.Level == 2)
+                        {
+                            await GetCategoryLV2ByParentId(currentCategoryId);
+                        }
+                        else if (category.Level == 3)
+                        {
+                            await GetCategoryLV3ByParentId(currentCategoryId);
+                        }
                         isHiddenPopup = true;
                     }
                 }
@@ -274,7 +318,18 @@ namespace FurnitureStore.Client.Pages.AdminPages
                     var result = await categoryService.UpdateCategoryDTOAsync(category.CategoryId!, category);
                     if (result)
                     {
-                        await GetCategoryByLevel1();
+                        if (category.Level == 1)
+                        {
+                            await GetCategoryByLevel1();
+                        }
+                        else if (category.Level == 2)
+                        {
+                            await GetCategoryLV2ByParentId(currentCategoryId);
+                        }
+                        else if(category.Level == 3)
+                        {
+                            await GetCategoryLV3ByParentId(currentCategoryId);
+                        }
                         isHiddenPopup = true;
                     }
                 }
@@ -285,7 +340,40 @@ namespace FurnitureStore.Client.Pages.AdminPages
         #region Helper
         public async Task GetCategoryByLevel1()
         {
-            categoryListLV1 = await categoryService.GetCategoryDTOsByLevelAsync(1);
+            var categoryResponse = await categoryService.GetCategoryDTOsByLevelAsync(1);
+            if (categoryResponse != null)
+            {
+                categoryListLV1 = categoryResponse.Select(response => response.Category).ToList();
+            }
+            else
+            {
+                categoryListLV1=new List<CategoryDTO>();
+            }
+        }
+
+        public async Task GetCategoryLV2ByParentId(string parentId)
+        {
+            var categoryResponse = await categoryService.GetCategoryDTOsByParentIdAsync(parentId);
+            if (categoryResponse != null)
+            {
+                categoryListLV2 = categoryResponse.Select(response => response.Category).ToList();
+            }
+            else
+            {
+                categoryListLV2 = new List<CategoryDTO>();
+            }
+        }
+        public async Task GetCategoryLV3ByParentId(string parentId)
+        {
+            var categoryResponse = await categoryService.GetCategoryDTOsByParentIdAsync(parentId);
+            if (categoryResponse != null)
+            {
+                categoryListLV3 = categoryResponse.Select(response => response.Category).ToList();
+            }
+            else
+            {
+                categoryListLV3 = new List<CategoryDTO>();
+            }
         }
         #endregion
     }
