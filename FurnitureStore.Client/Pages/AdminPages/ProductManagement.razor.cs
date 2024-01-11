@@ -13,12 +13,14 @@ namespace FurnitureStore.Client.Pages.AdminPages
         [Inject]
         ICategoryService categoryService { get; set; } = null!;
         public IEnumerable<ProductDTO> productList { get; set; } = new List<ProductDTO>();
+        public IEnumerable<ProductDTO> productVariantList { get; set; } = new List<ProductDTO>();
         public IEnumerable<CategoryDTO> categoryListLV1 { get; set; } = new List<CategoryDTO>();
         public IEnumerable<CategoryDTO> categoryListLV2 { get; set; } = new List<CategoryDTO>();
         public IEnumerable<CategoryDTO> categoryListLV3 { get; set; } = new List<CategoryDTO>();
         private bool isHidden { get; set; } = true;
         private bool isHiddenVariant { get; set; } = true;
         private bool isChecked { get; set; } = false;
+        private bool isClicked { get; set; } = false;
         private string SelectedCategoryLV1Text { get; set; } = "Choose Category";
         private string SelectedCategoryLV2Text { get; set; } = "Choose Category";
         private string SelectedCategoryLV3Text { get; set; } = "Choose Category";
@@ -243,6 +245,24 @@ namespace FurnitureStore.Client.Pages.AdminPages
             productCount = productList.Count();
             HandlePageNumber(productCount, pageSize);
             await UpdatePagination();
+        }
+
+        private async Task SelectProduct(string Id)
+        {
+            ProductDTO currProduct = await productService.GetProductDTOByIdAsync(Id);
+            if (currProduct != null && currProduct.VariationDetail.Id != null)
+            {
+                var productResponse = await productService.GetProductDTOsAsync(null, currProduct.VariationDetail.Id, null, null);
+                if (productResponse != null)
+                {
+                    productVariantList = productResponse.Data;
+                }
+                else
+                {
+                    productVariantList = new List<ProductDTO>();
+                }
+                isClicked = true;
+            }
         }
         #endregion
 

@@ -259,7 +259,7 @@
                                     <tbody>
                                         @foreach (var product in productList)
                                         {
-                                            <tr>
+                                            <tr @onclick="(() => SelectProduct(product.Id!))">
                                                 <td>@product.ProductId</td>
                                                 <td class="product-col-2">
                                                     @product.Name
