@@ -1,9 +1,0 @@
-{
-  "profiles": {
-    "FunctionAppChangeFeed": {
-      "commandName": "Project",
-      "commandLineArgs": "--port 7248",
-      "launchBrowser": false
-    }
-  }
-}
