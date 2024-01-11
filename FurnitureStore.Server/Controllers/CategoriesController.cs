@@ -37,6 +37,26 @@ public class CategoriesController(
         return Ok(categories);
     }
 
+    public async Task<ActionResult<IEnumerable<CategoryResponse>>> GetCategoriesAsync()
+    {
+        var categories = await categoryRepository.GetCategoryResponsesAsync();
+
+        if (!categories.Any())
+        {
+            return NotFound();
+        }
+
+        return Ok(categories);
+    }
+
+    [HttpGet("newId")]
+    public async Task<ActionResult<string>> GetNewCategoryIdAsync()
+    {
+        string newId = await categoryRepository.GetNewCategoryIdAsync();
+
+        return Ok(newId);
+    }
+
     [HttpGet("newId")]
     public async Task<ActionResult<string>> GetNewCategoryIdAsync()
     {

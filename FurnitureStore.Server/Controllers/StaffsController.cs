@@ -1,4 +1,7 @@
-﻿using FurnitureStore.Server.Repositories.Interfaces;
+﻿using FurnitureStore.Server.Exceptions;
+using FurnitureStore.Server.Models.BindingModels.PasswordModels;
+using FurnitureStore.Server.Repositories.Interfaces;
+using System.Security.Authentication;
 
 namespace FurnitureStore.Server.Controllers;
 
@@ -46,18 +49,6 @@ public class StaffsController(
         return Ok(staff);
     }
 
-    [HttpGet("{username}/{password}")]
-    public async Task<ActionResult<StaffDTO>> LoginStaff(string username, string password)
-    {
-        var staff = await staffRepository.LoginStaff(username, password);
-
-        if (staff == null)
-        {
-            return NotFound();
-        }
-
-        return Ok(staff);
-    }
 
     [HttpPost]
     public async Task<ActionResult> CreateStaffAsync([FromBody] StaffDTO staffDTO)
@@ -83,7 +74,7 @@ public class StaffsController(
         {
             await staffRepository.UpdateStaffAsync(staffDTO);
 
-            return Ok("Staff updated successfully.");
+            return NoContent();
         }
         catch (Exception ex)
         {
@@ -106,6 +97,59 @@ public class StaffsController(
         {
             logger.LogInformation($"Error message: {ex.Message}");
             return StatusCode(500, $"An error occurred while creating the staff. StaffId: {id}");
+        }
+    }
+
+
+
+    [HttpPost("login")]
+    public async Task<ActionResult<StaffDTO>> LoginStaff(LoginModel data)
+    {
+        try
+        {
+            var staff = await staffRepository.GetStaffDTOByCredentials(data);
+
+            if (staff == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(staff);
+        }
+        catch (InvalidCredentialException)
+        {
+            return BadRequest("Invalid Credentials");
+        }
+        catch (DocumentNotFoundException)
+        {
+            return BadRequest("Invalid Credentials");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
+
+    [HttpPut("updatePassword")]
+    public async Task<IActionResult> UpdatePasswordAsync(UpdatePasswordModel data)
+    {
+        try
+        {
+            await staffRepository.UpdatePasswordAsync(data);
+
+            return NoContent();
+        }
+        catch (InvalidCredentialException)
+        {
+            return BadRequest("Invalid credentials.");
+        }
+        catch (DocumentNotFoundException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
         }
     }
 }

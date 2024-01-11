@@ -1,5 +1,6 @@
 ﻿using FurnitureStore.Client.IServices;
 using FurnitureStore.Shared.DTOs;
+using FurnitureStore.Shared.Responses;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -76,6 +77,20 @@ namespace FurnitureStore.Client.Services
                 string jsonResponse = await response.Content.ReadAsStringAsync();
                 var categories = JsonConvert.DeserializeObject<List<CategoryDTO>>(jsonResponse);
                 return categories!;
+            }
+            return null!;
+        }
+
+        public async Task<IEnumerable<CategoryResponse>> GetAllCategoryResponses()
+        {
+            string apiUrl = GlobalConfig.CATEGORY_BASE_URL;
+
+            var response = await _httpClient.GetAsync(new Uri(apiUrl));
+            if (response.IsSuccessStatusCode)
+            {
+                string jsonResponse = await response.Content.ReadAsStringAsync();
+                var categoryResponse = JsonConvert.DeserializeObject<IEnumerable<CategoryResponse>>(jsonResponse);
+                return categoryResponse!;
             }
             return null!;
         }

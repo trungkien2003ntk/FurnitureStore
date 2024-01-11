@@ -1,5 +1,6 @@
 ﻿using FurnitureStore.Client.IServices;
 using FurnitureStore.Shared.DTOs;
+using FurnitureStore.Shared.Responses;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -38,16 +39,16 @@ namespace FurnitureStore.Client.Services
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<IEnumerable<ProductDTO>> GetProductDTOsByPageSizeAndPageNumber(int pageSize, int pageNumber)
+        public async Task<ProductResponse> GetProductDTOsByCategoryIdAndPageSizeAndPageNumber(string categoryId, int pageSize, int pageNumber)
         {
-            string apiUrl = $"{GlobalConfig.PRODUCT_BASE_URL}?pageSize={pageSize}&pageNumber={pageNumber}";
+            string apiUrl = $"{GlobalConfig.PRODUCT_BASE_URL}?categoryId={categoryId}&pageSize={pageSize}&pageNumber={pageNumber}";
 
             var response = await _httpClient.GetAsync(new Uri(apiUrl));
             if (response.IsSuccessStatusCode)
             {
                 string jsonResponse = await response.Content.ReadAsStringAsync();
-                var products = JsonConvert.DeserializeObject<List<ProductDTO>>(jsonResponse);
-                return products!;
+                var productResponse = JsonConvert.DeserializeObject<ProductResponse>(jsonResponse);
+                return productResponse!;
             }
             return null!;
         }
