@@ -67,9 +67,9 @@ namespace FurnitureStore.Client.Services
             return null!;
         }
 
-        public async Task<IEnumerable<CategoryResponse>> GetAllCategoryResponses()
+        public async Task<IEnumerable<CategoryResponse>> GetAllCategoryResponsesWithNestedResult()
         {
-            string apiUrl = GlobalConfig.CATEGORY_BASE_URL;
+            string apiUrl = $"{GlobalConfig.CATEGORY_BASE_URL}?useNestedResult=true";
 
             var response = await _httpClient.GetAsync(new Uri(apiUrl));
             if (response.IsSuccessStatusCode)
@@ -90,6 +90,20 @@ namespace FurnitureStore.Client.Services
             var response = await _httpClient.PutAsync(new Uri(apiUrl), content);
 
             return response.IsSuccessStatusCode;
+        }
+
+        public async Task<CategoryDTO> GetCategoryDTOByIdAsync(string categoryId)
+        {
+            string apiUrl = $"{GlobalConfig.CATEGORY_BASE_URL}/{categoryId}";
+
+            var response = await _httpClient.GetAsync(new Uri(apiUrl));
+            if (response.IsSuccessStatusCode)
+            {
+                string? jsonResponse = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<CategoryDTO>(jsonResponse!)!;
+            }
+
+            return null!;
         }
     }
 }
