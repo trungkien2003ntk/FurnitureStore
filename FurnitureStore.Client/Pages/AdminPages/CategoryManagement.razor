@@ -23,16 +23,9 @@
                     type="button" data-toggle="minimize">
                 <span class="mdi mdi-menu"></span>
             </button>
-            <div class="search-field d-none d-xl-block">
-                <form class="d-flex align-items-center h-100" action="#">
-                    <div class="input-group">
-                        <div class="input-group-prepend bg-transparent">
-                            <i class="input-group-text border-0 mdi mdi-magnify"></i>
-                        </div>
-                        <input type="text" class="form-control bg-transparent border-0"
-                               placeholder="Search products">
-                    </div>
-                </form>
+            <div class="search-field d-flex d-xl-block align-items-center">
+                <button type="button" class="btn btn-outline-dark btn-fw" style="margin-top:12px" @onclick="UpdateSelectedCategory">Update selected category</button>
+                <button type="button" class="btn btn-outline-dark btn-fw" style="margin-top:12px" @onclick="DeleteSelectedCategory">Delete selected category</button>
             </div>
             <ul class="navbar-nav navbar-nav-right">
                 <li class="nav-item nav-profile dropdown">
@@ -189,7 +182,7 @@
                                     <tbody>
                                         @foreach(var item in categoryListLV1)
                                         {
-                                            <tr @onclick="(() => SelectCategory(item.Id, item.Name))"
+                                            <tr @onclick="(() => SelectCategory(item.Id, item.CategoryPath))"
                                                 style="@((item.Id == selectedCategoryId) ? "background-color: #f0f1f6;" : "")">
                                                 <td>@item.CategoryId</td>
                                                 <td class="category-col-2">@item.Text</td>
@@ -232,8 +225,8 @@
                                     <tbody>
                                         @foreach (var item in categoryListLV2)
                                         {
-                                            <tr @onclick="(() => SelectCategory(item.Id, item.Name))"
-                                                style="@((item.Id == selectedCategoryId) ? "background-color: #f0f1f6;" : "")">
+                                            <tr @onclick="(() => SelectCategory2(item.Id, item.CategoryPath))"
+                                                style="@((item.Id == selectedCategoryId2) ? "background-color: #f0f1f6;" : "")">
                                                 <td>@item.CategoryId</td>
                                                 <td class="category-col-2">@item.Text</td>
                                             </tr>
@@ -338,7 +331,7 @@
         <div class="add-category-form">
             <div class="model_header d-flex align-items-center">
                 <div class="col-lg-9">
-                    <label class="model_header_title">Add category form</label>
+                    <label class="model_header_title">@AddUpdateCategoryForm</label>
                 </div>
                 <div class="col-lg-3 d-flex justify-content-end">
                     <button class="model_close_btn_size align-self-center" @onclick="CloseAddUpdateCategoryPopup">
@@ -348,21 +341,34 @@
             </div>
             <div class="model-category-main">
                 <div class="row" style="margin-bottom: 1rem;">
-                    <h3 style="text-align: center; color:black">Level 1</h3>
-                    <div class="model_main_div_children">
-                        <label class="model_main_label" style="color: black;">Category ID</label>
-                        <input class="model_main_input_children"/>
-                    </div>
+                    <h3 style="text-align: center; color:black">@LevelLabel</h3>
                     <div class="model_main_div_children">
                         <label class="model_main_label" style="color: black;">Category name</label>
-                        <input class="model_main_input_children"/>
+                        <input class="model_main_input_children" @bind="CategoryNameInput"/>
                     </div>
                 </div>
                 <div class="model_main_div_children d-flex align-items-center justify-content-center gap-4">
-                    <button type="button" class="btn btn-outline-red btn-fw">
+                    <button type="button" class="btn btn-outline-red btn-fw" @onclick="SaveChangeButton">
                         Save changed
                     </button>
                     <button type="button" class="btn btn-outline-red btn-fw" @onclick="CancelAddUpdateCategoryPopup">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="model" hidden="@isHiddenNotification">
+        <div class="add-category-form">
+            <div class="model_header d-flex align-items-center">
+                <label class="model_header_title">Notification</label>
+            </div>
+            <div class="model-category-main">
+                <div class="row" style="margin-bottom: 1rem;">
+                    <div class="model_main_div_children">
+                        <label class="model_main_label" style="color: black;">You must choose category parent before add new childen</label>
+                    </div>
+                </div>
+                <div class="model_main_div_children d-flex align-items-center justify-content-center gap-4">
+                    <button type="button" class="btn btn-outline-red btn-fw" @onclick="CancelNotification">Cancel</button>
                 </div>
             </div>
         </div>
