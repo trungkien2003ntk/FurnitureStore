@@ -17,14 +17,10 @@ namespace FurnitureStore.Client.Pages.AdminPages
 
         protected override async Task OnInitializedAsync()
         {
-            await GetProductList();
-            await base.OnInitializedAsync();
+            //Get pagination
+            //productList = await productService.GetProductDTOsByCategoryIdAndPageSizeAndPageNumber(null, null, null);
         }
 
-        public async Task GetProductList()
-        {
-            //productList = await productService.GetAllProduct();
-        }
         private void ShowAddUpdateProductPopup()
         {
             isHidden = false;

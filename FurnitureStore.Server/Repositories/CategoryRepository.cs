@@ -245,4 +245,21 @@ public class CategoryRepository : ICategoryRepository
 
         //return categoryDTOs;
     }
+
+    public async Task<IEnumerable<CategoryDTO>> GetCategoryDTOsAsync()
+    {
+        var queryDef = new QueryDefinition(
+            query:
+                "SELECT * " +
+                "FROM c"
+        );
+
+        var categoryDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<CategoryDocument>(_categoryContainer, queryDef);
+        var categoryDTOs = categoryDocs.Select(categoryDoc =>
+        {
+            return _mapper.Map<CategoryDTO>(categoryDoc);
+        }).ToList();
+
+        return categoryDTOs;
+    }
 }
