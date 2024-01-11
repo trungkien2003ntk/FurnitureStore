@@ -12,7 +12,7 @@ public class OrderDTO
     public string? YearMonth { get; set; }
 
     [JsonProperty("customerType")]
-    public string? CustomerType { get; set; }
+    public string? CustomerType { get; set; } = "Retail";
 
     [JsonProperty("customerName")]
     public string CustomerName { get; set; }

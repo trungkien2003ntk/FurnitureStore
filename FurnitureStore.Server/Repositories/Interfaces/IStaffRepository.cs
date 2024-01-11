@@ -1,4 +1,5 @@
-﻿using FurnitureStore.Server.Models.Documents;
+﻿using FurnitureStore.Server.Models.BindingModels.PasswordModels;
+using FurnitureStore.Server.Models.Documents;
 
 namespace FurnitureStore.Server.Repositories.Interfaces;
 
@@ -9,7 +10,8 @@ public interface IStaffRepository
     Task DeleteStaffAsync(string id);
     Task<string> GetNewStaffIdAsync();
     Task<StaffDTO> GetStaffDTOByIdAsync(string id);
-    Task<StaffDTO> LoginStaff(string username, string password);
+    Task<StaffDTO> GetStaffDTOByCredentials(LoginModel data);
+    Task UpdatePasswordAsync(UpdatePasswordModel data);
     Task<IEnumerable<StaffDTO>> GetStaffDTOsAsync();
     Task UpdateStaffAsync(StaffDTO staffDTO);
 }

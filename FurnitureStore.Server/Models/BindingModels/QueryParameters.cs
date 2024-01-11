@@ -9,9 +9,9 @@
         public int? PageNumber { get; set; } = 1;
 
         [FromQuery(Name = "sortBy")]
-        public string SortBy { get; set; } = "id";
+        public string SortBy { get; set; } = "createdAt";
 
         [FromQuery(Name = "orderBy")]
-        public string OrderBy { get; set; } = "asc";
+        public string OrderBy { get; set; } = "desc";
     }
 }

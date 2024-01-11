@@ -35,7 +35,10 @@ builder.Services.AddSingleton((provider) =>
 
     return new CosmosClient(endpointUri, primaryKey, cosmosClientOptions); 
 });
-
+builder.Services.AddControllersWithViews(options =>
+{
+    options.SuppressAsyncSuffixInActionNames = false;
+});
 
 // add repositories
 builder.Services.AddTransient<IProductRepository, ProductRepository>();

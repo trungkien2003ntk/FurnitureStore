@@ -1,6 +1,11 @@
-﻿using FurnitureStore.Server.Models.Documents;
+﻿using BookstoreWebAPI.Utils;
+using FurnitureStore.Server.Exceptions;
+using FurnitureStore.Server.Models.BindingModels.PasswordModels;
+using FurnitureStore.Server.Models.Documents;
 using FurnitureStore.Server.Repositories.Interfaces;
 using FurnitureStore.Server.Utils;
+using FurnitureStore.Shared.DTOs;
+using System.Security.Authentication;
 
 namespace FurnitureStore.Server.Repositories
 {
@@ -129,29 +134,101 @@ namespace FurnitureStore.Server.Repositories
             return staff;
         }
 
-        public async Task<StaffDocument?> GetStaffByUsernameAndPassword(string username, string password)
+        public async Task UpdatePasswordAsync(UpdatePasswordModel data)
+        {
+            LoginModel loginModel = new()
+            {
+                Email = data.Email,
+                Password = data.OldPassword
+            };
+            try
+            {
+                StaffDocument staffDoc = await GetStaffDocByCredentials(loginModel);
+
+                var hashedAndSaltedPassword = SecretHasher.Hash(data.NewPassword);
+                staffDoc.ModifiedAt = DateTime.UtcNow;
+                staffDoc.HashedAndSaltedPassword = hashedAndSaltedPassword;
+                staffDoc.DefaultPassword = null;
+
+                await _staffContainer.UpsertItemAsync(
+                    item: staffDoc,
+                    partitionKey: new PartitionKey(staffDoc.StaffId)
+                );
+            }
+            catch (DocumentNotFoundException) 
+            {
+                throw;
+            }
+            catch (InvalidCredentialException)
+            {
+                throw;
+            }
+        }
+
+        public async Task<StaffDocument?> GetStaffDocumentByEmailAsync(string email)
         {
             var queryDef = new QueryDefinition(
                 query:
                     "SELECT * " +
-                    "FROM staffs s " +
-                    "WHERE s.username = @username " +
-                    "AND s.password = @password"
-            ).WithParameter("@username", username)
-            .WithParameter("@password", password);
+                    "FROM c " +
+                    "WHERE c.isDeleted = false AND STRINGEQUALS(c.contact.email, @email, true)"
+            ).WithParameter("@email", email);
 
-            var staff = await CosmosDbUtils.GetDocumentByQueryDefinition<StaffDocument>(_staffContainer, queryDef);
-
-            return staff;
+            
+                var staff = await CosmosDbUtils.GetDocumentByQueryDefinition<StaffDocument>(_staffContainer, queryDef);
+                return staff;
+            
         }
 
-        public async Task<StaffDTO> LoginStaff(string username, string password)
+        public async Task<StaffDTO> GetStaffDTOByCredentials(LoginModel data)
         {
-            var staffDoc = await GetStaffByUsernameAndPassword(username, password);
-
-            var staffDTO = _mapper.Map<StaffDTO>(staffDoc);
-
-            return staffDTO;
+            try
+            {
+                var staffDoc = await GetStaffDocByCredentials(data);
+                return _mapper.Map<StaffDTO>(staffDoc);
+            }
+            catch (DocumentNotFoundException)
+            {
+                throw;
+            }
+            catch(InvalidCredentialException)
+            {
+                throw;
+            }
         }
+
+        private async Task<StaffDocument> GetStaffDocByCredentials(LoginModel data)
+        {
+            var queryDef = new QueryDefinition(
+                query:
+                    "SELECT * " +
+                    "FROM s " +
+                    "WHERE s.contact.email = @email "
+            ).WithParameter("@email", data.Email);
+
+            var staffDoc = await CosmosDbUtils.GetDocumentByQueryDefinition<StaffDocument>(_staffContainer, queryDef)
+                ?? throw new DocumentNotFoundException($"Staff with email {data.Email} not found.");
+
+            var isValidByMainPassword = false;
+            var isValidByDefaultPassword = false;
+
+            if (!string.IsNullOrEmpty(staffDoc.DefaultPassword))
+            {
+                isValidByDefaultPassword = staffDoc.DefaultPassword == data.Password;
+            }
+
+            if (!string.IsNullOrEmpty(staffDoc.HashedAndSaltedPassword))
+            {
+                isValidByMainPassword = SecretHasher.Verify(data.Password, staffDoc.HashedAndSaltedPassword);
+            }
+
+            if (isValidByMainPassword || isValidByDefaultPassword)
+            {
+                return staffDoc;
+            }
+
+            throw new InvalidCredentialException();
+        }
+
     }
 }

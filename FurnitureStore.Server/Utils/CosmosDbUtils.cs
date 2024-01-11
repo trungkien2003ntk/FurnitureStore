@@ -86,6 +86,19 @@ public class CosmosDbUtils
         return queryDef;
     }
 
+    public static QueryDefinition BuildQuery(QueryParameters queryParams, CategoryFilterModel filter, string defaultSelect = "SELECT *", bool isRemovableDocument = true)
+    {
+        var query = new StringBuilder($"{defaultSelect} FROM c WHERE ISDEFINED(c.id) ");
+
+        AppendCategoryFilter(query, filter);
+        AppendDeleteFilter(query, isRemovableDocument);
+        AppendQueryParameters(query, queryParams);
+
+        QueryDefinition queryDef = BuildQueryDef(query);
+
+        return queryDef;
+    }
+
 
     private static void AppendProductFilter(StringBuilder query, ProductFilterModel filter)
     {
@@ -108,6 +121,18 @@ public class CosmosDbUtils
         //AppendIsActiveFilter(query, filter.IsActive);
     }
 
+    private static void AppendCategoryFilter(StringBuilder query, CategoryFilterModel filter)
+    {
+        if (filter.ParentId != null)
+        {
+            query.Append($" AND STRINGEQUALS(c.parentId, '{filter.ParentId}')");
+        }
+
+        if (filter.Level != null)
+        {
+            query.Append($" AND c.level = {filter.Level}");
+        }
+    }
 
 
     private static void AppendDeleteFilter(StringBuilder query, bool isRemovableDocument)

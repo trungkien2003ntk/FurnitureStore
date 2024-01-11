@@ -33,10 +33,10 @@ public class StaffDocument
     public DateTime? ModifiedAt { get; set; }
 
     [JsonProperty("hashedAndSaltedPassword")]
-    public string HashedAndSaltedPassword { get; set; }
+    public string? HashedAndSaltedPassword { get; set; }
 
     [JsonProperty("defaultPassword")]
-    public string DefaultPassword { get; set; }
+    public string? DefaultPassword { get; set; }
 
     [JsonProperty("isActive")]
     public bool IsActive { get; set; }
