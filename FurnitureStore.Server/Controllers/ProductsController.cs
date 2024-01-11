@@ -14,6 +14,7 @@ public class ProductsController(
     IValidator<QueryParameters> queryParametersValidator
 ) : ControllerBase
 {
+
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProductsAsync(QueryParameters queryParameters, ProductFilterModel filter)
     {
@@ -25,6 +26,7 @@ public class ProductsController(
         }
 
         var result = await productRepository.GetProductDTOsAsync(queryParameters, filter);
+        var totalCount = productRepository.TotalCount;
 
         if (VariableHelpers.IsNull(result))
         {
@@ -32,28 +34,18 @@ public class ProductsController(
             return NotFound();
         }
 
+
         logger.LogInformation($"Returned all products!");
-        return Ok(result);
-    }
-
-
-    [HttpGet("variation/{variationId}")]
-    public async Task<ActionResult<IEnumerable<ProductDTO>>> GetProductDTOsByVariationId(string variationId)
-    {
-        var products = await productRepository.GetProductDTOsByVariationIdAsync(variationId);
-
-        if (products == null || !products.Any()) 
+        return Ok(new
         {
-            return NotFound();
-        }
-
-        return Ok(products);
+            data = result,
+            metadata = new
+            {
+                count = totalCount
+            }
+        });
     }
 
-    [HttpGet("category/{categoryId}")]
-    public async Task<ActionResult<IEnumerable<ProductDocument>>> GetProductsInCategoryAsync(string categoryId)
-    {
-        var products = await productRepository.GetProductDocumentsInCategoryAsync(categoryId);
 
         if (products == null || !products.Any())
         {
@@ -90,7 +82,7 @@ public class ProductsController(
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<ProductDTO>> GetProductByIdAsync(string id)
+    public async Task<ActionResult<ProductDTO>> GetProductDTOByIdAsync(string id)
     {
         var product = await productRepository.GetProductDTOByIdAsync(id);
 
@@ -105,6 +97,7 @@ public class ProductsController(
         return Ok(product);
     }
 
+
     [HttpPost]
     public async Task<ActionResult> CreateProductAsync([FromBody] ProductDTO productDTO)
     {
@@ -115,16 +108,33 @@ public class ProductsController(
 
         try
         {
-            await productRepository.AddProductDTOAsync(productDTO);
+            var createdProductDTO = await productRepository.AddProductDTOAsync(productDTO);
 
-            return Ok("Product created successfully.");
+
+            if (createdProductDTO == null)
+            {
+                return StatusCode(500, "Failed to create product, please try again");
+            }
+
+
+            return CreatedAtAction(
+                   nameof(GetProductDTOByIdAsync), // method
+                   new { id = createdProductDTO.ProductId }, // param in method
+                   createdProductDTO // values returning after the route
+               );
         }
         catch (Exception ex)
         {
-            logger.LogInformation($"Error message: {ex.Message}");
-            return StatusCode(500, $"An error occurred while creating the product. ProductId: {productDTO.ProductId}");
+            logger.LogError(
+                    $"Create product failed. \n" +
+                    $"Error message: {ex.Message}");
+
+            return StatusCode(500,
+                 $"An error occurred while creating the product. \n" +
+                 $"Error message: {ex.Message}");
         }
     }
+
 
     [HttpPut("{id}")]
     public async Task<ActionResult> UpdateProductAsync(string id, [FromBody] ProductDTO productDTO)
@@ -134,16 +144,28 @@ public class ProductsController(
             return BadRequest("Product data is required.");
         }
 
+        if (id!= productDTO.Id)
+        {
+            return BadRequest("Specified id don't match with the DTO");
+        }
+
         try
         {
             await productRepository.UpdateProductDTOAsync(productDTO);
 
-            return Ok("Product updated successfully.");
+            return NoContent();
         }
         catch (Exception ex)
         {
-            logger.LogInformation($"Error message: {ex.Message}");
-            return StatusCode(500, $"An error occurred while updating the product. ProductId: {productDTO.ProductId}");
+            logger.LogError(
+                    $"Updating product failed. " +
+                    $"\nProduct Id: {id}. " +
+                    $"\nError message: {ex.Message}");
+
+            return StatusCode(500,
+                $"An error occurred while updating the product. \n" +
+                $"Product Id: {id}\n" +
+                $"Error message: {ex.Message}");
         }
     }
 
@@ -154,12 +176,19 @@ public class ProductsController(
         {
             await productRepository.DeleteProductDTOAsync(id);
 
-            return Ok("Product deleted successfully");
+            return NoContent();
         }
         catch (Exception ex)
         {
-            logger.LogInformation($"Error message: {ex.Message}");
-            return StatusCode(500, $"An error occurred while deleting the product. Product Id: {id}");
+            logger.LogError(
+                    $"Delete product failed. \n" +
+                    $"Product Id: {id}. \n" +
+                    $"Error message: {ex.Message}");
+
+            return StatusCode(500,
+                $"An error occurred while deleting the product. \n" +
+                $"Product Id: {id}\n" +
+                $"Error message: {ex.Message}");
         }
     }
 }

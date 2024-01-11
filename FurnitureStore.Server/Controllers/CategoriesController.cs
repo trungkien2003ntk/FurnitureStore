@@ -12,51 +12,24 @@ public class CategoriesController(
 
     // GET: api/<CategoriesController>
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetCategoriesAsync(int level, string parent)
+    public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetCategoriesAsync(int level, string? parentId)
     {
         List<CategoryDTO> categories = (await categoryRepository.GetCategoryDTOsAsync()).ToList();
-
         if (level != 0)
         {
-            categories = (await categoryRepository.GetCategoryDTOsAsync())
-                .ToList();
-        }
-        else
-        {
-            categories = (await categoryRepository.GetCategoryDTOsAsync())
+            categories = categories
                 .Where(c => c.Level == level)
                 .ToList();
         }
 
-        if (!string.IsNullOrEmpty(parent))
+        if (!string.IsNullOrEmpty(parentId))
         {
             categories = categories
-                .Where(c => c.ParentPath == parent)
+                .Where(c => c.ParentId == parentId)
                 .ToList();
         }
 
-        return Ok(categories);
-    }
-
-    [HttpGet("level/{level}")]
-    public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetCategoriesByLevel(int level)
-    {
-        var categories = await categoryRepository.GetCategoryDTOsByLevelAsync(level);
-
-        if (categories == null || !categories.Any())
-        {
-            return NotFound();
-        }
-
-        return Ok(categories);
-    }
-
-    [HttpGet("parent/{parent}")]
-    public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetCategoriesByParent(string? parent)
-    {
-        var categories = await categoryRepository.GetCategoryDTOsByParentAsync(parent);
-
-        if (categories == null || !categories.Any())
+        if (!string.IsNullOrEmpty(parent))
         {
             return NotFound();
         }
@@ -128,7 +101,7 @@ public class CategoriesController(
         {
             await categoryRepository.DeleteCategoryAsync(id);
 
-            return Ok("Category updated successfully.");
+            return Ok("Category deleted successfully.");
         }
         catch (Exception ex)
         {
