@@ -137,7 +137,7 @@ namespace FurnitureStore.Server.Repositories
                     partitionKey: new PartitionKey(item.YearMonth)
                 );
 
-                if (response.StatusCode == HttpStatusCode.Created)
+                if (response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.Created)
                 {
                     return response.Resource;
                 }
