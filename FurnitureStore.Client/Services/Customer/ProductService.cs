@@ -47,6 +47,21 @@ namespace FurnitureStore.Client.Services.Customer
             return null!;
 
         }
+        public async Task<IEnumerable<ProductDTO>> GetProductsByCategoryId(string id)
+        {
+
+            string apiUrl = "https://localhost:7007/api/Products?categoryIds=" + id;
+            var response = await _httpClient.GetAsync(new Uri(apiUrl));
+            if (response.IsSuccessStatusCode)
+            {
+                string jsonResponse = await response.Content.ReadAsStringAsync();
+                var jsonObject = JObject.Parse(jsonResponse);
+                var product = jsonObject["data"].ToObject<List<ProductDTO>>();
+                return product!;
+            }
+            return null!;
+
+        }
         public async Task<ProductDTO> GetProductById (string ProductId)
         {
             string apiUrl = "https://localhost:7007/api/Products/" + ProductId;

@@ -1,6 +1,9 @@
+@using FurnitureStore.Client.IServices
 @using FurnitureStore.Client.Shared.Customer
+@using FurnitureStore.Shared.Responses
 @inject NavigationManager navManager
-
+@inject ICategoryService CategoryServiceDI
+@inject NavigationManager navManager
 
 <header class="">
 	<nav class="navbar navbar-expand-lg grid">
@@ -33,49 +36,49 @@
 					</a>
 
 				</li>
+				
+				@foreach (var categoryL1 in categoryList)
+				{
+					<li class="nav-item" @onclick="@(e => navigateFilter(@categoryL1.Category.Id))">
+					<a class="nav-link" href="products.html">
+							@categoryL1.Category.Name
+						<span class="material-symbols-outlined nav-link-icon-down">
+							expand_more
+						</span>
+					</a>
+						
+							@if (categoryL1.SubCategories.Count > 0)
+							{
+								<ul class="header__nav__submenu">
+								@foreach (var categoryL2 in categoryL1.SubCategories)
+								{
+									<li class="header__nav__list-item" @onclick="@(e => navigateFilter(@categoryL2.Category.Id))">
+										<a class="category-L3-link">@categoryL2.Category.Name</a>
+										@if (categoryL2.SubCategories.Count > 0)
+										{
 
-				<li class="nav-item">
-					<a class="nav-link" href="products.html">
-						Furniture
-						<span class="material-symbols-outlined nav-link-icon-down">
-							expand_more
-						</span>
-					</a>
+											<ul class="header__nav__sub-sub-menu">
+												@foreach (var categoryL3 in categoryL2.SubCategories)
+												{
+													<li class="header__nav__list-item" @onclick="@(e => navigateFilter(@categoryL3.Category.Id))">
+															<a href="">@categoryL3.Category.Name</a>
+													</li>
+												}
+											
 
+											</ul>
+										}
 
+									</li>
+								}
+								</ul>
+							}
+
+					
 				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="products.html">
-						Lighting
-						<span class="material-symbols-outlined nav-link-icon-down">
-							expand_more
-						</span>
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="products.html">
-						Home Decor & Accessories
-						<span class="material-symbols-outlined nav-link-icon-down">
-							expand_more
-						</span>
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="products.html">
-						Art & Mirrors
-						<span class="material-symbols-outlined nav-link-icon-down">
-							expand_more
-						</span>
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="products.html">
-						Outdoor Furniture
-						<span class="material-symbols-outlined nav-link-icon-down">
-							expand_more
-						</span>
-					</a>
-				</li>
+				
+				}
+
 				<li class="nav-item">
 					<a class="nav-link" href="/aboutUs">About Us</a>
 				</li>
@@ -94,13 +97,13 @@
 
 @code {
 	private string? InputValue { get; set; }
-
-	private void UpdateShowCart(bool newShowCartValue, string navigatePage)
+	private IEnumerable<CategoryResponse> categoryList;
+	 void UpdateShowCart(bool newShowCartValue, string navigatePage)
 	{
-		showCart = newShowCartValue;
+		
 		if (navigatePage == "checkout")
 			navManager.NavigateTo("/checkout", forceLoad: false);
-
+			showCart = newShowCartValue;
 
 	}
 	bool showCart = false;
@@ -120,6 +123,14 @@
 
 
 		}
+	}
+	protected override async Task OnInitializedAsync()
+	{
+		categoryList = await CategoryServiceDI.GetAllCategoryResponsesWithNestedResult();
+	}
+	void navigateFilter(string categoryId)
+	{
+		navManager.NavigateTo("/filter" + "/" + categoryId);
 	}
 
 }

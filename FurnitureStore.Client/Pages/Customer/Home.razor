@@ -93,9 +93,24 @@
 												
 												<h5 class="card-title mb-2"> @productItem.Name</h5>
 												
-											
-											<h6 class="mb-3 price">$@productItem.RegularPrice</h6>
-											</div>
+											@if(productItem.VariationDetail.Id!=null)
+											{
+												<h6 class="mb-3 price">from @(productItem.RegularPrice.ToString("C"))</h6>
+											}
+											else
+											{
+												@if (productItem.RegularPrice > productItem.SalePrice)
+												{
+													<h6 class="mb-3 price"> @(productItem.RegularPrice.ToString("C"))<span class="salesprice">@(productItem.SalePrice.ToString("C"))</span></h6>
+												}
+												else
+												{
+													<h6 class="mb-3 price"> @(productItem.RegularPrice.ToString("C"))</h6>
+												}
+
+
+											}
+										</div>
 										</div>
 									
 									</div>

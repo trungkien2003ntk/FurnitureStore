@@ -21,10 +21,10 @@
 				<div class="cart-contain-header">
 					<div class="cart-contain-header1">
 						<span>Cart</span>
-						<span>$4,497.00 USD</span>
+						<span>@(totalPriceProducts.ToString("C"))</span>
 					</div>
 					<div class="cart-contain-header2">
-						<span><strong>3 item(s)</strong></span>
+						<span><strong>@totalItems item(s)</strong></span>
 					</div>
 				</div>
 				<ul class="cart-list-product">
@@ -33,6 +33,10 @@
 						@for (int i =0; i<cartProducts.Count();i++)
 						{
 							int index = i;
+							++totalItems;
+
+							totalPriceProducts += cartProducts.ElementAt(index).RegularPrice * cartQuantity[index];
+
 							<li class="cart-product-item">
 								<div class="cart-product-img">
 									<img class="cart-product-img-link"
@@ -71,7 +75,7 @@
 			<div class="cart-footer">
 				<div class="cart-footer-head">
 					<div class="cart-total">Total</div>
-					<div class="cart-btn-checkout">$12,493.00</div>
+					<div class="cart-btn-checkout">@(totalPriceProducts.ToString("C"))</div>
 				</div>
 				<div class="cart-footer-top">
 					<a class="app-btn app-btn-S" href="">View Cart</a>
@@ -89,6 +93,9 @@
 	public EventCallback<(bool, string)> ShowCartChanged { get; set; }
 	private IEnumerable<ProductDTO>? cartProducts;
 	private List<int>? cartQuantity;
+	private double totalPriceProducts = 0;
+	private int totalItems = 0;
+
 	private async Task CloseCart()
 	{
 		await ShowCartChanged.InvokeAsync((false, ""));

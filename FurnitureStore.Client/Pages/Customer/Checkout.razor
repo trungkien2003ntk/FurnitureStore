@@ -1,8 +1,18 @@
 @page "/checkout"
+@using FurnitureStore.Client.IServices
+@using FurnitureStore.Client.IServices.Customer
 @using FurnitureStore.Client.Shared.Customer
+@using FurnitureStore.Shared.Additional
+@using IProductService = FurnitureStore.Client.IServices.Customer.IProductService;
 @inject HttpClient Http
 @inject IJSRuntime JavaScript
 @using FurnitureStore.Client.Layout.Customer
+@using FurnitureStore.Shared.DTOs
+@inject IProductService ProductServiceDI
+@inject IOrderService OrderServiceDI
+
+
+
 @layout MainLayout
 
 <PageTitle>Home</PageTitle>
@@ -13,176 +23,153 @@
     <div class="checkout-body grid">
       
         <div class="checkout-body__item checkout-body__item1">
-          <div class="checkout-body__item1-container">
-          <div class="checkout-contact">
-            <h2>Contact</h2>
-            <div class="checkout-block">
-          
-              <div class="checkout-name__title">Email or mobile phone number</div>
-              <input  class="checkout-name__value" type="email">
-          
-            </div>
-          </div>
-          <h2>Delivery</h2>
-          <div class="checkout-block checkout-name">
-          
-              <div class="checkout-name__title">Full name</div>
-              <input class="checkout-name__value" type="text">
-          
-          </div>
-          <div class="checkout-block checkout-phone">
-          
-            <div class="checkout-name__title">Phone</div>
-            <input class="checkout-name__value" type="text">
-        
-          </div>
-          <div class="checkout-block checkout-province">
-          
-            <div class="checkout-name__title">Select Province</div>
+
+			<div class="checkout-body__item1-container">
+
+				<div class="checkout-contact">
+					<h2>Contact</h2>
+					<div class="checkout-block">
+
+						<div class="checkout-name__title">Email or mobile phone number</div>
+						<input class="checkout-name__value" type="email" @bind="CustomerEmail" @bind:event="oninput" />
+
+					</div>
+				</div>
+				<h2>Delivery</h2>
+				<div class="checkout-block checkout-name">
+
+					<div class="checkout-name__title">Full name</div>
+					<input class="checkout-name__value" @bind="CustomerName" @bind:event="oninput" />
+
+				</div>
+				<div class="checkout-block checkout-phone">
+
+					<div class="checkout-name__title">Phone</div>
+					<input class="checkout-name__value" placeholder="0389183497" @bind="CustomerPhone" @bind:event="oninput" />
+				</div>
+				<div class="checkout-block checkout-province">
+
+					<div class="checkout-name__title">Select Province</div>
 					<select class="checkout-name__value"
 							name="area"
 							id="city-select"
 							@onchange="onChangeSelectCity"
-							required >
-            <option value="-1">--- Select Province ---</option>
-           
-            </select>
-          </div>
-          <div class="checkout-block checkout-district">
-          
-            <div class="checkout-name__title">Select District</div>
-					<select class="checkout-name__value" name="area" id="district-select"
-						@onchange="onChangeSelectDistrict" required>
+							required
+							@bind="CustomerProvince" @bind:event="oninput">
+						<option value="-1">--- Select Province ---</option>
+
 					</select>
-          </div>
-          <div class="checkout-block checkout-ward">
-          
-            <div class="checkout-name__title">Select Ward</div>
-            <select			class="checkout-name__value"
+				</div>
+				<div class="checkout-block checkout-district">
+
+					<div class="checkout-name__title">Select District</div>
+					<select class="checkout-name__value" name="area" id="district-select"
+							@bind="CustomerDistrict" @bind:event="oninput"
+							@onchange="onChangeSelectDistrict" required>
+					</select>
+				</div>
+				<div class="checkout-block checkout-ward">
+
+					<div class="checkout-name__title">Select Ward</div>
+					<select class="checkout-name__value"
 							name="area"
 							id="ward-select"
+							@bind="CustomerWard" @bind:event="oninput"
 							required>
-          
-            </select>
-          </div>
-          <div class="checkout-block checkout-detailed-address">
-          
-            <div class="checkout-name__title">Detail address</div>
-            <input class="checkout-name__value" type="text">
-        
-          </div>
-          <div class="checkout-block checkout-note">
-          
-            <div class="checkout-name__title">Note (option)</div>
-            <span><textarea class=""  name="" id="" cols="30" rows="10" placeholder="Notes about the order, for example, time or more detailed delivery location instructions."></textarea></span>
-        
-          </div>
-          <h2>Payment</h2>
-          <div class="checkout-block checkout-payment-method">
-            <div class="payment-method-container">
-            <input class="" type="radio" name="payment-method">
-            <label for="option1">Cash on Delivery</label>
-          </div>
-            <span class="material-symbols-outlined payment-icon">
-              payments
-              </span>
-          </div>
-          <div class="checkout-block checkout-payment-method">
-            <div class="payment-method-container">
-            <input class="" type="radio" name="payment-method">
-            <label for="option1">Bank Transfer</label>
-            </div>
-            <span class="material-symbols-outlined payment-icon">
-              account_balance
-            </span>
-          </div>
-          <script> 
-            const parentDivs = document.querySelectorAll('.checkout-payment-method');
+					</select>
+				</div>
+				<div class="checkout-block checkout-detailed-address">
 
-                    parentDivs.forEach(parentDiv => {
-                      parentDiv.addEventListener('click', () => {
-                        const radioInput = parentDiv.querySelector('input[type="radio"]');
-                        radioInput.checked = true;
-                      });
-                    });
-          </script>
-          <a class="app-btn" href="">Pay now</a>
-        </div>
-        </div>
+					<div class="checkout-name__title">Detail address</div>
+					<input class="checkout-name__value" type="text" @bind="CustomerDetailAddress" @bind:event="oninput">
+
+				</div>
+				<div class="checkout-block checkout-note">
+
+					<div class="checkout-name__title">Note (option)</div>
+					<span><textarea @bind="CustomerNote" @bind:event="oninput" class="" name="" id="" cols="30" rows="10" placeholder="Notes about the order, for example, time or more detailed delivery location instructions."></textarea></span>
+
+				</div>
+				<h2>Payment</h2>
+			@* 	<div class="checkout-block checkout-payment-method">
+					<div class="payment-method-container">
+						<input class="" type="radio" name="payment-method">
+						<label for="option1">Cash on Delivery</label>
+					</div>
+					<span class="material-symbols-outlined payment-icon">
+						payments
+					</span>
+				</div> *@
+				<div class="checkout-block checkout-payment-method">
+					<div class="payment-method-container">
+						<input class="" type="radio" name="payment-method">
+						<label for="option1">Bank Transfer</label>
+					</div>
+					<span class="material-symbols-outlined payment-icon">
+						account_balance
+					</span>
+				</div>
+				<script>
+					const parentDivs = document.querySelectorAll('.checkout-payment-method');
+
+					parentDivs.forEach(parentDiv => {
+						parentDiv.addEventListener('click', () => {
+							const radioInput = parentDiv.querySelector('input[type="radio"]');
+							radioInput.checked = true;
+						});
+					});
+				</script>
+				<button @onclick="FormSubmitted" class="app-btn">Pay now</button>
+			</div>
+
+
+		</div>
       
         <div class="checkout-body__item checkout-body__item2">
             <div class='order-info'>
                 <div class='order-info-content'>
                   <h2>Order Summary</h2>
                           <div class='line'></div>
-                  <table class='order-table'>
-                    <tbody>
-                      <tr>
-                        <td><img src='https://dl.dropboxusercontent.com/s/sim84r2xfedj99n/%24_32.JPG' class='full-width'>
-                        </td>
-                        <td>
-                          <br> <span class='thin'>Nike</span>
-                          <br> Free Run 3.0 Women<br> <span class='thin small'> Color: Grey/Orange, Size: 10.5<br><br></span>
-                        </td>
-          
-                      </tr>
-                      <tr>
-                        <td>
-                          <div class='price'>$99.95</div>
-                        </td>
-                      </tr>
-                    </tbody>
-          
-                  </table>
-                  <div class='line'></div>
-                  <table class='order-table'>
-                    <tbody>
-                      <tr>
-                        <td><img src='https://dl.dropboxusercontent.com/s/qbj9tsbvthqq72c/Vintage-20L-Backpack-by-Fj%C3%A4llr%C3%A4ven.jpg' class='full-width'>
-                        </td>
-                        <td>
-                          <br> <span class='thin'>Fjällräven</span>
-                          <br>Vintage Backpack<br> <span class='thin small'> Color: Olive, Size: 20L</span>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <div class='price'>$235.95</div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <div class='line'></div>
-                  <table class='order-table'>
-                    <tbody>
-                      <tr>
-                        <td><img src='https://dl.dropboxusercontent.com/s/nbr4koso8dpoggs/6136C1p5FjL._SL1500_.jpg' class='full-width'>
-                        </td>
-                        <td>
-                          <br> <span class='thin'>Monobento</span>
-                          <br>Double Lunchbox<br> <span class='thin small'> Color: Pink, Size: Medium</span>
-                        </td>
-          
-                      </tr>
-                      <tr>
-                        <td>
-                          <div class='price'>$25.95</div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <div class='line'></div>
-                  <div class='total'>
+						  @if (cartProducts != null)
+						{
+							@for (int i = 0; i < cartProducts.Count(); i++)
+						{
+							int index = i;
+							totalPriceProducts += cartProducts.ElementAt(index).RegularPrice * cartQuantity[index];
+							<table class='order-table'>
+									<tbody>
+										<tr>
+										<td>
+											<img src='@cartProducts.ElementAt(i).FeaturedImage' class='full-width'>
+											</td>
+											<td>
+											<br> <span class='thin'>@cartProducts.ElementAt(i).Name</span>
+											<br><span class='thin small'>Quantity: </span><span class='thin small'>@cartQuantity[index]</span> <br> <span class='thin small'> Color: Grey/Orange, Size: 10.5<br><br></span>
+											</td>
+
+										</tr>
+										<tr>
+											<td>
+											<div class='price'>@((cartProducts.ElementAt(i).RegularPrice * @cartQuantity[index]).ToString("C"))</div>
+											</td>
+										</tr>
+									</tbody>
+
+								</table>
+								<div class='line'></div>
+							}
+						}
+					<div class='total'>
                     <span style='float:left;'>
-                      <div class='thin dense'>VAT 19%</div>
+                      <div class='thin dense'>VAT 8%</div>
                       <div class='thin dense'>Delivery</div>
                       TOTAL
                     </span>
                     <span style='float:right; text-align:right;'>
-                      <div class='thin dense'>$68.75</div>
-                      <div class='thin dense'>$4.95</div>
-                      $435.55
-                    </span>
+							<div class='thin dense'>@((totalPriceProducts*0.08).ToString("C"))</div>
+							<div class='thin dense'>@(deliveryPrice.ToString("C"))</div>
+							@((totalPriceProducts * 0.08 + totalPriceProducts + deliveryPrice).ToString("C"))
+						</span>
                   </div>
           </div>
           </div>
@@ -192,9 +179,28 @@
 </div>
 @code
 {
+
+	#region // infor order
+	private string? CustomerEmail { get; set; }
+	private string? CustomerPhone { get; set; }
+	private string? CustomerName { get; set; }
+	private string? CustomerProvince { get; set; }
+	private string? CustomerDistrict { get; set; }
+	private string? CustomerWard { get; set; }
+	private string? CustomerDetailAddress { get; set; }
+	private string? CustomerNote { get; set; }
+	#endregion
+
+	private IEnumerable<ProductDTO>? cartProducts;
+	private List<int>? cartQuantity;
+	private double totalPriceProducts = 0;
+	private double deliveryPrice = 35000;
+
 	protected override async Task OnInitializedAsync()
 	{
 		await getProvinceList();
+		await getShoppingCartFromCookie();
+
 	}
 	#region use JS Interop to get address from web API
 	private async Task getProvinceList()
@@ -213,9 +219,9 @@
 	#region handle onchange event for select tag address
 	private async Task onChangeSelectCity(ChangeEventArgs e) 
 	{
-	
-			await getDistrictListByProvinceCode(int.Parse(e.Value.ToString()));
-		
+
+		await getDistrictListByProvinceCode(int.Parse(e.Value.ToString()));
+
 	}
 	private async Task 	onChangeSelectDistrict(ChangeEventArgs e)
 	{
@@ -225,5 +231,58 @@
 	}
 	#endregion
 
+	private async Task getShoppingCartFromCookie()
+	{
+		cartProducts = Enumerable.Empty<ProductDTO>();
+		Dictionary<string, int> listProducts = await JavaScript.InvokeAsync<Dictionary<string, int>>("getProductsFromCookie");
+		if (listProducts.Count != 0)
+		{
+			cartQuantity = listProducts.Values.ToList();
+			List<string> productKeys = listProducts.Keys.ToList();
+			//lấy ds sp lên
+			this.cartProducts = await ProductServiceDI.GetProductListByProductIdList(productKeys);
 
+		}
+	}
+
+	async void FormSubmitted()
+	{
+		OrderDTO Order = createDataForOrder();
+		OrderDTO kq = await OrderServiceDI.AddOrderAsync(Order);
+		Console.WriteLine(kq);
+
+	}
+	private OrderDTO createDataForOrder()
+	{
+		// validate
+		OrderDTO Order = new OrderDTO();
+		Order.ShippingInfo = new OrderShippingInfo();
+		Order.CustomerEmail = CustomerEmail;
+		Order.CustomerName = CustomerName;
+		Order.ShippingInfo.Phone = CustomerPhone;
+		Order.Note = CustomerNote;
+		Order.ShippingInfo.Address = CustomerProvince+"- "+CustomerDistrict+"- "+ CustomerWard+"- "+ CustomerDetailAddress;
+		Order.Tax = totalPriceProducts* 0.08;
+		Order.Subtotal = totalPriceProducts;
+		Order.TotalAmount = totalPriceProducts* 0.08 + totalPriceProducts + deliveryPrice;
+		Order.TotalItems = cartProducts.Count();
+
+
+		List<OrderItem> Items = new List<OrderItem>();
+		for (int i = 0; i<cartProducts.Count();i++)
+		{
+			OrderItem item = new OrderItem();
+			item.ProductId = cartProducts.ElementAt(i).ProductId;
+			item.Name = cartProducts.ElementAt(i).Name;
+			item.Sku = cartProducts.ElementAt(i).Sku;
+			item.Quantity = cartQuantity[i];
+			item.SellingPrice = cartProducts.ElementAt(i).RegularPrice;
+			item.TotalPrice = item.SellingPrice* cartQuantity[i];
+			Items.Add(item);
+		}
+		Order.Items = Items;
+
+		return Order;
+	}
+	
 }

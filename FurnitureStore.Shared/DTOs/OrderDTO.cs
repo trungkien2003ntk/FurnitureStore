@@ -1,4 +1,4 @@
-﻿namespace FurnitureStore.Shared.DTOs;
+namespace FurnitureStore.Shared.DTOs;
 
 public class OrderDTO
 {

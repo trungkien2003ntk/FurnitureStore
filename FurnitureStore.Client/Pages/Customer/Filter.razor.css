@@ -121,3 +121,9 @@
     display: flex !important;
     flex-wrap: wrap;
 }
+.salesprice {
+    color: rgba(0,0,0,.54);
+    text-decoration: line-through;
+    margin-left: 7px;
+    font-size: 14px;
+}

@@ -1,5 +1,12 @@
-@page "/filter"
+@page "/filter/{CategoryId}"
+@using FurnitureStore.Client.IServices.Customer
 @using FurnitureStore.Client.Layout.Customer
+@using FurnitureStore.Shared.DTOs
+@inject NavigationManager navManager
+
+@inject IProductService ProductServiceDI
+
+
 @layout MainLayout
 <div class="body-contain">
 	<div class="collection__banner-image">
@@ -31,320 +38,56 @@
 					<div class="text-center">
 
 						<!-- Product -->
-						<div class="col-lg-3 col-md-6 mb-4">
-							<div class="card">
-								<div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
-									 data-mdb-ripple-color="light">
-									<img src="https://rhomeco.com/cdn/shop/files/0cf32a9c7df69043bbca9de2ff92c1a6.jpg?v=1691011197&width=1200"
-										 class="w-100" />
-									<a href="#!">
-										<div class="mask">
-											<div class="d-flex justify-content-start align-items-end h-100">
-												<h5><span class="badge bg-dark ms-2">NEW</span></h5>
-											</div>
+						@if (listProducts != null)
+						{
+							@foreach (var item in listProducts)
+							{
+								<div class="col-lg-3 col-md-6 mb-4">
+									<div class="card" @onclick="@(e => productClick(@item.ProductId))">
+										<div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
+										data-mdb-ripple-color="light">
+											<img src="@item.FeaturedImage"
+											class="w-100" />
+											<a href="#!">
+												<div class="mask">
+													<div class="d-flex justify-content-start align-items-end h-100">
+														<h5><span class="badge bg-dark ms-2">NEW</span></h5>
+													</div>
+												</div>
+												<div class="hover-overlay">
+													<div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+												</div>
+											</a>
 										</div>
-										<div class="hover-overlay">
-											<div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-										</div>
-									</a>
-								</div>
-								<div class="card-body">
-									<a href="" class="text-reset">
-										<h5 class="card-title mb-2">Denim shirt</h5>
-									</a>
-									<a href="" class="text-reset ">
-										<p>Shirt</p>
-									</a>
-									<h6 class="mb-3 price">120$</h6>
-								</div>
-							</div>
-						</div>
+										<div class="card-body">
+											<a href="" class="text-reset">
+												<h5 class="card-title mb-2">@item.Name
+												</h5>
+											</a>
 
-						<div class="col-lg-3 col-md-6 mb-4">
-							<div class="card">
-								<div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
-									 data-mdb-ripple-color="light">
-									<img src="https://rhomeco.com/cdn/shop/files/8eda1996679c0332137cd6cc515ad902.jpg?v=1691340505&width=1200"
-										 class="w-100" />
-									<a href="#!">
-										<div class="mask">
-											<div class="d-flex justify-content-start align-items-end h-100">
-												<h5><span class="badge bg-primary ms-2">bestseller</span></h5>
-											</div>
-										</div>
-										<div class="hover-overlay">
-											<div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-										</div>
-									</a>
-								</div>
-								<div class="card-body">
-									<a href="" class="text-reset">
-										<h5 class="card-title mb-2">Denim shirt</h5>
-									</a>
-									<a href="" class="text-reset ">
-										<p>Shirt</p>
-									</a>
-									<h6 class="mb-3 price">120$</h6>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-3 col-md-6 mb-4">
-							<div class="card">
-								<div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
-									 data-mdb-ripple-color="light">
-									<img src="https://rhomeco.com/cdn/shop/files/8eda1996679c0332137cd6cc515ad902.jpg?v=1691340505&width=1200"
-										 class="w-100" />
-									<a href="#!">
-										<div class="mask">
-											<div class="d-flex justify-content-start align-items-end h-100">
-												<h5><span class="badge bg-dark ms-2">NEW</span></h5>
-											</div>
-										</div>
-										<div class="hover-overlay">
-											<div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-										</div>
-									</a>
-								</div>
-								<div class="card-body">
-									<a href="" class="text-reset">
-										<h5 class="card-title mb-2">Denim shirt</h5>
-									</a>
-									<a href="" class="text-reset ">
-										<p>Shirt</p>
-									</a>
-									<h6 class="mb-3 price">120$</h6>
-								</div>
-							</div>
-						</div>
+											@if (item.VariationDetail.Id != null)
+											{
+												<h6 class="mb-3 price">from @(item.RegularPrice.ToString("C"))</h6>
+											}
+											else
+											{
+												@if (item.RegularPrice > item.SalePrice)
+												{
+													<h6 class="mb-3 price"> @(item.RegularPrice.ToString("C"))<span class="salesprice">@(item.SalePrice.ToString("C"))</span></h6>
+												}
+												else
+												{
+													<h6 class="mb-3 price"> @(item.RegularPrice.ToString("C"))</h6>
+												}
 
-						<div class="col-lg-3 col-md-6 mb-4">
-							<div class="card">
-								<div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
-									 data-mdb-ripple-color="light">
-									<img src="https://rhomeco.com/cdn/shop/files/8eda1996679c0332137cd6cc515ad902.jpg?v=1691340505&width=1200"
-										 class="w-100" />
-									<a href="#!">
-										<div class="mask">
-											<div class="d-flex justify-content-start align-items-end h-100">
-												<h5><span class="badge bg-success ms-2">Eco</span></h5>
-											</div>
-										</div>
-										<div class="hover-overlay">
-											<div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-										</div>
-									</a>
-								</div>
-								<div class="card-body">
-									<a href="" class="text-reset">
-										<h5 class="card-title mb-2">Denim shirt</h5>
-									</a>
-									<a href="" class="text-reset ">
-										<p>Shirt</p>
-									</a>
-									<h6 class="mb-3 price">120$</h6>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-3 col-md-6 mb-4">
-							<div class="card">
-								<div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
-									 data-mdb-ripple-color="light">
-									<img src="https://rhomeco.com/cdn/shop/files/8eda1996679c0332137cd6cc515ad902.jpg?v=1691340505&width=1200"
-										 class="w-100" />
-									<a href="#!">
 
-										<div class="hover-overlay">
-											<div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+											}
 										</div>
-									</a>
+									</div>
 								</div>
-								<div class="card-body">
-									<a href="" class="text-reset">
-										<h5 class="card-title mb-2">Denim shirt</h5>
-									</a>
-									<a href="" class="text-reset ">
-										<p>Shirt</p>
-									</a>
-									<h6 class="mb-3 price">120$</h6>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-3 col-md-6 mb-4">
-							<div class="card">
-								<div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
-									 data-mdb-ripple-color="light">
-									<img src="https://rhomeco.com/cdn/shop/files/8eda1996679c0332137cd6cc515ad902.jpg?v=1691340505&width=1200"
-										 class="w-100" />
-									<a href="#!">
-										<div class="mask">
-											<div class="d-flex justify-content-start align-items-end h-100">
-												<h5><span class="badge bg-dark ms-2">NEW</span></h5>
-											</div>
-										</div>
-										<div class="hover-overlay">
-											<div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-										</div>
-									</a>
-								</div>
-								<div class="card-body">
-									<a href="" class="text-reset">
-										<h5 class="card-title mb-2">Denim shirt</h5>
-									</a>
-									<a href="" class="text-reset ">
-										<p>Shirt</p>
-									</a>
-									<h6 class="mb-3 price">120$</h6>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-3 col-md-6 mb-4">
-							<div class="card">
-								<div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
-									 data-mdb-ripple-color="light">
-									<img src="https://rhomeco.com/cdn/shop/files/8eda1996679c0332137cd6cc515ad902.jpg?v=1691340505&width=1200"
-										 class="w-100" />
-									<a href="#!">
-										<div class="mask">
-											<div class="d-flex justify-content-start align-items-end h-100">
-												<h5><span class="badge bg-dark ms-2">NEW</span></h5>
-											</div>
-										</div>
-										<div class="hover-overlay">
-											<div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-										</div>
-									</a>
-								</div>
-								<div class="card-body">
-									<a href="" class="text-reset">
-										<h5 class="card-title mb-2">Denim shirt</h5>
-									</a>
-									<a href="" class="text-reset ">
-										<p>Shirt</p>
-									</a>
-									<h6 class="mb-3 price">120$</h6>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-3 col-md-6 mb-4">
-							<div class="card">
-								<div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
-									 data-mdb-ripple-color="light">
-									<img src="https://rhomeco.com/cdn/shop/files/8eda1996679c0332137cd6cc515ad902.jpg?v=1691340505&width=1200"
-										 class="w-100" />
-									<a href="#!">
+							}
+						}
 
-										<div class="hover-overlay">
-											<div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-										</div>
-									</a>
-								</div>
-								<div class="card-body">
-									<a href="" class="text-reset">
-										<h5 class="card-title mb-2">Denim shirt</h5>
-									</a>
-									<a href="" class="text-reset ">
-										<p>Shirt</p>
-									</a>
-									<h6 class="mb-3 price">120$</h6>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-3 col-md-6 mb-4">
-							<div class="card">
-								<div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
-									 data-mdb-ripple-color="light">
-									<img src="https://rhomeco.com/cdn/shop/files/8eda1996679c0332137cd6cc515ad902.jpg?v=1691340505&width=1200"
-										 class="w-100" />
-									<a href="#!">
-
-										<div class="hover-overlay">
-											<div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-										</div>
-									</a>
-								</div>
-								<div class="card-body">
-									<a href="" class="text-reset">
-										<h5 class="card-title mb-2">Denim shirt</h5>
-									</a>
-									<a href="" class="text-reset ">
-										<p>Shirt</p>
-									</a>
-									<h6 class="mb-3 price">120$</h6>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-3 col-md-6 mb-4">
-							<div class="card">
-								<div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
-									 data-mdb-ripple-color="light">
-									<img src="https://rhomeco.com/cdn/shop/files/8eda1996679c0332137cd6cc515ad902.jpg?v=1691340505&width=1200"
-										 class="w-100" />
-									<a href="#!">
-
-										<div class="hover-overlay">
-											<div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-										</div>
-									</a>
-								</div>
-								<div class="card-body">
-									<a href="" class="text-reset">
-										<h5 class="card-title mb-2">Denim shirt</h5>
-									</a>
-									<a href="" class="text-reset ">
-										<p>Shirt</p>
-									</a>
-									<h6 class="mb-3 price">120$</h6>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-3 col-md-6 mb-4">
-							<div class="card">
-								<div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
-									 data-mdb-ripple-color="light">
-									<img src="https://rhomeco.com/cdn/shop/files/8eda1996679c0332137cd6cc515ad902.jpg?v=1691340505&width=1200"
-										 class="w-100" />
-									<a href="#!">
-
-										<div class="hover-overlay">
-											<div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-										</div>
-									</a>
-								</div>
-								<div class="card-body">
-									<a href="" class="text-reset">
-										<h5 class="card-title mb-2">Denim shirt</h5>
-									</a>
-									<a href="" class="text-reset ">
-										<p>Shirt</p>
-									</a>
-									<h6 class="mb-3 price">120$</h6>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-3 col-md-6 mb-4">
-							<div class="card">
-								<div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
-									 data-mdb-ripple-color="light">
-									<img src="https://rhomeco.com/cdn/shop/files/8eda1996679c0332137cd6cc515ad902.jpg?v=1691340505&width=1200"
-										 class="w-100" />
-									<a href="#!">
-
-										<div class="hover-overlay">
-											<div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-										</div>
-									</a>
-								</div>
-								<div class="card-body">
-									<a href="" class="text-reset">
-										<h5 class="card-title mb-2">Denim shirt</h5>
-									</a>
-									<a href="" class="text-reset ">
-										<p>Shirt</p>
-									</a>
-									<h6 class="mb-3 price">120$</h6>
-								</div>
-							</div>
-						</div>
 
 					</div>
 				</section>
@@ -388,5 +131,16 @@
 </div>
 
 @code {
+	[Parameter]
+	public string? CategoryId { get; set; }
+	private IEnumerable<ProductDTO> listProducts;
+	protected override async Task OnInitializedAsync()
+	{
+		listProducts = await ProductServiceDI.GetProductsByCategoryId(CategoryId);
+	}
+	void productClick(string idProduct)
+	{
+		navManager.NavigateTo("/product/detail" + "/" + idProduct);
+	}
 
 }

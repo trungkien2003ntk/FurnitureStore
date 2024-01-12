@@ -92,6 +92,7 @@
 .nav-item {
     display: flex;
     align-items: center;
+    position: relative;
 }
 
 .nav-link-icon-down {
@@ -107,3 +108,58 @@
     all: unset;
     cursor: pointer;
 }
+ul.header__nav__submenu {
+    position: absolute;
+    top: 65px;
+    padding: 10px 20px;
+    margin: 0;
+    min-width: 200px;
+    max-width: 270px;
+    width: max-content;
+    text-align: left;
+    background: white;
+    border-top: none;
+    transition: all 0.3s ease-in-out;
+    z-index: 2;
+    display:none;
+}
+
+ul.header__nav__submenu .header__nav__list-item {
+    position: relative;
+    display: block;
+    margin: 6px 0;
+    width: 100%;
+    line-height: 1.5;
+    text-align: left;
+    transition: all 0.2s ease-in-out;
+}
+
+.nav-item:hover .header__nav__submenu {
+    display: block
+}
+
+ul.header__nav__sub-sub-menu {
+    position: absolute;
+    left: calc(100% + 10px);
+    top: -16px;
+    padding: 10px 20px;
+    margin: 0;
+    min-width: 200px;
+    max-width: 270px;
+    width: max-content;
+    text-align: left;
+    background: white;
+    border-top: none;
+    transition: all 0.3s ease-in-out;
+    display:none;
+}
+/* category display*/
+ul.header__nav__sub-sub-menu {
+    display: none; /* Ẩn tất cả các menu cấp 3 */
+}
+
+li.header__nav__list-item:hover ul.header__nav__sub-sub-menu {
+    display: block; /* Hiển thị menu cấp 3 tương ứng khi rê chuột vào thẻ <a> của menu cấp 2 */
+}
+/* end category display*/
+

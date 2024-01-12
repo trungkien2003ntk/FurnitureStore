@@ -157,3 +157,9 @@ h3 {
 .app-btn {
     color: white !important;
 }
+.salesprice {
+    color: rgba(0,0,0,.54);
+    text-decoration: line-through;
+    margin-left: 4px;
+    font-size: 14px;
+}
