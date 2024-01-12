@@ -20,7 +20,7 @@ namespace FurnitureStore.Client.Services.Customer
         public async Task<IEnumerable<ProductDTO>> GetLatestProducts()
         {
         
-            string apiUrl = "https://localhost:7007/api/Products?pageSize=35&sortBy=createdAt&orderBy=desc\r\n";
+            string apiUrl = $"{GlobalConfig.PRODUCT_BASE_URL}?pageSize=35&sortBy=createdAt&orderBy=desc\r\n";
             var response = await _httpClient.GetAsync(new Uri(apiUrl));
             if (response.IsSuccessStatusCode)
             {
@@ -35,7 +35,7 @@ namespace FurnitureStore.Client.Services.Customer
         public async Task<IEnumerable<ProductDTO>> GetProductsByVariationId(string id)
         {
 
-            string apiUrl = "https://localhost:7007/api/Products?variationId="+id;
+            string apiUrl = $"{GlobalConfig.PRODUCT_BASE_URL}?variationId="+id;
             var response = await _httpClient.GetAsync(new Uri(apiUrl));
             if (response.IsSuccessStatusCode)
             {
@@ -50,7 +50,23 @@ namespace FurnitureStore.Client.Services.Customer
         public async Task<IEnumerable<ProductDTO>> GetProductsByCategoryId(string id)
         {
 
-            string apiUrl = "https://localhost:7007/api/Products?categoryIds=" + id;
+            string apiUrl = $"{GlobalConfig.PRODUCT_BASE_URL}?categoryIds=" + id;
+            var response = await _httpClient.GetAsync(new Uri(apiUrl));
+            if (response.IsSuccessStatusCode)
+            {
+                string jsonResponse = await response.Content.ReadAsStringAsync();
+                var jsonObject = JObject.Parse(jsonResponse);
+                var product = jsonObject["data"].ToObject<List<ProductDTO>>();
+                return product!;
+            }
+            return null!;
+
+        }
+
+        public async Task<IEnumerable<ProductDTO>> SearchProductByKeyword(string keyword)
+        {
+
+            string apiUrl = $"{GlobalConfig.PRODUCT_BASE_URL}?query=" + keyword;
             var response = await _httpClient.GetAsync(new Uri(apiUrl));
             if (response.IsSuccessStatusCode)
             {
@@ -64,7 +80,7 @@ namespace FurnitureStore.Client.Services.Customer
         }
         public async Task<ProductDTO> GetProductById (string ProductId)
         {
-            string apiUrl = "https://localhost:7007/api/Products/" + ProductId;
+            string apiUrl = $"{GlobalConfig.PRODUCT_BASE_URL}/" + ProductId;
             var response = await _httpClient.GetAsync(new Uri(apiUrl));
             if (response.IsSuccessStatusCode)
             {
@@ -79,7 +95,7 @@ namespace FurnitureStore.Client.Services.Customer
             List<ProductDTO> result= new List<ProductDTO>();
             for (int i = 0; i < listProductId.Count; i++)
             {
-                string apiUrl = "https://localhost:7007/api/Products/" + listProductId[i];
+                string apiUrl = $"{GlobalConfig.PRODUCT_BASE_URL}/" + listProductId[i];
                 var response = await _httpClient.GetAsync(new Uri(apiUrl));
                 if (response.IsSuccessStatusCode)
                 {
@@ -96,7 +112,7 @@ namespace FurnitureStore.Client.Services.Customer
             List<ProductDTO> result = new List<ProductDTO>();
             for (int i = 0; i < listProductId.Count; i++)
             {
-                string apiUrl = "https://localhost:7007/api/Products/" + listProductId[i];
+                string apiUrl = $"{GlobalConfig.PRODUCT_BASE_URL}/" + listProductId[i];
                 var response = await _httpClient.GetAsync(new Uri(apiUrl));
                 if (response.IsSuccessStatusCode)
                 {

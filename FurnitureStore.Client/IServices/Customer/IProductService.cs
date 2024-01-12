@@ -10,5 +10,6 @@ namespace FurnitureStore.Client.IServices.Customer
          Task<IEnumerable<ProductDTO>> GetProductListByProductIdList(List<string>listProductId);
          Task<IEnumerable<ProductDTO>> GetProductsByVariationId(string id);
          Task<IEnumerable<ProductDTO>> GetProductsByCategoryId(string id);
+         Task<IEnumerable<ProductDTO>> SearchProductByKeyword(string keyword);
     }
 }

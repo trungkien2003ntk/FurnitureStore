@@ -40,7 +40,7 @@
 				@foreach (var categoryL1 in categoryList)
 				{
 					<li class="nav-item" @onclick="@(e => navigateFilter(@categoryL1.Category.Id))">
-					<a class="nav-link" href="products.html">
+					<a class="nav-link" href="">
 							@categoryL1.Category.Name
 						<span class="material-symbols-outlined nav-link-icon-down">
 							expand_more
@@ -54,14 +54,15 @@
 								{
 									<li class="header__nav__list-item" @onclick="@(e => navigateFilter(@categoryL2.Category.Id))">
 										<a class="category-L3-link">@categoryL2.Category.Name</a>
+
 										@if (categoryL2.SubCategories.Count > 0)
 										{
-
+											
 											<ul class="header__nav__sub-sub-menu">
 												@foreach (var categoryL3 in categoryL2.SubCategories)
 												{
 													<li class="header__nav__list-item" @onclick="@(e => navigateFilter(@categoryL3.Category.Id))">
-															<a href="">@categoryL3.Category.Name</a>
+														<a class="category-L3-link">@categoryL3.Category.Name</a>
 													</li>
 												}
 											
@@ -70,6 +71,7 @@
 										}
 
 									</li>
+									
 								}
 								</ul>
 							}
@@ -100,10 +102,10 @@
 	private IEnumerable<CategoryResponse> categoryList;
 	 void UpdateShowCart(bool newShowCartValue, string navigatePage)
 	{
-		
+		showCart = newShowCartValue;
+
 		if (navigatePage == "checkout")
-			navManager.NavigateTo("/checkout", forceLoad: false);
-			showCart = newShowCartValue;
+			navManager.NavigateTo("/checkout", forceLoad: true);
 
 	}
 	bool showCart = false;
@@ -119,7 +121,7 @@
 	{
 		if (e.Code == "Enter" || e.Code == "NumpadEnter")
 		{
-			navManager.NavigateTo("/search" + "/" + InputValue);
+			navManager.NavigateTo("/search" + "/" + InputValue, forceLoad: false);
 
 
 		}
@@ -130,7 +132,7 @@
 	}
 	void navigateFilter(string categoryId)
 	{
-		navManager.NavigateTo("/filter" + "/" + categoryId);
+		navManager.NavigateTo("/filter" + "/" + categoryId, true);
 	}
 
 }

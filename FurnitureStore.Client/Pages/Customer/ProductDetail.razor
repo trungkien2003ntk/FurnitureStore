@@ -172,7 +172,7 @@
 									data-mdb-ripple-color="light">
 										<img src="@item.FeaturedImage"
 										class="w-100" />
-										<a href="#!">
+										<a>
 											<div class="mask">
 												<div class="d-flex justify-content-start align-items-end h-100">
 													<h5><span class="badge bg-dark ms-2">NEW</span></h5>
@@ -187,9 +187,7 @@
 										<a href="" class="text-reset">
 											<h5 class="card-title mb-2">@item.Name</h5>
 										</a>
-										<a href="" class="text-reset ">
-											<p>Shirt</p>
-										</a>
+										
 											@if(item.VariationDetail.Id!=null)
 											{
 												<h6 class="mb-3 price">from @(item.RegularPrice.ToString("C"))</h6>

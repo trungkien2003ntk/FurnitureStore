@@ -125,3 +125,7 @@
 .cart-btn-delete {
     color: black;
 }
+.cart-empty {
+    margin-top: 241px;
+    margin-left: 45px;
+}

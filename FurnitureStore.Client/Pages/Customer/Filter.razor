@@ -136,11 +136,13 @@
 	private IEnumerable<ProductDTO> listProducts;
 	protected override async Task OnInitializedAsync()
 	{
+		listProducts = null;
 		listProducts = await ProductServiceDI.GetProductsByCategoryId(CategoryId);
+		Console.WriteLine(listProducts);
 	}
 	void productClick(string idProduct)
 	{
-		navManager.NavigateTo("/product/detail" + "/" + idProduct);
+		navManager.NavigateTo("/product/detail" + "/" + idProduct, true);
 	}
 
 }
