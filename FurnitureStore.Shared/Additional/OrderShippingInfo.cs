@@ -9,7 +9,7 @@ public class OrderShippingInfo
     public string Phone { get; set; }
 
     [JsonProperty("shippingPrice")]
-    public int ShippingPrice { get; set; }
+    public double ShippingPrice { get; set; }
 
     [JsonProperty("shippingDate")]
     public DateTime ShippingDate { get; set; }

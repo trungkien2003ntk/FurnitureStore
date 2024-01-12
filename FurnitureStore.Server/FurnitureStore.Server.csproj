@@ -1,40 +1,51 @@
-﻿ <Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<InvariantGlobalization>false</InvariantGlobalization>
+	</PropertyGroup>
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <InvariantGlobalization>false</InvariantGlobalization>
-  </PropertyGroup>
+	<ItemGroup>
+		<Content Remove="appsettings.Development.json" />
+		<Content Remove="appsettings.Production.json" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Content Remove="appsettings.Development.json" />
-    <Content Remove="appsettings.Production.json" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+		<PackageReference Include="Azure.Search.Documents" Version="11.5.1" />
+		<PackageReference Include="Azure.Storage.Blobs" Version="12.19.1" />
+		<PackageReference Include="FluentValidation" Version="11.9.0" />
+		<PackageReference Include="MailKit" Version="4.3.0" />
+		<PackageReference Include="Microsoft.Azure.Cosmos" Version="3.37.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
-    <PackageReference Include="Azure.Search.Documents" Version="11.5.1" />
-    <PackageReference Include="Azure.Storage.Blobs" Version="12.19.1" />
-    <PackageReference Include="FluentValidation" Version="11.9.0" />
-    <PackageReference Include="MailKit" Version="4.3.0" />
-    <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.37.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<Folder Include="Enums\" />
+		<Folder Include="Validators\Documents\" />
+		<Folder Include="Validators\DTOs\" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<ProjectReference Include="..\FurnitureStore.Shared\FurnitureStore.Shared.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Enums\" />
-    <Folder Include="Validators\Documents\" />
-    <Folder Include="Validators\DTOs\" />
-  </ItemGroup>
 
-  <ItemGroup>
-    <None Include="appsettings.Development.json" />
-    <None Include="appsettings.Production.json" />
-  </ItemGroup>
+	<ItemGroup>
+		<Content Remove="appsettings.json" />
+		<Content Remove="appsettings.*.json" />
+	</ItemGroup>
+	<ItemGroup>
+		<Content Include="appsettings.json" CopyToOutputDirectory="Always" />
+		<Content Include="appsettings.$(ASPNETCORE_ENVIRONMENT).json" DependentUpon="appsettings.json" CopyToOutputDirectory="Always" />
+	</ItemGroup>
+	
+	<PropertyGroup Condition=" '$(Configuration)' == '' Or '$(Configuration)' == 'Debug'">
+		<EnvironmentName>Development</EnvironmentName>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\FurnitureStore.Shared\FurnitureStore.Shared.csproj" />
-  </ItemGroup>
-
+	<PropertyGroup Condition=" '$(Configuration)' != '' and '$(Configuration)' != 'Debug' ">
+		<EnvironmentName>Production</EnvironmentName>
+	</PropertyGroup>
 </Project>

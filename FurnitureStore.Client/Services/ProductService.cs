@@ -15,6 +15,8 @@ namespace FurnitureStore.Client.Services
             _httpClient = httpClient;
         }
 
+
+
         public async Task<ProductDTO> AddProductAsync(ProductDTO productDTO)
         {
             string apiUrl = GlobalConfig.PRODUCT_BASE_URL;
@@ -53,14 +55,42 @@ namespace FurnitureStore.Client.Services
             return null!;
         }
 
-        public async Task<ProductResponse> GetProductDTOsAsync(List<string>? categoryIds, string? variationId, int? pageSize, int? pageNumber)
+        /// <summary>
+        /// priceRangeStrings: 
+        /// </summary>
+        /// <param name="queryText">The text to search</param>
+        /// <param name="pageSize"></param>
+        /// <param name="pageNumber"></param>
+        /// <param name="priceRangeStrings">list like: ["30000-40000", "20000-30000"] while (1000 is 10.00 usd)</param>
+        /// <returns></returns>
+        public async Task<ProductResponse> SearchProductAsync(string queryText, int? pageSize = null, int? pageNumber = null, List<string>? priceRangeStrings = null)
+        {
+            string apiUrl =
+                $"{GlobalConfig.PRODUCT_BASE_URL}" +
+                $"?pageNumber={(pageNumber != null ? pageNumber : 1)}" +
+                $"{(pageSize != null ? $"&pageSize={pageSize}" : "")}" +
+                $"&query={queryText}" +
+                $"{(priceRangeStrings != null && priceRangeStrings.Count != 0 ? $"&priceRanges={string.Join(',',priceRangeStrings)}" : "")}";
+
+            var response = await _httpClient.GetAsync(new Uri(apiUrl));
+            if (response.IsSuccessStatusCode)
+            {
+                string jsonResponse = await response.Content.ReadAsStringAsync();
+                var productResponse = JsonConvert.DeserializeObject<ProductResponse>(jsonResponse);
+                return productResponse!;
+            }
+            return null!;
+        }
+
+        public async Task<ProductResponse> GetProductResponseAsync(List<string>? categoryIds = null, string? variationId = null, int? pageSize = null, int? pageNumber = null, List<string>? priceRangeStrings = null)
         {
             string apiUrl =
                 $"{GlobalConfig.PRODUCT_BASE_URL}" +
                 $"?pageNumber={(pageNumber != null ? pageNumber : 1)}" +
                 $"{(categoryIds != null ? $"&categoryIds={string.Join(',', categoryIds)}" : "")}" +
                 $"{(variationId != null ? $"&variationId={variationId}" : "")}" +
-                $"{(pageSize != null ? $"&pageSize={pageSize}" : "")}";
+                $"{(pageSize != null ? $"&pageSize={pageSize}" : "")}" +
+                $"{(priceRangeStrings != null && priceRangeStrings.Count != 0 ? $"&priceRanges={string.Join(',', priceRangeStrings)}" : "")}";
 
             var response = await _httpClient.GetAsync(new Uri(apiUrl));
             if (response.IsSuccessStatusCode)

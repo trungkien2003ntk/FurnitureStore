@@ -30,16 +30,16 @@ public class OrderDTO
     public int TotalItems { get; set; } = 0;
 
     [JsonProperty("subtotal")]
-    public int Subtotal { get; set; } = 0;
+    public double Subtotal { get; set; } = 0;
 
     [JsonProperty("discountValue")]
     public int DiscountValue { get; set; } = 0;
 
     [JsonProperty("tax")]
-    public int Tax { get; set; } = 0;
+    public double Tax { get; set; } = 0;
 
     [JsonProperty("totalAmount")]
-    public int TotalAmount { get; set; } = 0;
+    public double TotalAmount { get; set; } = 0;
 
     [JsonProperty("paymentDetails")]
     public PaymentDetails PaymentDetails { get; set; } = new();

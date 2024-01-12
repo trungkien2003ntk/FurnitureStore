@@ -3,6 +3,8 @@ using FurnitureStore.Client.IServices.Customer;
 using FurnitureStore.Client.Services.Customer;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using FurnitureStore.Client.IServices;
+using FurnitureStore.Client.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");

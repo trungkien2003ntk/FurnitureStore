@@ -3,10 +3,10 @@
 public class PaymentDetails
 {
     [JsonProperty("remainAmount")]
-    public int RemainAmount { get; set; } = 0;
+    public double RemainAmount { get; set; } = 0;
 
     [JsonProperty("paidAmount")]
-    public int PaidAmount { get; set; } = 0;
+    public double PaidAmount { get; set; } = 0;
 
     [JsonProperty("paymentMethod")]
     public string? PaymentMethod { get; set; }

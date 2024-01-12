@@ -30,16 +30,16 @@
         public int TotalItems { get; set; }
 
         [JsonProperty("subtotal")]
-        public int Subtotal { get; set; }
+        public double Subtotal { get; set; }
 
         [JsonProperty("discountValue")]
         public int DiscountValue { get; set; }
 
         [JsonProperty("tax")]
-        public int Tax { get; set; }
+        public double Tax { get; set; }
 
         [JsonProperty("totalAmount")]
-        public int TotalAmount { get; set; }
+        public double TotalAmount { get; set; }
 
         [JsonProperty("paymentDetails")]
         public PaymentDetails PaymentDetails { get; set; }

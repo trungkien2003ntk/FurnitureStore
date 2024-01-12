@@ -1,7 +1,9 @@
-﻿using FurnitureStore.Server.Exceptions;
+﻿using Azure;
+using FurnitureStore.Server.Exceptions;
 using FurnitureStore.Server.Models.BindingModels;
 using FurnitureStore.Server.Models.BindingModels.FilterModels;
 using FurnitureStore.Server.Repositories.Interfaces;
+using FurnitureStore.Server.Services;
 using FurnitureStore.Server.Utils;
 
 namespace FurnitureStore.Server.Controllers;
@@ -11,7 +13,8 @@ namespace FurnitureStore.Server.Controllers;
 public class ProductsController(
     IProductRepository productRepository,
     ILogger<ProductsController> logger,
-    IValidator<QueryParameters> queryParametersValidator
+    IValidator<QueryParameters> queryParametersValidator,
+    IFileService fileService
 ) : ControllerBase
 {
 
@@ -117,7 +120,7 @@ public class ProductsController(
             return BadRequest("Product data is required.");
         }
 
-        if (id!= productDTO.Id)
+        if (id != productDTO.Id)
         {
             return BadRequest("Specified id don't match with the DTO");
         }
@@ -166,6 +169,65 @@ public class ProductsController(
                 $"An error occurred while deleting the product. \n" +
                 $"Product Id: {id}\n" +
                 $"Error message: {ex.Message}");
+        }
+    }
+
+
+    [HttpPost("images")]
+    public async Task<ActionResult> UploadImagesAsync(List<IFormFile> files)
+    {
+        List<FileModel> fileModels = [];
+
+        try
+        {
+            foreach (var file in files)
+            {
+                fileModels.Add(await fileService.UploadAsync(file));
+            }
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        catch (RequestFailedException)
+        {
+            return StatusCode(500, "Upload failed");
+        }
+        catch (Exception ex)
+        {
+            return Conflict(ex.Message);
+
+        }
+
+        var urls = fileModels.Select(x => x.Url);
+        var count = urls.Count();
+
+        return Ok(new
+        {
+            data = urls,
+            metadata = new
+            {
+                count
+            }
+        });
+    }
+
+    [HttpDelete("images/{blobName}")]
+    public async Task<ActionResult> DeleteImageAsync(string blobName)
+    {
+        try
+        {
+            await fileService.DeleteAsync(blobName);
+
+            return Ok($"Blob {blobName} deleted successfully.");
+        }
+        catch (RequestFailedException)
+        {
+            return StatusCode(500, "Delete failed");
+        }
+        catch (Exception ex)
+        {
+            return Conflict(ex.Message);
         }
     }
 }

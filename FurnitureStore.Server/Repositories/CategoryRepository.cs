@@ -250,4 +250,78 @@ public class CategoryRepository : ICategoryRepository
         _memoryCache.Set(categoryIdCacheName, newId);
         return newId;
     }
+
+    public async Task<IEnumerable<CategoryDTO>> GetCategoryDTOsByLevelAsync(int level)
+    {
+        var queryDef = new QueryDefinition(
+            query:
+                "SELECT * " +
+                "FROM categories c " +
+                "WHERE c.level = @level"
+        ).WithParameter("@level", level);
+
+        var categoryDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<CategoryDocument>(_categoryContainer, queryDef);
+        var categoryDTOs = categoryDocs.Select(categoryDoc =>
+        {
+            return _mapper.Map<CategoryDTO>(categoryDoc);
+        }).ToList();
+
+        return categoryDTOs;
+    }
+
+    public async Task<IEnumerable<CategoryDTO>> GetCategoryDTOsByParentAsync(string? parent)
+    {
+        var queryDef = new QueryDefinition(
+            query:
+                "SELECT * " +
+                "FROM categories c " +
+                "WHERE c.parent = @parent"
+        ).WithParameter("@parent", $"/{parent}");
+
+        var categoryDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<CategoryDocument>(_categoryContainer, queryDef);
+        var categoryDTOs = categoryDocs.Select(categoryDoc =>
+        {
+            return _mapper.Map<CategoryDTO>(categoryDoc);
+        }).ToList();
+
+        return categoryDTOs;
+    }
+
+    public Task<IEnumerable<CategoryDetailDocument>> GetFullInformationOfAllCategories()
+    {
+
+        throw new NotImplementedException();
+
+        //var queryDef = new QueryDefinition(
+        //    query:
+        //        "SELECT * " +
+        //        "FROM categories c " +
+        //        "WHERE c.parent = @parent"
+        //).WithParameter("@parent", parent);
+
+        //var categoryDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<CategoryDocument>(_categoryContainer, queryDef);
+        //var categoryDTOs = categoryDocs.Select(categoryDoc =>
+        //{
+        //    return _mapper.Map<CategoryDTO>(categoryDoc);
+        //}).ToList();
+
+        //return categoryDTOs;
+    }
+
+    public async Task<IEnumerable<CategoryDTO>> GetCategoryDTOsAsync()
+    {
+        var queryDef = new QueryDefinition(
+            query:
+                "SELECT * " +
+                "FROM c"
+        );
+
+        var categoryDocs = await CosmosDbUtils.GetDocumentsByQueryDefinition<CategoryDocument>(_categoryContainer, queryDef);
+        var categoryDTOs = categoryDocs.Select(categoryDoc =>
+        {
+            return _mapper.Map<CategoryDTO>(categoryDoc);
+        }).ToList();
+
+        return categoryDTOs;
+    }
 }
