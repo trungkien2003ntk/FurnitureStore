@@ -1,3 +1,4 @@
+using Azure.Storage.Blobs;
 using FurnitureStore.Server.Models.BindingModels;
 using FurnitureStore.Server.Repositories;
 using FurnitureStore.Server.Repositories.Interfaces;
@@ -42,6 +43,13 @@ builder.Services.AddSingleton((provider) =>
     return new CosmosClient(endpointUri, primaryKey, cosmosClientOptions); 
 });
 
+
+builder.Services.AddScoped(_ => {
+    //var accountUri = new Uri(!);
+    return new BlobServiceClient(configuration.GetConnectionString("AzureBlobStorage"));
+});
+
+
 builder.Services.AddTransient<AzureSearchServiceFactory>();
 
 builder.Services.AddCors(options =>
@@ -54,6 +62,9 @@ builder.Services.AddCors(options =>
         .AllowAnyOrigin();
     });
 });
+
+// add custom services
+builder.Services.AddTransient<IFileService, FileService>();
 
 // add repositories
 builder.Services.AddTransient<IProductRepository, ProductRepository>();
