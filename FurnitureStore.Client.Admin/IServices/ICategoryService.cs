@@ -1,7 +1,7 @@
 ﻿using FurnitureStore.Shared.DTOs;
 using FurnitureStore.Shared.Responses;
 
-namespace FurnitureStore.Client.IServices
+namespace FurnitureStore.Client.Admin.IServices
 {
     public interface ICategoryService
     {

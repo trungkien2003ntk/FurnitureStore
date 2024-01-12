@@ -1,10 +1,10 @@
-﻿using FurnitureStore.Client.IServices;
+﻿using FurnitureStore.Client.Admin.IServices;
 using FurnitureStore.Shared.DTOs;
 using FurnitureStore.Shared.Responses;
 using Newtonsoft.Json;
 using System.Text;
 
-namespace FurnitureStore.Client.Services
+namespace FurnitureStore.Client.Admin.Services
 {
     public class ProductService : IProductService
     {
@@ -41,7 +41,7 @@ namespace FurnitureStore.Client.Services
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<ProductDTO> GetProductDTOByIdAsync(string productId)
+        public async Task<ProductDTO?> GetProductDTOByIdAsync(string productId)
         {
             string apiUrl = $"{GlobalConfig.PRODUCT_BASE_URL}/{productId}";
 
@@ -51,8 +51,10 @@ namespace FurnitureStore.Client.Services
                 string? jsonResponse = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<ProductDTO>(jsonResponse!)!;
             }
-
-            return null!;
+            else
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -63,7 +65,7 @@ namespace FurnitureStore.Client.Services
         /// <param name="pageNumber"></param>
         /// <param name="priceRangeStrings">list like: ["30000-40000", "20000-30000"] while (1000 is 10.00 usd)</param>
         /// <returns></returns>
-        public async Task<ProductResponse> SearchProductAsync(string queryText, int? pageSize = null, int? pageNumber = null, List<string>? priceRangeStrings = null)
+        public async Task<ProductResponse?> SearchProductAsync(string queryText, int? pageSize = null, int? pageNumber = null, List<string>? priceRangeStrings = null)
         {
             string apiUrl =
                 $"{GlobalConfig.PRODUCT_BASE_URL}" +
@@ -79,10 +81,13 @@ namespace FurnitureStore.Client.Services
                 var productResponse = JsonConvert.DeserializeObject<ProductResponse>(jsonResponse);
                 return productResponse!;
             }
-            return null!;
+            else
+            {
+                return null;
+            }
         }
 
-        public async Task<ProductResponse> GetProductResponseAsync(List<string>? categoryIds = null, string? variationId = null, int? pageSize = null, int? pageNumber = null, List<string>? priceRangeStrings = null)
+        public async Task<ProductResponse?> GetProductResponseAsync(List<string>? categoryIds = null, string? variationId = null, int? pageSize = null, int? pageNumber = null, List<string>? priceRangeStrings = null)
         {
             string apiUrl =
                 $"{GlobalConfig.PRODUCT_BASE_URL}" +
@@ -99,7 +104,8 @@ namespace FurnitureStore.Client.Services
                 var productResponse = JsonConvert.DeserializeObject<ProductResponse>(jsonResponse);
                 return productResponse!;
             }
-            return null!;
+            else
+                return null;
         }
 
         public async Task<bool> UpdateProductAsync(string productId, ProductDTO productDTO)

@@ -1,10 +1,10 @@
-﻿using FurnitureStore.Client.IServices;
+﻿using FurnitureStore.Client.Admin.IServices;
 using FurnitureStore.Shared.DTOs;
 using FurnitureStore.Shared.Responses;
 using Newtonsoft.Json;
 using System.Text;
 
-namespace FurnitureStore.Client.Services
+namespace FurnitureStore.Client.Admin.Services
 {
     public class CategoryService : ICategoryService
     {

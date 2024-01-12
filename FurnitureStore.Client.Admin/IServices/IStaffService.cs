@@ -1,6 +1,6 @@
 ﻿using FurnitureStore.Shared.DTOs;
 
-namespace FurnitureStore.Client.IServices
+namespace FurnitureStore.Client.Admin.IServices
 {
     public interface IStaffService
     {

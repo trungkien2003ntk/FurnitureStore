@@ -1,9 +1,9 @@
-﻿using FurnitureStore.Client.IServices;
+﻿using FurnitureStore.Client.Admin.IServices;
 using FurnitureStore.Shared.DTOs;
 using Microsoft.AspNetCore.Components;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace FurnitureStore.Client.Pages.AdminPages
+namespace FurnitureStore.Client.Admin.Pages.AdminPages
 {
     public partial class CategoryManagement
     {

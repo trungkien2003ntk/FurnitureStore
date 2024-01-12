@@ -1,8 +1,8 @@
-using FurnitureStore.Client;
+using FurnitureStore.Client.Admin;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using FurnitureStore.Client.IServices;
-using FurnitureStore.Client.Services;
+using FurnitureStore.Client.Admin.IServices;
+using FurnitureStore.Client.Admin.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");

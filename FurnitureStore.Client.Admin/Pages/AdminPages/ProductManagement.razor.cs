@@ -1,11 +1,11 @@
-﻿using FurnitureStore.Client.IServices;
-using FurnitureStore.Client.Services;
+﻿using FurnitureStore.Client.Admin.IServices;
+using FurnitureStore.Client.Admin.Services;
 using FurnitureStore.Shared.DTOs;
 using FurnitureStore.Shared.Responses;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
-namespace FurnitureStore.Client.Pages.AdminPages
+namespace FurnitureStore.Client.Admin.Pages.AdminPages
 {
     public partial class ProductManagement
     {

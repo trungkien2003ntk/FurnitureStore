@@ -1,4 +1,4 @@
-﻿namespace FurnitureStore.Client
+﻿namespace FurnitureStore.Client.Admin
 {
     public class GlobalConfig
     {

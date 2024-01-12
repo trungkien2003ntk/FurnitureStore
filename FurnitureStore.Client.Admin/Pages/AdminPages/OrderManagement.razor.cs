@@ -1,4 +1,4 @@
-﻿namespace FurnitureStore.Client.Pages.AdminPages
+﻿namespace FurnitureStore.Client.Admin.Pages.AdminPages
 {
     public partial class OrderManagement
     {
