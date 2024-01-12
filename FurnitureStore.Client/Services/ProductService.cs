@@ -82,7 +82,7 @@ namespace FurnitureStore.Client.Services
             return null!;
         }
 
-        public async Task<ProductResponse> GetProductDTOsAsync(List<string>? categoryIds = null, string? variationId = null, int? pageSize = null, int? pageNumber = null, List<string>? priceRangeStrings = null)
+        public async Task<ProductResponse> GetProductResponseAsync(List<string>? categoryIds = null, string? variationId = null, int? pageSize = null, int? pageNumber = null, List<string>? priceRangeStrings = null)
         {
             string apiUrl =
                 $"{GlobalConfig.PRODUCT_BASE_URL}" +

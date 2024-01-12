@@ -346,32 +346,41 @@
                     <!--Pagination-->
                     <div class="d-flex justify-content-center align-content-center">
                         <ul class="pagination" >
-                            <li class="page-item" @onclick="PreviousPage">
-                                <a class="page-link">Previous</a>
-                            </li>
-                            @if (pageNumberList[0]>1)
+                            
+                            @if (pageNumberList != null && pageNumberList.Count > 0)
                             {
+                                <li class="page-item" @onclick="PreviousPage">
+                                    <a class="page-link">Previous</a>
+                                </li>
+
+                                @if (pageNumberList[0] > 1)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link">...</a>
+                                    </li>
+                                }
+
+                                int maxPageNumbersToShow = 5;
+                                @for (var i = 0; i < maxPageNumbersToShow && i < pageNumberList.Count; i++)
+                                {
+                                    var selectedPageNum = pageNumberList[i];
+                                    <li class="@((selectedPageNum == selectedPageNumber) ? "page-item active" : "page-item")"
+                                        @onclick="(() => SelectPageNumber(selectedPageNum!))">
+                                        <a class="page-link">@selectedPageNum</a>
+                                    </li>
+                                }
+
+                                @if (pageNumberList.Count > maxPageNumbersToShow)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link">...</a>
+                                    </li>
+                                }
+
                                 <li class="page-item">
-                                    <a class="page-link">...</a>
+                                    <a class="page-link" @onclick="NextPage">Next</a>
                                 </li>
                             }
-                            @for (var i = 0; i < 5 && i < pageNumberList.Count; i++)
-                            {
-                                var item = pageNumberList[i];
-                                <li class="@((item == selectedPageNumber) ? "page-item active" : "page-item")"
-                                    @onclick="(() => SelectPageNumber(item!))">
-                                    <a class="page-link">@item</a>
-                                </li>
-                            }
-                            @if (pageNumberList.Count > 5)
-                            {
-                                <li class="page-item">
-                                    <a class="page-link">...</a>
-                                </li>
-                            }
-                            <li class="page-item">
-                                <a class="page-link" @onclick="NextPage">Next</a>
-                            </li>
                         </ul>
                     </div>
                 </div>

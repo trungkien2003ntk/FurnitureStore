@@ -39,7 +39,7 @@ namespace FurnitureStore.Client.Services
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<IEnumerable<CategoryResponse>> GetCategoryDTOsByLevelAsync(int level)
+        public async Task<IEnumerable<CategoryResponse>?> GetCategoryDTOsByLevelAsync(int level)
         {
             string apiUrl = $"{GlobalConfig.CATEGORY_BASE_URL}?level={level}";
 
@@ -48,9 +48,9 @@ namespace FurnitureStore.Client.Services
             {
                 string jsonResponse = await response.Content.ReadAsStringAsync();
                 var categories = JsonConvert.DeserializeObject<List<CategoryResponse>>(jsonResponse);
-                return categories!;
+                return categories;
             }
-            return null!;
+            return null;
         }
 
         public async Task<CategoryDTO> GetCategoryDTOsById(string id)
@@ -67,7 +67,7 @@ namespace FurnitureStore.Client.Services
             return null!;
         }
 
-        public async Task<IEnumerable<CategoryResponse>> GetCategoryDTOsByParentIdAsync(string parentId)
+        public async Task<IEnumerable<CategoryResponse>?> GetCategoryDTOsByParentIdAsync(string parentId)
         {
             string apiUrl = $"{GlobalConfig.CATEGORY_BASE_URL}?parentId={parentId}";
 
@@ -76,9 +76,9 @@ namespace FurnitureStore.Client.Services
             {
                 string jsonResponse = await response.Content.ReadAsStringAsync();
                 var categories = JsonConvert.DeserializeObject<List<CategoryResponse>>(jsonResponse);
-                return categories!;
+                return categories;
             }
-            return null!;
+            return null;
         }
 
         public async Task<IEnumerable<CategoryResponse>> GetAllCategoryResponsesWithNestedResult()
