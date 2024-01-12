@@ -2,7 +2,7 @@
 
 namespace FurnitureStore.Server.Utils;
 
-public class IdUtils
+public partial class IdUtils
 {
     public static string IncreaseId(string id)
     {
