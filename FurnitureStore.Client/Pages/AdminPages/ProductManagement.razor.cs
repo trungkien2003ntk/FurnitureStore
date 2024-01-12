@@ -32,6 +32,19 @@ namespace FurnitureStore.Client.Pages.AdminPages
         List<int> pageNumberList = new List<int>();
         List<string> categoryIdList = new List<string>();
 
+        private string ProductNameInput { get; set; } = "";
+        private string ProductWeightInput { get; set; } = ""; 
+        private string ProductStockInput { get; set; } = "";
+        private int HeightInput { get; set; } = 0;
+        private int WidthInput { get; set; } = 0;
+        private int DepthInput { get; set; } = 0;
+        private int PurchasePriceInput { get; set; } = 0;
+        private int RegularPriceInput { get; set; } = 0;
+        private int SalePriceInput { get; set; } = 0;
+        private string ProductSescriptionInput { get; set; } = "";
+        private string VariantNameInput { get; set; } = "";
+        private string FeatureImg { get; set; } = ""; 
+
         protected override async Task OnInitializedAsync()
         {
             //Get pagination
@@ -266,6 +279,51 @@ namespace FurnitureStore.Client.Pages.AdminPages
         }
         #endregion
 
+        #region Select category add update
+        private string SelectedCategoryLV1TextAddUpdate { get; set; } = "Choose Category";
+        private string SelectedCategoryLV2TextAddUpdate { get; set; } = "Choose Category";
+        private string SelectedCategoryLV3TextAddUpdate { get; set; } = "Choose Category";
+        public async Task SelectLV1CategoryAddUpdate(string Id, string Text)
+        {
+            SelectedCategoryLV1TextAddUpdate = Text;
+            currentCategoryId = Id;
+            var categoryResponse = await categoryService.GetCategoryDTOsByParentIdAsync(Id);
+            if (categoryResponse != null)
+            {
+                categoryListLV2 = categoryResponse.Select(response => response.Category).ToList();
+            }
+            else
+            {
+                categoryListLV2 = new List<CategoryDTO>();
+            }
+            categoryListLV3 = new List<CategoryDTO>();
+        }
+
+        public async Task SelectLV2CategoryAddUpdate(string Id, string Text)
+        {
+            SelectedCategoryLV2TextAddUpdate = Text;
+            currentCategoryId = Id;
+            var categoryResponse = await categoryService.GetCategoryDTOsByParentIdAsync(Id);
+            if (categoryResponse != null)
+            {
+                categoryListLV3 = categoryResponse.Select(response => response.Category).ToList();
+            }
+            else
+            {
+                categoryListLV3 = new List<CategoryDTO>();
+            }
+        }
+        public async Task SelectLV3CategoryAddUpdate(string Id, string Text)
+        {
+            SelectedCategoryLV3TextAddUpdate = Text;
+            currentCategoryId = Id;
+        }
+        #endregion
+        //add img button
+        public void AddImgButton()
+        {
+
+        }
 
         //update product button
         public void UpdateProduct(string Id)

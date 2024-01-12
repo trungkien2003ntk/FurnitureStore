@@ -149,14 +149,23 @@
                                     <div class="col-lg-9 grid-margin stretch-card d-flex align-items-center justify-content-end">
                                         <h4 class="page-title">Sort by</h4>
                                         <div class="dropdown" style="margin-left: 12px;">
-                                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuOutlineButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Sort by </button>
+                                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuOutlineButton2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> @SortByText </button>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuOutlineButton2">
-                                                <h6 class="dropdown-header">Level1</h6>
-                                                <a class="dropdown-item" href="#">Action</a>
-                                                <a class="dropdown-item" href="#">Another action</a>
-                                                <a class="dropdown-item" href="#">Something else here</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item" href="#">Separated link</a>
+                                                <a class="dropdown-item" @onclick="(() => { orderList = orderList.OrderBy(c => c.Id).ToList(); StateHasChanged(); })">Order ID A-Z</a>
+                                                <a class="dropdown-item" @onclick="(() => { orderList = orderList.OrderBy(c => c.CustomerName).ToList(); StateHasChanged(); })">Customer name A-Z</a>
+                                                <a class="dropdown-item" @onclick="(() => { orderList = orderList.OrderByDescending(c => c.CreatedAt).ToList(); StateHasChanged(); })">Order date lastest</a>
+                                                <a class="dropdown-item" @onclick="(() => { orderList = orderList.OrderBy(c => c.TotalItems).ToList(); StateHasChanged(); })">Total item A-Z</a>
+                                                <a class="dropdown-item" @onclick="(() => { orderList = orderList.OrderBy(c => c.TotalAmount).ToList(); StateHasChanged(); })">Total amount A-Z</a>
+                                                <a class="dropdown-item" @onclick="(() => { orderList = orderList.OrderBy(c => c.PaymentDetails.Status).ToList(); StateHasChanged(); })">Payment status A-Z</a>
+                                                <a class="dropdown-item" @onclick="(() => { orderList = orderList.OrderBy(c => c.Status).ToList(); StateHasChanged(); })">Order status A-Z</a>
+                                                <hr />
+                                                <a class="dropdown-item" @onclick="(() => { orderList = orderList.OrderByDescending(c => c.Id).ToList(); StateHasChanged(); })">Order ID Z-A</a>
+                                                <a class="dropdown-item" @onclick="(() => { orderList = orderList.OrderByDescending(c => c.CustomerName).ToList(); StateHasChanged(); })">Customer name Z-A</a>
+                                                <a class="dropdown-item" @onclick="(() => { orderList = orderList.OrderBy(c => c.CreatedAt).ToList(); StateHasChanged(); })">Order date oldest</a>
+                                                <a class="dropdown-item" @onclick="(() => { orderList = orderList.OrderByDescending(c => c.TotalItems).ToList(); StateHasChanged(); })">Total item Z-A</a>
+                                                <a class="dropdown-item" @onclick="(() => { orderList = orderList.OrderByDescending(c => c.TotalAmount).ToList(); StateHasChanged(); })">Total amount Z-A</a>
+                                                <a class="dropdown-item" @onclick="(() => { orderList = orderList.OrderByDescending(c => c.PaymentDetails.Status).ToList(); StateHasChanged(); })">Payment status Z-A</a>
+                                                <a class="dropdown-item" @onclick="(() => { orderList = orderList.OrderByDescending(c => c.Status).ToList(); StateHasChanged(); })">Order status Z-A</a>
                                             </div>
                                         </div>
                                     </div>
@@ -165,116 +174,63 @@
                                     <thead>
                                         <tr>
                                             <th>Order ID</th>
-                                            <th>Customer ID</th>
-                                            <th>Order Date</th>
-                                            <th>Order Address</th>
-                                            <th>Payment method</th>
+                                            <th>Customer name</th>
+                                            <th>Order date</th>
+                                            <th>Order address</th>
                                             <th>Total item</th>
-                                            <th>Total Amount</th>
-                                            <th>Status</th>
+                                            <th>Total amount</th>
+                                            <th>Payment status</th>
+                                            <th>Order status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>ord00001-00001</td>
-                                            <td>cust00001</td>
-                                            <td>13/11/2023</td>
-                                            <td class="product-col-2">Huyện Thống Nhất, Tỉnh Đồng Nai</td>
-                                            <td>Credit card</td>
-                                            <td>10</td>
-                                            <td>2799200</td>
-                                            <td><label class="badge badge-success">Paid</label></td>
-                                        </tr>
-                                        <tr>
-                                            <td>ord00001-00002</td>
-                                            <td>cust00001</td>
-                                            <td>13/11/2023</td>
-                                            <td class="product-col-2">Huyện Thống Nhất, Tỉnh Đồng Nai</td>
-                                            <td>Credit card</td>
-                                            <td>10</td>
-                                            <td>2799200</td>
-                                            <td><label class="badge badge-danger">Pending</label></td>
-                                        </tr>
-                                        <tr>
-                                            <td>ord00001-00001</td>
-                                            <td>cust00001</td>
-                                            <td>13/11/2023</td>
-                                            <td class="product-col-2">Huyện Thống Nhất, Tỉnh Đồng Nai</td>
-                                            <td>Credit card</td>
-                                            <td>10</td>
-                                            <td>2799200</td>
-                                            <td><label class="badge badge-success">Paid</label></td>
-                                        </tr>
-                                        <tr>
-                                            <td>ord00001-00002</td>
-                                            <td>cust00001</td>
-                                            <td>13/11/2023</td>
-                                            <td class="product-col-2">Huyện Thống Nhất, Tỉnh Đồng Nai</td>
-                                            <td>Credit card</td>
-                                            <td>10</td>
-                                            <td>2799200</td>
-                                            <td><label class="badge badge-danger">Pending</label></td>
-                                        </tr>
-                                        <tr>
-                                            <td>ord00001-00001</td>
-                                            <td>cust00001</td>
-                                            <td>13/11/2023</td>
-                                            <td class="product-col-2">Huyện Thống Nhất, Tỉnh Đồng Nai</td>
-                                            <td>Credit card</td>
-                                            <td>10</td>
-                                            <td>2799200</td>
-                                            <td><label class="badge badge-success">Paid</label></td>
-                                        </tr>
-                                        <tr>
-                                            <td>ord00001-00002</td>
-                                            <td>cust00001</td>
-                                            <td>13/11/2023</td>
-                                            <td class="product-col-2">Huyện Thống Nhất, Tỉnh Đồng Nai</td>
-                                            <td>Credit card</td>
-                                            <td>10</td>
-                                            <td>2799200</td>
-                                            <td><label class="badge badge-danger">Pending</label></td>
-                                        </tr>
-                                        <tr>
-                                            <td>ord00001-00001</td>
-                                            <td>cust00001</td>
-                                            <td>13/11/2023</td>
-                                            <td class="product-col-2">Huyện Thống Nhất, Tỉnh Đồng Nai</td>
-                                            <td>Credit card</td>
-                                            <td>10</td>
-                                            <td>2799200</td>
-                                            <td><label class="badge badge-success">Paid</label></td>
-                                        </tr>
-                                        <tr>
-                                            <td>ord00001-00002</td>
-                                            <td>cust00001</td>
-                                            <td>13/11/2023</td>
-                                            <td class="product-col-2">Huyện Thống Nhất, Tỉnh Đồng Nai</td>
-                                            <td>Credit card</td>
-                                            <td>10</td>
-                                            <td>2799200</td>
-                                            <td><label class="badge badge-danger">Pending</label></td>
-                                        </tr>
-                                        <tr>
-                                            <td>ord00001-00001</td>
-                                            <td>cust00001</td>
-                                            <td>13/11/2023</td>
-                                            <td class="product-col-2">Huyện Thống Nhất, Tỉnh Đồng Nai</td>
-                                            <td>Credit card</td>
-                                            <td>10</td>
-                                            <td>2799200</td>
-                                            <td><label class="badge badge-success">Paid</label></td>
-                                        </tr>
-                                        <tr>
-                                            <td>ord00001-00002</td>
-                                            <td>cust00001</td>
-                                            <td>13/11/2023</td>
-                                            <td class="product-col-2">Huyện Thống Nhất, Tỉnh Đồng Nai</td>
-                                            <td>Credit card</td>
-                                            <td>10</td>
-                                            <td>2799200</td>
-                                            <td><label class="badge badge-danger">Pending</label></td>
-                                        </tr>
+                                        @foreach(var item in orderList)
+                                        {
+                                            <tr @onclick="(() => SelectOrder(item.Id!))">
+                                                <td>@item.Id</td>
+                                                <td>@item.CustomerName</td>
+                                                <td>@item.CreatedAt</td>
+                                                <td class="product-col-2">@item.ShippingInfo.Address</td>
+                                                <td>@item.TotalItems</td>
+                                                <td>$@(item.TotalAmount/100.0)</td>
+                                                @if (@item.PaymentDetails.Status == "Paid")
+                                                {
+                                                    <td><label class="badge badge-success">Paid</label></td>
+                                                }
+                                                else if (@item.PaymentDetails.Status == "Unpaid")
+                                                {
+                                                    <td><label class="badge badge-warning">Unpaid</label></td>
+                                                }
+                                                else
+                                                {
+                                                    <td></td>
+                                                }
+                                                @if (@item.Status == "New")
+                                                {
+                                                    <td><label class="badge badge-warning">New</label></td>
+                                                }
+                                                else if (@item.Status == "Processing")
+                                                {
+                                                    <td><label class="badge badge-warning">Processing</label></td>
+                                                }
+                                                else if (@item.Status == "Shipped")
+                                                {
+                                                    <td><label class="badge badge-warning">Shipped</label></td>
+                                                }
+                                                else if (@item.Status == "Completed")
+                                                {
+                                                    <td><label class="badge badge-success">Completed</label></td>
+                                                }
+                                                else if (@item.Status == "Cancelled")
+                                                {
+                                                    <td><label class="badge badge-danger">Cancelled</label></td>
+                                                }
+                                                else
+                                                {
+                                                    <td></td>
+                                                }
+                                            </tr>
+                                        }
                                     </tbody>
                                 </table>
                             </div>
@@ -289,7 +245,6 @@
                     <div class="d-sm-flex justify-content-center justify-content-sm-between py-2">
                         <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © <a href="https://www.bootstrapdash.com/" target="_blank">bootstrapdash.com </a>2021</span>
                         <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Only the best <a href="https://www.bootstrapdash.com/" target="_blank"> Bootstrap dashboard </a> templates</span>
-                        <button @onclick="ShowPopup">Tạm</button>
                     </div>
                 </div>
             </footer>
@@ -299,7 +254,8 @@
     </div>
     <div class="model" hidden="@isHiddenPopup">
         <div class="order-detail-form">
-            <div class="model_header d-flex align-items-center">
+            @if(currentOrder.Id!=""){
+                <div class="model_header d-flex align-items-center">
                 <div class="col-lg-9">
                     <label class="model_header_title">Order detail form</label>
                 </div>
@@ -312,12 +268,11 @@
             <div class="order-detail-header">
                 <div class="d-flex">
                     <h3 style="color: black; padding-top: 10px; padding-left: 10px;">Order</h3>
-                    <h3 style="color: #f33f3f; padding-top: 10px; padding-left: 10px;">#ord00001-00001</h3>
+                    <h3 style="color: #f33f3f; padding-top: 10px; padding-left: 10px;">#@currentOrder.Id</h3>
                 </div>
                 <div>
                     <h5 style="padding-left: 10px; padding-bottom: 10px;">
-                        Dec 18, 2023
-                        at 11:11am
+                        @currentOrder.CreatedAt
                     </h5>
                 </div>
             </div>
@@ -327,20 +282,20 @@
                         <h5 style="color: black;">Customer info</h5>
                         <hr>
                         <div class="row" style="margin-bottom: 12px;">
-                            <div class="col-lg-8">
+                            <div class="col-lg-6">
                                 <div>
                                     <label class="model-product-name-label">Customer name</label>
                                 </div>
                                 <div>
-                                    <label class="model_main_label">Mai Hoàng Nhật Duy</label>
+                                    <label class="model_main_label">@currentOrder.CustomerName</label>
                                 </div>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-6">
                                 <div>
-                                    <label class="model-product-name-label">Customer ID</label>
+                                    <label class="model-product-name-label">Customer Email</label>
                                 </div>
                                 <div>
-                                    <label class="model_main_label">cust00003</label>
+                                    <label class="model_main_label">@currentOrder.CustomerEmail</label>
                                 </div>
                             </div>
                         </div>
@@ -350,179 +305,48 @@
                     <div class="row">
                         <h5 style="color: black;">Ordered item</h5>
                         <hr>
-                        <div class="row" style="margin-bottom: 12px;">
-                            <div class="col-lg-1">
-                                <div class="model-image-format">
-                                    <img class="model_main_square"
-                                         src="https://rhomeco.com/cdn/shop/files/andersoncanopybed-knollnatural-fourhandsbedroomfurniture.webp?v=1699323751&width=1200" />
+                        @foreach(var item in currentOrder.Items)
+                        {
+                            <div class="row" style="margin-bottom: 12px;">
+                                <div class="col-lg-1">
+                                    <div class="model-image-format">
+                                        <img class="model_main_square"
+                                             src="@GetCurrentProduct(item.ProductId).FeaturedImage" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-5">
+                                    <label class="model-product-name-label">
+                                        Dorsey Dining Chair
+                                        (black)
+                                    </label>
+                                    <label class="model_main_label">@GetCurrentProduct(item.ProductId).CategoryPath
+                                    </label>
+                                    <div class="d-flex gap-2">
+                                        <label class="model-product-id-label">SKU: </label>
+                                        <label class="model-product-id-label">@GetCurrentProduct(item.ProductId).Sku</label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 d-flex align-items-center">
+                                    <label class="model-product-id-label">@Math.Round(GetCurrentProduct(item.ProductId).Grams / 1000.0, 2) Kg</label>
+                                </div>
+                                <div class="col-lg-2 d-flex align-items-center gap-2">
+                                    <label class="model_main_label">$@(item.SellingPrice / 100.0)</label>
+                                    <label class="model_main_label">x</label>
+                                    <label class="model_main_label">@item.Quantity</label>
+                                </div>
+                                <div class="col-lg-2 d-flex align-items-center justify-content-end gap-2">
+                                    <label class="model_main_label">$@(item.TotalPrice / 100.0)</label>
+
                                 </div>
                             </div>
-                            <div class="col-lg-5">
-                                <label class="model-product-name-label">
-                                    Dorsey Dining Chair
-                                    Dining Chair Dorsey Dining Chair Dorsey Dining Chair
-                                    Dorsey Dining Chair (black)
-                                </label>
-                                <label class="model_main_label">
-                                    furniture / dining-room /
-                                    dining-chairs
-                                </label>
-                                <div class="d-flex gap-2">
-                                    <label class="model-product-id-label">SKU: </label>
-                                    <label class="model-product-id-label">dini00035</label>
-                                </div>
-                            </div>
-                            <div class="col-lg-2 d-flex align-items-center">
-                                <label class="model-product-id-label">12.2 kg</label>
-                            </div>
-                            <div class="col-lg-2 d-flex align-items-center gap-2">
-                                <label class="model_main_label">23920đ</label>
-                                <label class="model_main_label">x</label>
-                                <label class="model_main_label">2</label>
-                            </div>
-                            <div class="col-lg-2 d-flex align-items-center justify-content-end gap-2">
-                                <label class="model_main_label">47840đ</label>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-bottom: 12px;">
-                            <div class="col-lg-1">
-                                <div class="model-image-format">
-                                    <img class="model_main_square"
-                                         src="https://rhomeco.com/cdn/shop/files/andersoncanopybed-knollnatural-fourhandsbedroomfurniture.webp?v=1699323751&width=1200" />
-                                </div>
-                            </div>
-                            <div class="col-lg-5">
-                                <label class="model-product-name-label">
-                                    Dorsey Dining Chair
-                                    (black)
-                                </label>
-                                <label class="model_main_label">
-                                    furniture / dining-room /
-                                    dining-chairs
-                                </label>
-                                <div class="d-flex gap-2">
-                                    <label class="model-product-id-label">SKU: </label>
-                                    <label class="model-product-id-label">dini00035</label>
-                                </div>
-                            </div>
-                            <div class="col-lg-2 d-flex align-items-center">
-                                <label class="model-product-id-label">12.2 kg</label>
-                            </div>
-                            <div class="col-lg-2 d-flex align-items-center gap-2">
-                                <label class="model_main_label">23920đ</label>
-                                <label class="model_main_label">x</label>
-                                <label class="model_main_label">2</label>
-                            </div>
-                            <div class="col-lg-2 d-flex align-items-center justify-content-end gap-2">
-                                <label class="model_main_label">47840đ</label>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-bottom: 12px;">
-                            <div class="col-lg-1">
-                                <div class="model-image-format">
-                                    <img class="model_main_square"
-                                         src="https://rhomeco.com/cdn/shop/files/andersoncanopybed-knollnatural-fourhandsbedroomfurniture.webp?v=1699323751&width=1200" />
-                                </div>
-                            </div>
-                            <div class="col-lg-5">
-                                <label class="model-product-name-label">
-                                    Dorsey Dining Chair
-                                    (black)
-                                </label>
-                                <label class="model_main_label">
-                                    furniture / dining-room /
-                                    dining-chairs
-                                </label>
-                                <div class="d-flex gap-2">
-                                    <label class="model-product-id-label">SKU: </label>
-                                    <label class="model-product-id-label">dini00035</label>
-                                </div>
-                            </div>
-                            <div class="col-lg-2 d-flex align-items-center">
-                                <label class="model-product-id-label">12.2 kg</label>
-                            </div>
-                            <div class="col-lg-2 d-flex align-items-center gap-2">
-                                <label class="model_main_label">23920đ</label>
-                                <label class="model_main_label">x</label>
-                                <label class="model_main_label">2</label>
-                            </div>
-                            <div class="col-lg-2 d-flex align-items-center justify-content-end gap-2">
-                                <label class="model_main_label">47840đ</label>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-bottom: 12px;">
-                            <div class="col-lg-1">
-                                <div class="model-image-format">
-                                    <img class="model_main_square"
-                                         src="https://rhomeco.com/cdn/shop/files/andersoncanopybed-knollnatural-fourhandsbedroomfurniture.webp?v=1699323751&width=1200" />
-                                </div>
-                            </div>
-                            <div class="col-lg-5">
-                                <label class="model-product-name-label">
-                                    Dorsey Dining Chair
-                                    (black)
-                                </label>
-                                <label class="model_main_label">
-                                    furniture / dining-room /
-                                    dining-chairs
-                                </label>
-                                <div class="d-flex gap-2">
-                                    <label class="model-product-id-label">SKU: </label>
-                                    <label class="model-product-id-label">dini00035</label>
-                                </div>
-                            </div>
-                            <div class="col-lg-2 d-flex align-items-center">
-                                <label class="model-product-id-label">12.2 kg</label>
-                            </div>
-                            <div class="col-lg-2 d-flex align-items-center gap-2">
-                                <label class="model_main_label">23920đ</label>
-                                <label class="model_main_label">x</label>
-                                <label class="model_main_label">2</label>
-                            </div>
-                            <div class="col-lg-2 d-flex align-items-center justify-content-end gap-2">
-                                <label class="model_main_label">47840đ</label>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-bottom: 12px;">
-                            <div class="col-lg-1">
-                                <div class="model-image-format">
-                                    <img class="model_main_square"
-                                         src="https://rhomeco.com/cdn/shop/files/andersoncanopybed-knollnatural-fourhandsbedroomfurniture.webp?v=1699323751&width=1200" />
-                                </div>
-                            </div>
-                            <div class="col-lg-5">
-                                <label class="model-product-name-label">
-                                    Dorsey Dining Chair
-                                    (black)
-                                </label>
-                                <label class="model_main_label">
-                                    furniture / dining-room /
-                                    dining-chairs
-                                </label>
-                                <div class="d-flex gap-2">
-                                    <label class="model-product-id-label">SKU: </label>
-                                    <label class="model-product-id-label">dini00035</label>
-                                </div>
-                            </div>
-                            <div class="col-lg-2 d-flex align-items-center">
-                                <label class="model-product-id-label">12.2 kg</label>
-                            </div>
-                            <div class="col-lg-2 d-flex align-items-center gap-2">
-                                <label class="model_main_label">23920đ</label>
-                                <label class="model_main_label">x</label>
-                                <label class="model_main_label">2</label>
-                            </div>
-                            <div class="col-lg-2 d-flex align-items-center justify-content-end gap-2">
-                                <label class="model_main_label">47840đ</label>
-                            </div>
-                        </div>
+                        }
                         <hr />
                         <div class="row justify-content-end" style="margin-bottom: 12px;">
                             <div class="col-lg-2 d-flex align-items-center justify-content-start gap-2">
                                 <label class="model_main_label">Subtotal:</label>
                             </div>
                             <div class="col-lg-2 d-flex align-items-center justify-content-end gap-2">
-                                <label class="model_main_label" style="font-weight: 600;">47840đ</label>
+                                <label class="model_main_label" style="font-weight: 600;">$@(currentOrder.Subtotal/100.0)</label>
                             </div>
                         </div>
                     </div>
@@ -531,47 +355,83 @@
                     <div class="row">
                         <h5 style="color: black;">Shipping info</h5>
                         <hr>
-                        <div class="row" style="margin-bottom: 12px;">
-                            <div class="col-lg-8">
-                                <div>
-                                    <label class="model-product-name-label">Shipping address</label>
+                            @if (currentOrder.ShippingInfo != null)
+                            {
+                                <div class="row" style="margin-bottom: 12px;">
+                                    <div class="col-lg-8">
+                                        <div>
+                                            <label class="model-product-name-label">Shipping address</label>
+                                        </div>
+                                        <div>
+                                            <label class="model_main_label" style="margin-top:4px;">
+                                                @currentOrder.ShippingInfo.Address
+                                            </label>
+                                        </div>
+                                        <div class="d-flex gap-2 align-items-center">
+                                            <label class="model_main_label" style="margin-top:4px;">Shipping date:</label>
+                                            <input type="date" @bind="currentOrder.ShippingInfo.ShippingDate" class="custom-date-picker">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 d-flex align-items-center">
+                                        <label class="model_main_label">Shipping price:</label>
+                                    </div>
+                                    <div class="col-lg-2 d-flex align-items-center justify-content-end gap-2">
+                                        <label class="model_main_label" style="font-weight: 600;">$@(currentOrder.ShippingInfo.ShippingPrice / 100.0)</label>
+                                    </div>
                                 </div>
-                                <div>
-                                    <label class="model_main_label" style="margin-top:4px;">
-                                        Gia Kiệm, Thống Nhất, Đồng Nai
-                                    </label>
-                                </div>
-                                <div class="d-flex gap-2 align-items-center">
-                                    <label class="model_main_label" style="margin-top:4px;">Shipping date:</label>
-                                    <input type="date" class="custom-date-picker">
-                                </div>
-                            </div>
-                            <div class="col-lg-2 d-flex align-items-center">
-                                <label class="model_main_label">Shipping price:</label>
-                            </div>
-                            <div class="col-lg-2 d-flex align-items-center justify-content-end gap-2">
-                                <label class="model_main_label" style="font-weight: 600;">0đ</label>
-                            </div>
-                        </div>
+                            }
                     </div>
                 </div>
                 <div class="model-order-detail-main">
                     <div class="row">
                         <h5 style="color: black;">Order status</h5>
                         <hr>
+                            <div class="d-flex" style="margin-bottom: 12px;">
+                                <div>
+                                    <input class="custom-radio" type="radio" name="orderStatus" id="new" checked="@(currentOrder.Status=="New")"
+                                           @onchange="@(() => currentOrder.Status = "New")" />
+                                    <label class="custom-radio" for="new">New</label>
+                                </div>
+                                <div>
+                                    <input class="custom-radio" type="radio" name="orderStatus" id="processing" checked="@(currentOrder.Status == "Processing")"
+                                           @onchange="@(() => currentOrder.Status = "Processing")" />
+                                    <label class="custom-radio" for="processing">Processing</label>
+                                </div>
+                                <div>
+                                    <input class="custom-radio" type="radio" name="orderStatus" id="shipped" checked="@(currentOrder.Status == "Shipped")"
+                                           @onchange="@(() => currentOrder.Status = "Shipped")" />
+                                    <label class="custom-radio" for="shipped">Shipped</label>
+                                </div>
+                                <div>
+                                    <input class="custom-radio" type="radio" name="orderStatus" id="completed" checked="@(currentOrder.Status == "Completed")"
+                                           @onchange="@(() => currentOrder.Status = "Completed")" />
+                                    <label class="custom-radio" for="completed">Completed</label>
+                                </div>
+                                <div>
+                                    <input class="custom-radio" type="radio" name="orderStatus" id="cancelled" checked="@(currentOrder.Status == "Cancelled")"
+                                           @onchange="@(() => currentOrder.Status = "Cancelled")" />
+                                    <label class="custom-radio" for="cancelled">Cancelled</label>
+                                </div>
+
+                            </div>
+                    </div>
+                </div>
+                <div class="model-order-detail-main">
+                    <div class="row">
+                        <h5 style="color: black;">Payment status</h5>
+                        <hr>
                         <div class="d-flex" style="margin-bottom: 12px;">
-                            <div>
-                                <input class="custom-radio" type="radio" name="payment" id="created" checked="checked" />
-                                <label class="custom-radio" for="created">Created</label>
-                            </div>
-                            <div>
-                                <input class="custom-radio" type="radio" name="payment" id="paid" />
-                                <label class="custom-radio" for="paid">Paid</label>
-                            </div>
-                            <div>
-                                <input class="custom-radio" type="radio" name="payment" id="canceled" />
-                                <label class="custom-radio" for="canceled">Canceled</label>
-                            </div>
+                                <div>
+                                    <input class="custom-radio" type="radio" name="paymentStatus" id="unpaid" checked="@(currentOrder.PaymentDetails.Status == "Unpaid")"
+                                           @onchange="@(() => currentOrder.PaymentDetails.Status = "Unpaid")" />
+                                    <label class="custom-radio" for="unpaid">Unpaid</label>
+                                </div>
+                                <div>
+                                    <input class="custom-radio" type="radio" name="paymentStatus" id="paid" checked="@(currentOrder.PaymentDetails.Status == "Paid")"
+                                           @onchange="@(() => currentOrder.PaymentDetails.Status = "Paid")" />
+                                    <label class="custom-radio" for="paid">Paid</label>
+                                </div>
+
                         </div>
                     </div>
                 </div>
@@ -596,16 +456,24 @@
                             </div>
                             <div class="col-lg-2">
                                 <div class="d-flex justify-content-end">
-                                    <label class="model_main_label" style="font-weight: 600;">47840đ</label>
+                                        <label class="model_main_label" style="font-weight: 600;">$@(currentOrder.Subtotal / 100.0)</label>
                                 </div>
                                 <div class="d-flex justify-content-end" style="margin-top:8px;">
-                                    <label class="model_main_label" style="font-weight: 600;">47840đ</label>
+                                    <label class="model_main_label" style="font-weight: 600;">$0</label>
                                 </div>
+                                    
+                                    <div class="d-flex justify-content-end" style="margin-top:8px;">
+                                        @if (currentOrder.ShippingInfo != null)
+                                        {
+                                            <label class="model_main_label" style="font-weight: 600;">$@(currentOrder.ShippingInfo.ShippingPrice / 100.0)</label>
+                                        }
+                                        else
+                                        {
+                                            <label class="model_main_label" style="font-weight: 600;">$0</label>
+                                        }
+                                    </div>
                                 <div class="d-flex justify-content-end" style="margin-top:8px;">
-                                    <label class="model_main_label" style="font-weight: 600;">0đ</label>
-                                </div>
-                                <div class="d-flex justify-content-end" style="margin-top:8px;">
-                                    <label class="model_main_label" style="font-weight: 600;">0đ</label>
+                                    <label class="model_main_label" style="font-weight: 600;">$0</label>
                                 </div>
                             </div>
                         </div>
@@ -618,19 +486,38 @@
                             </div>
                             <div class="col-lg-2">
                                 <div class="d-flex justify-content-end">
-                                    <label class="model_main_label" style="font-weight: 600;">47840đ</label>
+                                    <label class="model_main_label" style="font-weight: 600;">$@(currentOrder.TotalAmount/100.0)</label>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="model_main_div_children d-flex align-items-center justify-content-center gap-4">
-                    <button type="button" class="btn btn-outline-red btn-fw">
+                    <button type="button" class="btn btn-outline-red btn-fw" @onclick="SaveChanged">
                         Save
                         changed
                     </button>
                     <button type="button" class="btn btn-outline-red btn-fw">Delete order</button>
                     <button type="button" class="btn btn-outline-red btn-fw" @onclick="CancelOrderDetailPopup">Cancel</button>
+                </div>
+            </div>
+            }
+            
+        </div>
+    </div>
+    <div class="model" hidden="@isHiddenNotification">
+        <div class="add-category-form">
+            <div class="model_header d-flex align-items-center">
+                <label class="model_header_title">Notification</label>
+            </div>
+            <div class="model-category-main">
+                <div class="row" style="margin-bottom: 1rem;">
+                    <div class="model_main_div_children d-flex align-content-center justify-content-center">
+                        <label class="model_main_label" style="color: black;">@NotificationDetail</label>
+                    </div>
+                </div>
+                <div class="model_main_div_children d-flex align-items-center justify-content-center gap-4">
+                    <button type="button" class="btn btn-outline-red btn-fw" @onclick="(()=>isHiddenNotification = true)">Cancel</button>
                 </div>
             </div>
         </div>
