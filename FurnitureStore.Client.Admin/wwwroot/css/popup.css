@@ -338,3 +338,18 @@ input.custom-radio[type="radio"]:checked + label {
   font-weight: 400;
   border: none;
 }
+
+.custom-file-upload-label {
+    /* Style the label to look like a button or an image */
+    margin-top: 50px;
+    display: block;
+    padding: 5px;
+    background-color: #f3f3f3;
+    width: 80%;
+    height: 70px;
+    cursor: pointer;
+}
+
+.custom-file-upload-label:hover {
+    background-color: #e0e0e0;
+}

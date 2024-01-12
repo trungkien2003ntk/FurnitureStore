@@ -1,7 +1,10 @@
 ﻿using FurnitureStore.Client.Admin.IServices;
 using FurnitureStore.Shared.DTOs;
 using FurnitureStore.Shared.Responses;
+using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace FurnitureStore.Client.Admin.Services
@@ -118,5 +121,34 @@ namespace FurnitureStore.Client.Admin.Services
 
             return response.IsSuccessStatusCode;
         }
+
+        public async Task<ImageResponse?> UploadImageAsync(List<IBrowserFile> browserFiles)
+        {
+            var client = new HttpClient();
+
+            using var content = new MultipartFormDataContent();
+            foreach (var file in browserFiles)
+            {
+                var fileContent = new StreamContent(file.OpenReadStream(maxAllowedSize: 1024 * 1024 * 10));
+                fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+                {
+                    Name = "files",
+                    FileName = file.Name
+                };
+                content.Add(fileContent);
+            }
+
+            var URI = $"{GlobalConfig.PRODUCT_BASE_URL}/images";
+            var response = await client.PostAsync(URI, content);
+            if (response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var imamgeResponse = JsonConvert.DeserializeObject<ImageResponse>(responseContent);
+                return imamgeResponse;
+            }
+
+            return null;
+        }
+
     }
 }

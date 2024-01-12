@@ -1,5 +1,6 @@
 ﻿@page "/"
 
+
 <PageTitle>Product Management</PageTitle>
 
 <head>
@@ -155,7 +156,7 @@
                                             </button>
                                             <div class="dropdown-menu"
                                                  aria-labelledby="dropdownMenuOutlineButton2">
-                                                @foreach(var item in categoryListLV1)
+                                                @foreach(var item in CategoryListLV1)
                                                 {
                                                     <a class="dropdown-item" @onclick="(() => SelectLV1Category(item.Id!, item.Text!))">@item.Text</a>
                                                 }
@@ -173,7 +174,7 @@
                                             </button>
                                             <div class="dropdown-menu"
                                                  aria-labelledby="dropdownMenuOutlineButton2">
-                                                @foreach (var item in categoryListLV2)
+                                                @foreach (var item in CategoryListLV2)
                                                 {
                                                     <a class="dropdown-item" @onclick="(() => SelectLV2Category(item.Id!, item.Text!))">@item.Text</a>
                                                 }
@@ -191,7 +192,7 @@
                                             </button>
                                             <div class="dropdown-menu"
                                                  aria-labelledby="dropdownMenuOutlineButton2">
-                                                @foreach (var item in categoryListLV3)
+                                                @foreach (var item in CategoryListLV3)
                                                 {
                                                     <a class="dropdown-item" @onclick="(() => SelectLV3Category(item.Id!, item.Text!))">@item.Text</a>
                                                 }
@@ -208,7 +209,7 @@
                                 <h4 class="card-title">New product</h4>
                                 <div>
                                     <h5>Add a new product</h5>
-                                    <button type="button" class="btn btn-outline-dark btn-fw" @onclick="ShowAddUpdateProductPopup">Add</button>
+                                    <button type="button" class="btn btn-outline-dark btn-fw" @onclick="ShowProductModalToAdd">Add</button>
                                 </div>
                             </div>
                         </div>
@@ -257,7 +258,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach (var product in productList)
+                                        @foreach (var product in ProductList)
                                         {
                                             <tr @onclick="(() => SelectProduct(product.Id!))">
                                                 <td>@product.ProductId</td>
@@ -267,9 +268,10 @@
                                                 <td>@product.VariationDetail.Value</td>
                                                 <td>@product.Stock</td>
                                                 <td>@product.Grams</td>
-                                                <td>@($"{product.Dimensions.Height}x{product.Dimensions.Width}x{product.Dimensions.Depth}")</td>
-                                                <td>@product.PurchasePrice</td>
-                                                <td>@product.SalePrice</td>
+                                                <td>@($"{product.Dimensions.Height} x {product.Dimensions.Width} x {product.Dimensions.Depth}")</td>
+
+                                                <td>@($"{(product.PurchasePrice / 100).ToString("F2")}")</td>
+                                                <td>@($"{(product.SalePrice / 100).ToString("F2")}")</td>
                                                 @if (product.Status == "In Stock")
                                                 {
                                                     <td><label class="badge badge-success">In Stock</label></td>
@@ -293,9 +295,9 @@
                                                     </div>
                                                 </td>
                                             </tr>
-                                            @if (isClicked)
+                                            @* @if (IsClicked)
                                             {
-                                                @foreach (var product2 in productVariantList)
+                                                @foreach (var product2 in ProductVariantList)
                                                 {
                                                     @if (product.Id != product2.Id)
                                                     {
@@ -336,7 +338,7 @@
                                                     }
                                                 }
                                             }
-                                            isClicked = false;
+                                            IsClicked = false; *@
                                         }
                                     </tbody>
                                 </table>
@@ -410,16 +412,18 @@
     </div>
     <!-- page-body-wrapper ends -->
     <!-- Add update product popup-->
-    <div class="model" hidden="@isHidden">
+    <div class="model" hidden="@IsHiddenProductModal">
       <div class="add-product-form">
         <div class="model_header d-flex align-items-center">
           <div class="col-lg-9">
             <label class="model_header_title">Add product form</label>
           </div>
           <div class="col-lg-3 d-flex justify-content-end">
-                    <button class="model_close_btn_size align-self-center" onclick="@CloseAddUpdatePopup">
-              <span class="mdi mdi-close"></span>
-            </button>
+                
+                <!--Button to close the modal-->
+                <button class="model_close_btn_size align-self-center" @onclick=@CloseProductModal>
+                    <span class="mdi mdi-close"></span>
+                </button>
           </div>
         </div>
         <div class="model_main">
@@ -427,7 +431,7 @@
             <div class="col-lg-4">
               <div class="model_main_image position-relative">
                 <img class="model_main_square"
-                  src="https://rhomeco.com/cdn/shop/files/andersoncanopybed-knollnatural-fourhandsbedroomfurniture.webp?v=1699323751&width=1200" />
+                  src="@CurrentSelectProduct.FeaturedImage" />
                 <button
                   class="model_close_btn_black_small position-absolute top-0 end-0"
                   style="font-size: 2rem;">
@@ -437,41 +441,8 @@
               <div class="d-flex justify-content-center">
                 <button class="model_add_img_btn">Add a featured image</button>
               </div>
-              <div class="container">
+              @* <div class="container">
                 <div class="row">
-                  <div class="col-12 col-md-4">
-                    <div class="model_main_image position-relative">
-                      <img class="model_main_square"
-                        src="https://rhomeco.com/cdn/shop/files/andersoncanopybed-knollnatural-fourhandsbedroomfurniture.webp?v=1699323751&width=1200" />
-                      <button
-                        class="model_close_btn_black_small position-absolute top-0 end-0"
-                        style="padding: 0;">
-                        <span class="mdi mdi-close text-end"></span>
-                      </button>
-                    </div>
-                  </div>
-                  <div class="col-12 col-md-4">
-                    <div class="model_main_image position-relative">
-                      <img class="model_main_square"
-                        src="https://rhomeco.com/cdn/shop/files/andersoncanopybed-knollnatural-fourhandsbedroomfurniture.webp?v=1699323751&width=1200" />
-                      <button
-                        class="model_close_btn_black_small position-absolute top-0 end-0"
-                        style="padding: 0;">
-                        <span class="mdi mdi-close text-end"></span>
-                      </button>
-                    </div>
-                  </div>
-                  <div class="col-12 col-md-4">
-                    <div class="model_main_image position-relative">
-                      <img class="model_main_square"
-                        src="https://rhomeco.com/cdn/shop/files/andersoncanopybed-knollnatural-fourhandsbedroomfurniture.webp?v=1699323751&width=1200" />
-                      <button
-                        class="model_close_btn_black_small position-absolute top-0 end-0"
-                        style="padding: 0;">
-                        <span class="mdi mdi-close text-end"></span>
-                      </button>
-                    </div>
-                  </div>
                   <div class="col-12 col-md-4">
                     <div class="model_main_image position-relative">
                       <img class="model_main_square"
@@ -535,22 +506,37 @@
                         </button>
                     </div>
                 </div>
-              </div>
+              </div> *@
+                <div class="container">
+                    <div class="row">
+                        @foreach (var imageUrl in CurrentSelectProduct.ImagesUrl)
+                        {
+                            <div class="col-12 col-md-4">
+                                <div class="model_main_image position-relative">
+                                    <img class="model_main_square" src="@imageUrl" />
+                                    <button class="model_close_btn_black_small position-absolute top-0 end-0" style="padding: 0;">
+                                        <span class="mdi mdi-close text-end"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
             </div>
             <div class="col-lg-8">
-              <input class="model_main_input" placeholder="Product name" />
+              <input class="model_main_input" placeholder="Product name" @bind="CurrentSelectProduct.Name"/>
               <div class="row" style="margin-top: 24px;">
                 <div class="col-lg-6">
                   <div style="margin-right: 24px;">
                     <div class="model_main_div_children">
                       <label class="model_main_label"
-                        style="color: black;">Product
-                        weight (grams)</label>
+                            style="color: black;">Product weight (grams)</label>
                       <input
                         class="number-none-updown model_main_input_children"
-                        type="number" min="0" />
+                        type="number" min="0" @bind="@CurrentSelectProduct.Grams"/>
                     </div>
-                    <div class="model_main_div_children">
+                    @* <div class="model_main_div_children">
                       <label class="model_main_label"
                         style="color: black;">Category
                         level 1</label>
@@ -576,35 +562,27 @@
                             here</a>
                         </div>
                       </div>
-                    </div>
+                    </div> *@
                     <div class="model_main_div_children">
-                      <label class="model_main_label"
-                        style="color: black;">Category
-                        level 2</label>
+                      <label class="model_main_label" style="color: black;">Category</label>
                       <div class="dropdown">
                         <button class="model_main_label_inside" type="button"
                           id="dropdownMenuOutlineButton2"
                           data-bs-toggle="dropdown" aria-haspopup="true"
                           aria-expanded="false" style="width: 100%;">
                           <div class="Row d-flex align-items-center">
-                            <span class="menu-title col-lg-11">Choose
-                              category</span>
+                            <span class="menu-title col-lg-11">@CurrentSelectProduct.CategoryName</span>
                             <span class="icon-bg col-lg-1 text-end"><i
                                 class="mdi mdi-chevron-down menu-icon"></i></span>
                           </div>
                         </button>
-                        <div class="dropdown-menu"
-                          aria-labelledby="dropdownMenuOutlineButton2"
-                          style="width: 100%;">
-                          <h6 class="dropdown-header">Level1</h6>
-                          <a class="dropdown-item" href="#">Action</a>
-                          <a class="dropdown-item" href="#">Another action</a>
-                          <a class="dropdown-item" href="#">Something else
-                            here</a>
-                        </div>
+                                    @* <div class="dropdown-menu"
+                                      aria-labelledby="dropdownMenuOutlineButton2"
+                                      style="width: 100%;">
+                                    </div> *@
                       </div>
                     </div>
-                    <div class="model_main_div_children">
+                    @* <div class="model_main_div_children">
                       <label class="model_main_label"
                         style="color: black;">Category
                         level 3</label>
@@ -630,7 +608,7 @@
                             here</a>
                         </div>
                       </div>
-                    </div>
+                    </div> *@
                   </div>
                 </div>
                 <div class="col-lg-6">
@@ -644,290 +622,96 @@
                             class="number-none-updown model_main_input_children"
                             type="number" min="0"
                             placeholder="Length"
-                            style="margin-right: 4px;" />
+                            style="margin-right: 4px;" 
+                            @bind="CurrentSelectProduct.Dimensions.Depth"/>
                         </div>
                         <div class="col-lg-4 d-flex">
                           <input
                             class="number-none-updown model_main_input_children"
                             type="number" min="0"
                             placeholder="Width"
-                            style="margin-right: 2px; margin-left: 2px;" />
+                            style="margin-right: 2px; margin-left: 2px;" 
+                            @bind="CurrentSelectProduct.Dimensions.Width"/>
                         </div>
                         <div class="col-lg-4 d-flex">
                           <input
                             class="number-none-updown model_main_input_children"
                             type="number" min="0"
                             placeholder="Height"
-                            style="margin-left: 4px;" />
+                            style="margin-left: 4px;" 
+                            @bind="CurrentSelectProduct.Dimensions.Height"/>
                         </div>
                       </div>
 
                     </div>
                     <div class="model_main_div_children">
                       <label class="model_main_label"
-                        style="color: black;">Purchase
-                        price</label>
+                        style="color: black;">Purchase price</label>
                       <input
                         class="number-none-updown model_main_input_children"
-                        type="number" min="0" />
+                        type="number" min="0" @bind="@CurrentSelectProduct.PurchasePrice"/>
                     </div>
                     <div class="model_main_div_children">
-                      <label class="model_main_label" style="color: black;">Sale
-                        price</label>
+                      <label class="model_main_label" style="color: black;">Sale price</label>
                       <input
                         class="number-none-updown model_main_input_children"
-                        type="number" min="0" />
+                        type="number" min="0" @bind="@CurrentSelectProduct.SalePrice"/>
+                    </div>
+                    <div class="model_main_div_children">
+                      <label class="model_main_label" style="color: black;">Regular price</label>
+                      <input
+                        class="number-none-updown model_main_input_children"
+                        type="number" min="0" @bind="@CurrentSelectProduct.RegularPrice"/>
                     </div>
                     <div class="row model_main_div_children">
                       <label class="model_main_label"
                         style="color: black;">Stock</label>
                       <input class="model_main_input_children" type="number"
-                        min="0" max="99" />
+                        min="0" max="99" 
+                        @bind = "@CurrentSelectProduct.Stock"/>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="model_main_div_children">
                 <div class="model_main_div_children">
-                  <label class="model_main_label" style="color: black;">Product
-                    description</label>
-                  <textarea class="model_main_input_children"
-                    rows="8"></textarea>
+                  <label class="model_main_label" style="color: black;">Product description</label>
+                  <textarea class="model_main_input_children" rows="8" @bind="@CurrentSelectProduct.Description"></textarea>
                 </div>
               </div>
               <div
                 class="d-flex model_main_div_children align-items-center gap-2">
                 <label class="model_main_label"
                   style="color: black; margin-top: 4px;">Has variant:</label>
-                            <input type="checkbox" id="check" class="toggle-btn-red" @onchange="VariantToggleCheckbox">
+                            <input type="checkbox" id="check" class="toggle-btn-red" @onchange="@VariantToggleCheckbox" />
                 <label for="check" class="button toggle-button-red"></label>
               </div>
-              <div class="model_main_div_children" hidden="@isHiddenVariant">
+              <div class="model_main_div_children" hidden="@IsHiddenVariant">
                 <div class="row">
                   <div
                     class="model_main_div_children col-lg-12 d-flex align-items-center">
                     <div
                       class="model_main_div_children col-lg-9 d-flex align-items-center gap-2">
-                      <label class="model_main_label"
-                        style="color: black; font-size: 1.1rem">Variant
-                        Name:</label>
-                      <input class="model_main_input_vertical"
-                        placeholder="Product name" />
+                      <label class="model_main_label" style="color: black; font-size: 1.1rem">Variant Name:</label>
+                      <input class="model_main_input_vertical" placeholder="Product name" @bind="@CurrentSelectProduct.VariationDetail.Name"/>
                     </div>
                     <div
                       class="model_main_div_children col-lg-3 justify-content-end align-items-center">
-                      <button type="button"
-                        class="btn btn-outline-dark btn-fw">Add
-                        a variant type</button>
+                                        <button type="button" @onclick=@AddNewVariant
+                        class="btn btn-outline-dark btn-fw">Add a variant value</button>
                     </div>
                   </div>
-                  <div
-                    class="model_main_div_children model_main_border col-lg-12"
-                    style="padding: 10px;">
-                    <div class="d-flex">
-                      <label class="model_main_labe col-lg-11"
-                        style="color: black; font-weight: 600;">Variant
-                        1:</label>
-                      <button
-                        class="model_close_btn_black_small align-self-center text-end col-lg-1">
-                        <span class="mdi mdi-close text-end"></span>
-                      </button>
-                    </div>
-                    <div
-                      class="model_main_div_children col-lg-12 d-flex align-items-center"
-                      style="padding: 10px;">
-                      <div
-                        class="Row d-flex col-lg-12 align-items-start">
-                        <div
-                          class="col-lg-2 model_main_image position-relative"
-                          style="padding-right: 12px;">
-                          <img class="model_main_square"
-                            src="https://rhomeco.com/cdn/shop/files/andersoncanopybed-knollnatural-fourhandsbedroomfurniture.webp?v=1699323751&width=1200" />
-                          <button
-                            class="model_close_btn_black_small position-absolute top-0 end-0"
-                            style="font-size: 1rem; padding-right:16px ;">
-                            <span class="mdi mdi-close text-end"></span>
-                          </button>
-                        </div>
-                        <div class="Row col-lg-10 d-flex">
-                          <div class="col-lg-6 model_main_div_children"
-                            style="padding-right: 12px; margin-bottom: 0px;">
-                            <div class="model_main_div_children">
-                              <label class="model_main_label"
-                                style="color: black;">Variant type</label>
-                              <input
-                                class="model_main_input_children"
-                                placeholder="Variant type" />
-                            </div>
-                            <div class="model_main_div_children">
-                              <label class="model_main_label"
-                                style="color: black;">Product
-                                weight (grams)</label>
-                              <input
-                                class="number-none-updown model_main_input_children"
-                                type="number" min="0" />
-                            </div>
-                            <div class="model_main_div_children"
-                              style="margin-bottom: 0px;">
-                              <label class="model_main_label"
-                                style="color: black;">Purchase price</label>
-                              <input
-                                class="number-none-updown model_main_input_children"
-                                type="number" min="0" />
-                            </div>
-                          </div>
-                          <div class="col-lg-6 model_main_div_childre"
-                            style="padding-left: 12px; margin-bottom: 0px;">
-                            <div class="model_main_div_children">
-                              <label class="model_main_label"
-                                style="color: black;">Stock</label>
-                              <input class="model_main_input_children"
-                                type="number"
-                                min="0" max="99" />
-                            </div>
-                            <div class="model_main_div_children">
-                              <label class="model_main_label"
-                                style="color: black;">Dimension</label>
-                              <div class="Row d-flex">
-                                <div class="col-lg-4 d-flex gap-2">
-                                  <input
-                                    class="number-none-updown model_main_input_children"
-                                    type="number" min="0"
-                                    placeholder="Length"
-                                    style="margin-right: 4px;" />
-                                </div>
-                                <div class="col-lg-4 d-flex">
-                                  <input
-                                    class="number-none-updown model_main_input_children"
-                                    type="number" min="0"
-                                    placeholder="Width"
-                                    style="margin-right: 2px; margin-left: 2px;" />
-                                </div>
-                                <div class="col-lg-4 d-flex">
-                                  <input
-                                    class="number-none-updown model_main_input_children"
-                                    type="number" min="0"
-                                    placeholder="Height"
-                                    style="margin-left: 4px;" />
-                                </div>
-                              </div>
-                            </div>
-                            <div class="model_main_div_children"
-                              style="margin-bottom: 0px;">
-                              <label class="model_main_label"
-                                style="color: black;">Sale price</label>
-                              <input
-                                class="number-none-updown model_main_input_children"
-                                type="number" min="0" />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="model_main_div_children model_main_border col-lg-12"
-                    style="padding: 10px;">
-                    <div class="d-flex">
-                      <label class="model_main_labe col-lg-11"
-                        style="color: black; font-weight: 600;">Variant
-                        2:</label>
-                      <button
-                        class="model_close_btn_black_small align-self-center text-end col-lg-1">
-                        <span class="mdi mdi-close text-end"></span>
-                      </button>
-                    </div>
-                    <div
-                      class="model_main_div_children col-lg-12 d-flex align-items-center"
-                      style="padding: 10px;">
-                      <div
-                        class="Row d-flex col-lg-12 align-items-start">
-                        <div
-                          class="col-lg-2 model_main_image position-relative"
-                          style="padding-right: 12px;">
-                          <img class="model_main_square"
-                            src="https://rhomeco.com/cdn/shop/files/andersoncanopybed-knollnatural-fourhandsbedroomfurniture.webp?v=1699323751&width=1200" />
-                          <button
-                            class="model_close_btn_black_small position-absolute top-0 end-0"
-                            style="font-size: 1rem; padding-right:16px ;">
-                            <span class="mdi mdi-close text-end"></span>
-                          </button>
-                        </div>
-                        <div class="Row col-lg-10 d-flex">
-                          <div class="col-lg-6 model_main_div_children"
-                            style="padding-right: 12px; margin-bottom: 0px;">
-                            <div class="model_main_div_children">
-                              <label class="model_main_label"
-                                style="color: black;">Variant type</label>
-                              <input
-                                class="model_main_input_children"
-                                placeholder="Variant type" />
-                            </div>
-                            <div class="model_main_div_children">
-                              <label class="model_main_label"
-                                style="color: black;">Product
-                                weight (grams)</label>
-                              <input
-                                class="number-none-updown model_main_input_children"
-                                type="number" min="0" />
-                            </div>
-                            <div class="model_main_div_children"
-                              style="margin-bottom: 0px;">
-                              <label class="model_main_label"
-                                style="color: black;">Purchase price</label>
-                              <input
-                                class="number-none-updown model_main_input_children"
-                                type="number" min="0" />
-                            </div>
-                          </div>
-                          <div class="col-lg-6 model_main_div_childre"
-                            style="padding-left: 12px; margin-bottom: 0px;">
-                            <div class="model_main_div_children">
-                              <label class="model_main_label"
-                                style="color: black;">Stock</label>
-                              <input class="model_main_input_children"
-                                type="number"
-                                min="0" max="99" />
-                            </div>
-                            <div class="model_main_div_children">
-                              <label class="model_main_label"
-                                style="color: black;">Dimension</label>
-                              <div class="Row d-flex">
-                                <div class="col-lg-4 d-flex gap-2">
-                                  <input
-                                    class="number-none-updown model_main_input_children"
-                                    type="number" min="0"
-                                    placeholder="Length"
-                                    style="margin-right: 2px;" />
-                                </div>
-                                <div class="col-lg-4 d-flex">
-                                  <input
-                                    class="number-none-updown model_main_input_children"
-                                    type="number" min="0"
-                                    placeholder="Width"
-                                    style="margin-right: 2px; style="margin-left: 2px;" />
-                                </div>
-                                <div class="col-lg-4 d-flex">
-                                  <input
-                                    class="number-none-updown model_main_input_children"
-                                    type="number" min="0"
-                                    placeholder="Height"
-                                    style="margin-left: 4px;" />
-                                </div>
-                              </div>
-                            </div>
-                            <div class="model_main_div_children"
-                              style="margin-bottom: 0px;">
-                              <label class="model_main_label"
-                                style="color: black;">Sale price</label>
-                              <input
-                                class="number-none-updown model_main_input_children"
-                                type="number" min="0" />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+
+                  <!--Product Variant added here-->
+                  <div hidden="@IsHiddenVariant">
+                    @for(int i = 0; i < CurrNumberOfVariant; i++)
+                    {
+                        <FurnitureStore.Client.Admin.Pages.Components.ProductVariant 
+                            ProductDTO=@ProductVariants[i] 
+                            Order=(i+1)
+                            OnProductChanged="HandleProductChanged"
+                            OnVariantRemoved="(() => HandleVariantRemoved(i))" />
+                    }
                   </div>
                 </div>
               </div>
@@ -935,14 +719,13 @@
           </div>
           <div
             class="model_main_div_children d-flex align-items-center justify-content-center gap-4">
-            <button type="button" class="btn btn-outline-red btn-fw">Save
-              changed</button>
-            <button type="button"
-              class="btn btn-outline-red btn-fw">Cancel</button>
+            <button type="button" class="btn btn-outline-red btn-fw" @onclick=@SaveChanges>Save changed</button>
+            <button type="button" class="btn btn-outline-red btn-fw" @onclick=@Cancel>Cancel</button>
           </div>
         </div>
       </div>
     </div>
 </body>
+
 
 <script src="misc.js"></script>

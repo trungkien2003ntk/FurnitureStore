@@ -3,6 +3,7 @@ using FurnitureStore.Client.Admin.Services;
 using FurnitureStore.Shared.DTOs;
 using FurnitureStore.Shared.Responses;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
 
 namespace FurnitureStore.Client.Admin.Pages.AdminPages
@@ -10,18 +11,33 @@ namespace FurnitureStore.Client.Admin.Pages.AdminPages
     public partial class ProductManagement
     {
         [Inject]
-        IProductService productService { get; set; } = null!;
+        IProductService ProductService { get; set; } = null!;
         [Inject]
-        ICategoryService categoryService { get; set; } = null!;
-        public IEnumerable<ProductDTO> productList { get; set; } = new List<ProductDTO>();
-        public IEnumerable<ProductDTO> productVariantList { get; set; } = new List<ProductDTO>();
-        public IEnumerable<CategoryDTO> categoryListLV1 { get; set; } = new List<CategoryDTO>();
-        public IEnumerable<CategoryDTO> categoryListLV2 { get; set; } = new List<CategoryDTO>();
-        public IEnumerable<CategoryDTO> categoryListLV3 { get; set; } = new List<CategoryDTO>();
-        private bool isHidden { get; set; } = true;
-        private bool isHiddenVariant { get; set; } = true;
-        private bool isChecked { get; set; } = false;
-        private bool isClicked { get; set; } = false;
+        ICategoryService CategoryService { get; set; } = null!;
+        public IEnumerable<ProductDTO> ProductList { get; set; } = new List<ProductDTO>();
+        public IEnumerable<ProductDTO> ProductVariantList { get; set; } = new List<ProductDTO>();
+        public IEnumerable<CategoryDTO> CategoryListLV1 { get; set; } = new List<CategoryDTO>();
+        public IEnumerable<CategoryDTO> CategoryListLV2 { get; set; } = new List<CategoryDTO>();
+        public IEnumerable<CategoryDTO> CategoryListLV3 { get; set; } = new List<CategoryDTO>();
+        private bool IsHiddenProductModal { get; set; } = true;
+        private bool IsHiddenVariant { get; set; } = true;
+        private bool IsChecked { get; set; } = false;
+        private bool IsClicked { get; set; } = false;
+        private bool isAddNewMode = true;
+        private bool IsAddNewMode
+        {
+            get => isAddNewMode; 
+            set
+            {
+                isAddNewMode = value;
+
+                if (isAddNewMode)
+                {
+                    CurrentSelectProduct = new();
+                    IsHiddenVariant = true;
+                }
+            }
+        } 
         private string SelectedCategoryLV1Text { get; set; } = "Choose Category";
         private string SelectedCategoryLV2Text { get; set; } = "Choose Category";
         private string SelectedCategoryLV3Text { get; set; } = "Choose Category";
@@ -30,13 +46,22 @@ namespace FurnitureStore.Client.Admin.Pages.AdminPages
         int pageNumber = 0;
         int selectedPageNumber = 1;
         string? currentCategoryId;
-        List<int> pageNumberList = new List<int>();
-        List<string> categoryIdList = new List<string>();
+        List<int> pageNumberList = [];
+        List<string> categoryIdList = [];
+
+
+
+
+        //variant management
+        private ProductDTO lowestPriceProductVariant { get; set; }
+        private int CurrNumberOfVariant { get; set; } = 2;
+        private ProductDTO CurrentSelectProduct {  get; set; } = new();
+        private List<ProductDTO> ProductVariants { get; set; } = [new(), new()];
 
         protected override async Task OnInitializedAsync()
         {
             //Get pagination
-            var productResponse = await productService.GetProductResponseAsync(null, null, null, null);
+            var productResponse = await ProductService.GetProductResponseAsync(null, null, null, null);
 
             AssignValueToProductListAndCountField(productResponse);
 
@@ -46,43 +71,83 @@ namespace FurnitureStore.Client.Admin.Pages.AdminPages
             await UpdatePagination();
 
             //Get category dropdown
-            var categoryLV1Response = await categoryService.GetCategoryDTOsByLevelAsync(1);
+            var categoryLV1Response = await CategoryService.GetCategoryDTOsByLevelAsync(1);
 
             if (categoryLV1Response != null && categoryLV1Response.Any())
             {
-                categoryListLV1 = categoryLV1Response.Select(response => response.Category).ToList();
+                CategoryListLV1 = categoryLV1Response.Select(response => response.Category).ToList();
             }
             else
             {
-                categoryListLV1 = [];
+                CategoryListLV1 = [];
             }
         }
 
-        private void ShowAddUpdateProductPopup()
+        private void AddNewVariant()
         {
-            isHidden = false;
+            if (IsAddNewMode)
+            {
+                CurrNumberOfVariant++;
+                ProductVariants.Add(new ProductDTO { });
+            }
         }
 
-        private void CloseAddUpdatePopup()
+        private void ShowProductModalToAdd()
         {
-            isHidden = true;
+            IsHiddenProductModal = false;
+            IsAddNewMode = true;
+        }
+
+        private void ShowProductModalToUpdate()
+        {
+            IsHiddenProductModal = false;
+            IsAddNewMode = false;
+        }
+
+        private void CloseProductModal()
+        {
+            IsHiddenProductModal = true;
         }
         private void CancelAddUpdatePopup()
         {
-            isHidden = true;
+            IsHiddenProductModal = true;
         }
         private void VariantToggleCheckbox(ChangeEventArgs e)
         {
-            isChecked = (bool)e.Value;
+            IsChecked = (bool)e.Value;
 
-            if (isChecked)
+            if (IsChecked)
             {
-                isHiddenVariant = false;
+                IsHiddenVariant = false;
             }
             else
             {
-                isHiddenVariant = true;
+                IsHiddenVariant = true;
             }
+        }
+
+        private void HandleProductChanged(ProductDTO product)
+        {
+            // Handle the ProductDTO here
+
+        }
+
+        private void SaveChanges()
+        {
+            if (!IsHiddenVariant)
+            foreach (var productVariant in ProductVariants)
+            {
+                
+            }
+            else
+            {
+
+            }
+        }
+
+        private void Cancel()
+        {
+            IsHiddenProductModal = true;
         }
 
         private async Task SelectPageNumber(int number)
@@ -93,6 +158,11 @@ namespace FurnitureStore.Client.Admin.Pages.AdminPages
                 pageNumber = number;
                 await UpdatePagination();
             }
+        }
+
+        private void HandleVariantRemoved(int index)
+        {
+            ProductVariants.RemoveAt(index);
         }
 
         private async Task PreviousPage()
@@ -150,20 +220,20 @@ namespace FurnitureStore.Client.Admin.Pages.AdminPages
 
             currentCategoryId = Id;
             
-            var categoryLevel2Responses = await categoryService.GetCategoryDTOsByParentIdAsync(Id);
+            var categoryLevel2Responses = await CategoryService.GetCategoryDTOsByParentIdAsync(Id);
 
             if (categoryLevel2Responses != null && categoryLevel2Responses.Any())
             {
-                categoryListLV2 = categoryLevel2Responses.Select(response => response.Category).ToList();
+                CategoryListLV2 = categoryLevel2Responses.Select(response => response.Category).ToList();
             }
             else
             {
-                categoryListLV2 = [];
+                CategoryListLV2 = [];
             }
 
-            Console.WriteLine($"Get category lv2 after clicked level 1, count: {categoryListLV2.Count()}");
+            Console.WriteLine($"Get category lv2 after clicked level 1, count: {CategoryListLV2.Count()}");
 
-            var productResponse = await productService.GetProductResponseAsync(categoryIds: [Id], pageSize: pageSize, pageNumber: 1);
+            var productResponse = await ProductService.GetProductResponseAsync(categoryIds: [Id], pageSize: pageSize, pageNumber: 1);
 
             AssignValueToProductListAndCountField(productResponse);
 
@@ -180,17 +250,17 @@ namespace FurnitureStore.Client.Admin.Pages.AdminPages
 
             currentCategoryId = Id;
 
-            var categoryResponses = await categoryService.GetCategoryDTOsByParentIdAsync(Id);
+            var categoryResponses = await CategoryService.GetCategoryDTOsByParentIdAsync(Id);
             if (categoryResponses != null)
             {
-                categoryListLV3 = categoryResponses.Select(response => response.Category).ToList();
+                CategoryListLV3 = categoryResponses.Select(response => response.Category).ToList();
             }
             else
             {
-                categoryListLV3 = new List<CategoryDTO>();
+                CategoryListLV3 = new List<CategoryDTO>();
             }
 
-            var productResponse = await productService.GetProductResponseAsync([Id] );
+            var productResponse = await ProductService.GetProductResponseAsync([Id] );
             AssignValueToProductListAndCountField(productResponse);
 
             RecalculatePageNumbers(productCount, pageSize);
@@ -205,7 +275,7 @@ namespace FurnitureStore.Client.Admin.Pages.AdminPages
 
             currentCategoryId = Id;
 
-            var productResponse = await productService.GetProductResponseAsync([Id], null, null, null);
+            var productResponse = await ProductService.GetProductResponseAsync([Id], null, null, null);
             AssignValueToProductListAndCountField(productResponse);
 
             RecalculatePageNumbers(productCount, pageSize);
@@ -239,35 +309,45 @@ namespace FurnitureStore.Client.Admin.Pages.AdminPages
 
             if (!string.IsNullOrEmpty(currentCategoryId))
             {
-                var productResponse = await productService.GetProductResponseAsync([currentCategoryId], null, pageSize, pageNumber);
+                var productResponse = await ProductService.GetProductResponseAsync([currentCategoryId], null, pageSize, pageNumber);
 
                 AssignValueToProductListAndCountField(productResponse);
             }
             else
             {
-                var productResponse = await productService.GetProductResponseAsync(null, null, pageSize, pageNumber);
+                var productResponse = await ProductService.GetProductResponseAsync(null, null, pageSize, pageNumber);
                 AssignValueToProductListAndCountField(productResponse);
             }
 
-            Console.WriteLine($"product list: {productList.Count()}");
+            Console.WriteLine($"product list: {ProductList.Count()}");
         }
 
         private async Task SelectProduct(string Id)
         {
-            ProductDTO currProduct = await productService.GetProductDTOByIdAsync(Id);
+            CurrentSelectProduct = await ProductService.GetProductDTOByIdAsync(Id);
 
-            if (currProduct != null && currProduct.VariationDetail.Id != null)
+            ShowProductModalToUpdate();
+        
+
+            if (CurrentSelectProduct != null && CurrentSelectProduct.VariationDetail.Id != null)
             {
-                var productResponse = await productService.GetProductResponseAsync(variationId: currProduct.VariationDetail.Id);
+                var productResponse = await ProductService.GetProductResponseAsync(variationId: CurrentSelectProduct.VariationDetail.Id);
                 if (productResponse != null)
                 {
-                    productVariantList = productResponse.Data;
+                    ProductVariants.Clear();
+                    ProductVariants = new(productResponse.Data);
+                    CurrNumberOfVariant = productResponse.Metadata.Count;
+
+                    Console.WriteLine(productResponse.Metadata.Count);
+                    IsHiddenVariant = false;
                 }
                 else
                 {
-                    productVariantList = [];
+                    ProductVariants = [];
+                    IsHiddenVariant = true;
                 }
-                isClicked = true;
+
+                IsClicked = true;
             }
         }
         #endregion
@@ -287,16 +367,16 @@ namespace FurnitureStore.Client.Admin.Pages.AdminPages
 
 
 
-        private void AssignValueToProductListAndCountField(ProductResponse productResponse)
+        private void AssignValueToProductListAndCountField(ProductResponse? productResponse)
         {
             if (productResponse != null && productResponse.Data.Count > 0)
             {
-                productList = productResponse.Data;
+                ProductList = productResponse.Data;
                 productCount = productResponse.Metadata.Count;
             }
             else
             {
-                productList = [];
+                ProductList = [];
                 productCount = 0;
             }
         }

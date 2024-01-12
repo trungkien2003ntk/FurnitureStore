@@ -1,0 +1,149 @@
+﻿@using FurnitureStore.Client.Admin.IServices
+@using FurnitureStore.Shared.DTOs
+<!-- ProductVariant.razor -->
+@inherits Microsoft.AspNetCore.Components.ComponentBase
+@inject IJSRuntime JsRuntime
+<head>
+    <link rel="stylesheet" href="css/popup.css">
+</head>
+<body>
+    <div class="model_main_div_children model_main_border col-lg-12" style="padding: 10px;">
+        <div class="d-flex">
+            <label class="model_main_labe col-lg-11" style="color: black; font-weight: 600;">
+                Variant @Order:
+            </label>
+
+            <!--This button to -->
+            <button class="model_close_btn_black_small align-self-center text-end col-lg-1" @onclick="HandleRemoveVariant">
+                <span class="mdi mdi-close text-end"></span>
+            </button>
+        </div>
+        <div class="model_main_div_children col-lg-12 d-flex align-items-center" style="padding: 10px;">
+            <div class="Row d-flex col-lg-12 align-items-start">
+                <div class="col-lg-2 model_main_image position-relative" style="padding-right: 12px;">
+
+                    <div>
+                        <div class="custom-file-upload">
+                            <InputFile type="file" id="@InputFileId" OnChange="OnInputFileChange" accept="image/*" style="display: none;" />
+                            <label for="fileUpload" class="custom-file-upload-label">
+                                @if (!string.IsNullOrEmpty(ProductDTO?.VariationDetail.ImageUrl))
+                                {
+                                    <img class="model_main_square" src="@ProductDTO?.VariationDetail.ImageUrl" alt="Upload Image" />
+                                }
+                            </label>
+                        </div>
+
+                        <!--This button removes the added image-->
+                        <button class="model_close_btn_black_small position-absolute top-0 end-0" style="font-size: 1rem; padding-right:16px ;" @onclick="RemoveImage">
+                            <span class="mdi mdi-close text-end"></span>
+                        </button>
+                    </div>
+
+                </div>
+                <div class="Row col-lg-10 d-flex">
+                    <div class="col-lg-6 model_main_div_children" style="padding-right: 12px; margin-bottom: 0px;">
+                        <div class="model_main_div_children">
+                            <label class="model_main_label" style="color: black;">Variant value</label>
+                            <input class="model_main_input_children" placeholder="Variant type" @bind="@ProductDTO!.VariationDetail.Value" />
+                        </div>
+                        <div class="model_main_div_children">
+                            <label class="model_main_label" style="color: black;">Product weight (grams)</label>
+                            <input class="number-none-updown model_main_input_children" type="number" min="0" @bind="@ProductDTO.Grams" />
+                        </div>
+                        <div class="model_main_div_children" style="margin-bottom: 0px;">
+                            <label class="model_main_label" style="color: black;">Purchase price</label>
+                            <input class="number-none-updown model_main_input_children" type="number" min="0" @bind="@ProductDTO.PurchasePrice" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6 model_main_div_children" style="padding-left: 12px; margin-bottom: 0px;">
+                        <div class="model_main_div_children">
+                            <label class="model_main_label" style="color: black;">Stock</label>
+                            <input class="model_main_input_children" type="number" min="0" max="99" @bind="@ProductDTO.Stock" />
+                        </div>
+                        <div class="model_main_div_children">
+                            <label class="model_main_label" style="color: black;">Dimension</label>
+                            <div class="Row d-flex">
+                                <div class="col-lg-4 d-flex gap-2">
+                                    <input class="number-none-updown model_main_input_children" type="number" min="0" placeholder="Length" style="margin-right: 4px;" />
+                                </div>
+                                <div class="col-lg-4 d-flex">
+                                    <input class="number-none-updown model_main_input_children" type="number" min="0" placeholder="Width" style="margin-right: 2px; margin-left: 2px;" />
+                                </div>
+                                <div class="col-lg-4 d-flex">
+                                    <input class="number-none-updown model_main_input_children" type="number" min="0" placeholder="Height" style="margin-left: 4px;" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="model_main_div_children" style="margin-bottom: 0px;">
+                            <label class="model_main_label" style="color: black;">Sale price</label>
+                            <input class="number-none-updown model_main_input_children" type="number" min="0" @bind="@ProductDTO.SalePrice" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+@code {
+    [Inject]
+    private IProductService ProductService { get; set; }
+
+    [Parameter]
+    public ProductDTO ProductDTO { get; set; } = new();
+
+    [Parameter]
+    public int Order { get; set; }
+
+    private void RemoveImage()
+    {
+        ProductDTO.VariationDetail.ImageUrl = null;
+    }
+    [Parameter]
+    public EventCallback<ProductDTO> OnProductChanged { get; set; }
+
+    private string InputFileId { get => $"file-reader-{Order + 1}"; set { } }
+
+    private async Task HandleChange()
+    {
+        // Trigger the event and pass ProductDTO to the parent component
+        await OnProductChanged.InvokeAsync(ProductDTO);
+    }
+
+
+    private async Task OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        var imageFile = e.File;
+        if (imageFile != null)
+        {
+            // Read the file as a data URL
+            var format = "image/png";
+            var resizedImageFile = await imageFile.RequestImageFileAsync(format, 100, 100);
+            var buffer = new byte[resizedImageFile.Size];
+            await resizedImageFile.OpenReadStream().ReadAsync(buffer);
+            var dataUrl = $"data:{format};base64,{Convert.ToBase64String(buffer)}";
+
+            // Assign the data URL to ProductDTO.VariationDetail.ImageUrl
+            ProductDTO.VariationDetail.ImageUrl = dataUrl;
+
+            // Upload the image in the background
+            _ = ProductService.UploadImageAsync([imageFile]);
+        }
+    }
+
+
+    [Parameter]
+    public EventCallback OnVariantRemoved { get; set; }
+
+    private async Task HandleRemoveVariant()
+    {
+
+        bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure?");
+        if (confirmed)
+        {
+            await OnVariantRemoved.InvokeAsync();
+            // Delete!
+        }
+    }
+}
