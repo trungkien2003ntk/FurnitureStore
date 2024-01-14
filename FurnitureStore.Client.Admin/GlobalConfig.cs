@@ -2,7 +2,7 @@
 {
     public class GlobalConfig
     {
-        public const string BASE_ENDPOINT = "furniturestore-uit-y3s3.azurewebsites.net";
+        public const string BASE_ENDPOINT = "furniturestore-y3s1-uit.azurewebsites.net";
         public const string BASE_URL = $"https://{BASE_ENDPOINT}/api/";
         public const string PRODUCT_BASE_URL = $"{BASE_URL}Products";
         public const string CATEGORY_BASE_URL = $"{BASE_URL}Categories";
